@@ -1,7 +1,7 @@
 ﻿namespace Subsystem
 {
-    public interface IRemovable
-    {
-        bool Remove { get; }
-    }
+	public interface IRemovable
+	{
+		bool Remove { get; }
+	}
 }

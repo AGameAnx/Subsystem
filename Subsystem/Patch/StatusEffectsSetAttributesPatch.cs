@@ -2,8 +2,8 @@
 
 namespace Subsystem.Patch
 {
-    public class StatusEffectsSetAttributesPatch
-    {
-        public string[] StatusEffects { get; set; } = null;
-    }
+	public class StatusEffectsSetAttributesPatch
+	{
+		public string[] StatusEffects { get; set; } = null;
+	}
 }

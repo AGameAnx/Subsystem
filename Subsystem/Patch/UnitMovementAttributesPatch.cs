@@ -2,9 +2,9 @@
 
 namespace Subsystem.Patch
 {
-    public class UnitMovementAttributesPatch
-    {
-        public UnitDriveType? DriveType { get; set; }
-        public UnitDynamicsAttributesPatch Dynamics { get; set; }
-    }
+	public class UnitMovementAttributesPatch
+	{
+		public UnitDriveType? DriveType { get; set; }
+		public UnitDynamicsAttributesPatch Dynamics { get; set; }
+	}
 }

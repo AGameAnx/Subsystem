@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Subsystem.Patch
+namespace Subsystem
 {
 	public class AttributesPatch
 	{

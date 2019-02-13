@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Subsystem.Patch;
+using System.Collections.Generic;
 
-namespace Subsystem.Patch
+namespace Subsystem
 {
 	public class EntityTypePatch
 	{

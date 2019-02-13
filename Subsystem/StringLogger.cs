@@ -43,9 +43,7 @@ namespace Subsystem
 		private static void writeIndent(TextWriter writer, int indent)
 		{
 			for (var i = 0; i < indent; i++)
-			{
 				writer.Write("	");
-			}
 		}
 
 		private class ScopeDisposer : IDisposable

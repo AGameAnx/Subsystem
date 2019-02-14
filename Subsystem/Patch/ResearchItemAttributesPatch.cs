@@ -1,6 +1,8 @@
 ﻿using Subsystem.Wrappers;
 using BBI.Game.Data;
 using BBI.Core.Utility.FixedPoint;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Subsystem.Patch
 {
@@ -21,6 +23,13 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(ResearchVOCode, () => researchItemAttributesWrapper.ResearchVOCode);
 			loader.ApplyPropertyPatch(Resource1Cost, () => researchItemAttributesWrapper.Resource1Cost);
 			loader.ApplyPropertyPatch(Resource2Cost, () => researchItemAttributesWrapper.Resource2Cost);
+
+			if (UnitTypeBuffs != null)
+			{
+				var wrappers = researchItemAttributesWrapper.UnitTypeBuffs.Select(x => new UnitTypeBuffWrapper(x)).ToList();
+				loader.ApplyListPatch(UnitTypeBuffs.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), wrappers, () => new UnitTypeBuffWrapper(), nameof(UnitTypeBuff));
+				researchItemAttributesWrapper.UnitTypeBuffs = wrappers.Where(x => x != null).ToArray();
+			}
 		}
 
 		public ResearchType? TypeOfResearch { get; set; }
@@ -31,6 +40,7 @@ namespace Subsystem.Patch
 		public double? ResearchTime { get; set; }
 		public string[] Dependencies { get; set; }
 		public string ResearchVOCode { get; set; }
+		public Dictionary<string, UnitTypeBuffPatch> UnitTypeBuffs { get; set; } = new Dictionary<string, UnitTypeBuffPatch>();
 
 		public int? Resource1Cost { get; set; }
 		public int? Resource2Cost { get; set; }

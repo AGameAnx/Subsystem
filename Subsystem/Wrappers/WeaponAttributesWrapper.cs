@@ -1,6 +1,7 @@
 ﻿using BBI.Core;
 using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -45,8 +46,8 @@ namespace Subsystem.Wrappers
 			StatusEffectsTargetAlignment = other.StatusEffectsTargetAlignment;
 			StatusEffectsExcludeTargetType = other.StatusEffectsExcludeTargetType;
 			ActiveStatusEffectsIndex = other.ActiveStatusEffectsIndex;
-			StatusEffectsSets = other.StatusEffectsSets;
-			EntityTypesToSpawnOnImpact = other.EntityTypesToSpawnOnImpact;
+			StatusEffectsSets = other.StatusEffectsSets.ToArray();
+			EntityTypesToSpawnOnImpact = other.EntityTypesToSpawnOnImpact.ToArray();
 			TargetPriorizationAttributes = other.TargetPriorizationAttributes;
 		}
 

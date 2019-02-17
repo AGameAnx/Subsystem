@@ -1,6 +1,7 @@
 ﻿using BBI.Core.Utility;
 using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -27,8 +28,8 @@ namespace Subsystem.Wrappers
 			MinCruiseSpeed = other.MinCruiseSpeed;
 			DeathDriftTime = other.DeathDriftTime;
 			PermanentlyImmobile = other.PermanentlyImmobile;
-			CruiseSpeedVariation = other.CruiseSpeedVariation;
-			CruiseDirectionVariation = other.CruiseDirectionVariation;
+			CruiseSpeedVariation = other.CruiseSpeedVariation.ToArray();
+			CruiseDirectionVariation = other.CruiseDirectionVariation.ToArray();
 		}
 
 		public UnitDriveType DriveType { get; set; }

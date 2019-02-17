@@ -1,4 +1,5 @@
 ﻿using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -6,7 +7,7 @@ namespace Subsystem.Wrappers
 	{
 		public ApplyStatusEffectAttributesWrapper(ApplyStatusEffectAttributes other)
 		{
-			StatusEffectsToApply = other.StatusEffectsToApply;
+			StatusEffectsToApply = other.StatusEffectsToApply.ToArray();
 		}
 
 		public StatusEffectAttributes[] StatusEffectsToApply { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BBI.Core;
 using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -9,7 +10,7 @@ namespace Subsystem.Wrappers
 		{
 			LinkToPlayerBank = other.LinkToPlayerBank;
 			IsResourceController = other.IsResourceController;
-			InventoryLoadout = other.InventoryLoadout;
+			InventoryLoadout = other.InventoryLoadout.ToArray();
 		}
 
 		public bool LinkToPlayerBank { get; set; }

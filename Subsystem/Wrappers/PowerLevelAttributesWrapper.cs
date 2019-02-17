@@ -1,4 +1,5 @@
 ﻿using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -12,7 +13,7 @@ namespace Subsystem.Wrappers
 		{
 			PowerUnitsRequired = other.PowerUnitsRequired;
 			HeatPointsProvided = other.HeatPointsProvided;
-			StatusEffectsToApply = other.StatusEffectsToApply;
+			StatusEffectsToApply = other.StatusEffectsToApply.ToArray();
 			View = other.View;
 		}
 

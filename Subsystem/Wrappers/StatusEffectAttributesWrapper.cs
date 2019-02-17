@@ -1,6 +1,7 @@
 ﻿using BBI.Core;
 using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -17,9 +18,9 @@ namespace Subsystem.Wrappers
 			WeaponFireTriggerEndEvent = other.WeaponFireTriggerEndEvent;
 			MaxStacks = other.MaxStacks;
 			StackingBehaviour = other.StackingBehaviour;
-			BuffsToApplyToTarget = other.BuffsToApplyToTarget;
-			UnitTypeBuffsToApply = other.UnitTypeBuffsToApply;
-			Modifiers = other.Modifiers;
+			BuffsToApplyToTarget = other.BuffsToApplyToTarget.ToArray();
+			UnitTypeBuffsToApply = other.UnitTypeBuffsToApply.ToArray();
+			Modifiers = other.Modifiers.ToArray();
 		}
 
 		public StatusEffectLifetime Lifetime { get; set; }

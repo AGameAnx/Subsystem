@@ -1,5 +1,6 @@
 ﻿using BBI.Game.Data;
 using BBI.Core.Utility.FixedPoint;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -8,12 +9,12 @@ namespace Subsystem.Wrappers
 		public SalvageAttributesWrapper(SalvageAttributes other)
 		{
 			TargetType = other.TargetType;
-			ExcludedResourceTargetTypes = other.ExcludedResourceTargetTypes;
+			ExcludedResourceTargetTypes = other.ExcludedResourceTargetTypes.ToArray();
 			AllowSearchingForNextNode = other.AllowSearchingForNextNode;
 			SearchRelativeToClosestResourceControllerOnDropOff = other.SearchRelativeToClosestResourceControllerOnDropOff;
 			TargetedSearchRange = other.TargetedSearchRange;
 			UseFallbackResourcing = other.UseFallbackResourcing;
-			FallbackResourceTargetType = other.FallbackResourceTargetType;
+			FallbackResourceTargetType = other.FallbackResourceTargetType.ToArray();
 		}
 
 		public SalvageTargetType TargetType { get; set; }

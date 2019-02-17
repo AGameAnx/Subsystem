@@ -1,7 +1,7 @@
 ﻿using BBI.Core;
 using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
-using UnityEngine;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -16,7 +16,7 @@ namespace Subsystem.Wrappers
 			OverheatDamage = other.OverheatDamage;
 			NearOverheatWarningMargin = other.NearOverheatWarningMargin;
 			OverheatReminderPeriod = other.OverheatReminderPeriod;
-			PowerSystems = other.PowerSystems;
+			PowerSystems = other.PowerSystems.ToArray();
 			ReservePowerPool = other.ReservePowerPool;
 			OverheatingPool = other.OverheatingPool;
 			HeatSystem = other.HeatSystem;

@@ -1,6 +1,7 @@
 ﻿using BBI.Core;
 using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -16,8 +17,8 @@ namespace Subsystem.Wrappers
 			ResearchTime = other.ResearchTime;
 			Dependencies = other.Dependencies;
 			ResearchVOCode = other.ResearchVOCode;
-			UnitTypeBuffs = other.UnitTypeBuffs;
-			CommandsToRun = other.CommandsToRun;
+			UnitTypeBuffs = other.UnitTypeBuffs.ToArray();
+			CommandsToRun = other.CommandsToRun.ToArray();
 			Resource1Cost = other.Resource1Cost;
 			Resource2Cost = other.Resource2Cost;
 		}

@@ -24,7 +24,6 @@ namespace Subsystem
 
 			writeIndent(writer, indent);
 			writer.WriteLine(name);
-			writer.WriteLine();
 
 			wroteNewline = true;
 			indent += 1;

@@ -34,6 +34,8 @@ namespace Subsystem
 			catch (Exception e)
 			{
 				Debug.LogWarning($"[SUBSYSTEM] Error applying patch file: {e}");
+				writer.WriteLine();
+				writer.WriteLine($"Error applying patch file: {e}");
 				File.WriteAllText(Path.Combine(Application.dataPath, "Subsystem.log"), writer.ToString());
 			}
 		}

@@ -12,12 +12,12 @@ namespace Subsystem.Patch
 				throw new System.InvalidCastException();
 
 			loader.ApplyPropertyPatch(TargetType, () => salvageAttributesWrapper.TargetType);
-			loader.ApplyArrayPropertyPatch(ExcludedResourceTargetTypes, salvageAttributesWrapper.ExcludedResourceTargetTypes, "ExcludedResourceTargetTypes");
+			loader.ApplyArrayPropertyPatch(ExcludedResourceTargetTypes, salvageAttributesWrapper, "ExcludedResourceTargetTypes");
 			loader.ApplyPropertyPatch(AllowSearchingForNextNode, () => salvageAttributesWrapper.AllowSearchingForNextNode);
 			loader.ApplyPropertyPatch(SearchRelativeToClosestResourceControllerOnDropOff, () => salvageAttributesWrapper.SearchRelativeToClosestResourceControllerOnDropOff);
 			loader.ApplyPropertyPatch(TargetedSearchRange, () => salvageAttributesWrapper.TargetedSearchRange, x => Fixed64.UnsafeFromDouble(x));
 			loader.ApplyPropertyPatch(UseFallbackResourcing, () => salvageAttributesWrapper.UseFallbackResourcing);
-			loader.ApplyArrayPropertyPatch(FallbackResourceTargetType, salvageAttributesWrapper.FallbackResourceTargetType, "FallbackResourceTargetType");
+			loader.ApplyArrayPropertyPatch(FallbackResourceTargetType, salvageAttributesWrapper, "FallbackResourceTargetType");
 		}
 
 		public SalvageTargetType? TargetType { get; set; }

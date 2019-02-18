@@ -114,7 +114,7 @@ namespace Subsystem.Patch
 				}
 			}
 
-			if (ApplyStatusEffect != null)
+			if (ApplyStatusEffect.Count > 0)
 			{
 				using (loader.logger.BeginScope($"ApplyStatusEffect:"))
 				{
@@ -155,10 +155,10 @@ namespace Subsystem.Patch
 				}
 			}
 
-			if (ResearchDependencies != null)
+			if (RequiredResearch != null)
 			{
 				var researchDependenciesAttributesWrapper = new ResearchDependenciesAttributesWrapper(abilityAttributesWrapper.ResearchDependencies);
-				loader.ApplyArrayPropertyPatch(ResearchDependencies, researchDependenciesAttributesWrapper.RequiredResearch, "ResearchDependencies");
+				loader.ApplyArrayPropertyPatch(RequiredResearch, researchDependenciesAttributesWrapper, "RequiredResearch");
 				abilityAttributesWrapper.ResearchDependencies = researchDependenciesAttributesWrapper;
 			}
 
@@ -223,7 +223,7 @@ namespace Subsystem.Patch
 		public string Repair { get; set; }
 		public SelfDestructAttributesPatch SelfDestruct { get; set; }
 		public ModifyInventoryAttributesPatch ModifyInventory { get; set; }
-		public string[] ResearchDependencies { get; set; }
+		public string[] RequiredResearch { get; set; }
 		public ActivationDependenciesAttributesPatch ActivationDependencies { get; set; }
 		public AutoToggleOffConditionsAttributesPatch AutoToggleOffConditions { get; set; }
 		public ChainCastingAttributesPatch ChainCasting { get; set; }

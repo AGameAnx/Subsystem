@@ -1,5 +1,4 @@
-﻿using Subsystem.Wrappers;
-using BBI.Game.Data;
+﻿using BBI.Game.Data;
 
 namespace Subsystem.Patch
 {
@@ -19,7 +18,16 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope("HealthOverTimeAttributes:"))
 				{
-					HealthOverTimeAttributes.Apply(loader, modifierAttributes.HealthOverTimeAttributes, null);
+					HealthOverTimeAttributes newValue = new HealthOverTimeAttributes
+					{
+						Amount = modifierAttributes.HealthOverTimeAttributes.Amount,
+						DamageType = modifierAttributes.HealthOverTimeAttributes.DamageType,
+						ID = modifierAttributes.HealthOverTimeAttributes.ID,
+						MSTickDuration = modifierAttributes.HealthOverTimeAttributes.MSTickDuration
+					};
+
+					HealthOverTimeAttributes.Apply(loader, newValue, null);
+					modifierAttributes.HealthOverTimeAttributes = newValue;
 				}
 			}
 		}

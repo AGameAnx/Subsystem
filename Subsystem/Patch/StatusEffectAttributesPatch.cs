@@ -64,7 +64,17 @@ namespace Subsystem.Patch
 								continue;
 							}
 
-							elementPatch.Apply(loader, wrapperModifiers[index], null);
+
+							ModifierAttributes newValue = new ModifierAttributes
+							{
+								EnableWeaponAttributes = wrapperModifiers[index].EnableWeaponAttributes,
+								HealthOverTimeAttributes = wrapperModifiers[index].HealthOverTimeAttributes,
+								ModifierType = wrapperModifiers[index].ModifierType,
+								SwapWeaponAttributes = wrapperModifiers[index].SwapWeaponAttributes
+							};
+
+							elementPatch.Apply(loader, newValue, null);
+							wrapperModifiers[index] = newValue;
 						}
 						else if (index == wrapperModifiers.Count)
 						{

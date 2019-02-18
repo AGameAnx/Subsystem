@@ -25,7 +25,7 @@ namespace Subsystem
 
 			writeIndent(writer, indent);
 			writer.WriteLine(name);
-			
+
 			IncreaseIndent();
 
 			return new ScopeDisposer(this);

@@ -19,17 +19,23 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(MaxStacks, () => statusEffectAttributesWrapper.MaxStacks);
 			loader.ApplyPropertyPatch(StackingBehaviour, () => statusEffectAttributesWrapper.StackingBehaviour);
 
-			var buffsToApplyToTarget = statusEffectAttributesWrapper.BuffsToApplyToTarget.Select(x => new UnitTypeBuffWrapper(x)).ToList();
-			loader.ApplyListPatch(BuffsToApplyToTarget.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), buffsToApplyToTarget, () => new UnitTypeBuffWrapper(), "BuffsToApplyToTarget");
-			statusEffectAttributesWrapper.BuffsToApplyToTarget = buffsToApplyToTarget.ToArray();
+			if (BuffsToApplyToTarget != null)
+			{
+				var buffsToApplyToTarget = statusEffectAttributesWrapper.BuffsToApplyToTarget.Select(x => new UnitTypeBuffWrapper(x)).ToList();
+				loader.ApplyListPatch(BuffsToApplyToTarget.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), buffsToApplyToTarget, () => new UnitTypeBuffWrapper(), "BuffsToApplyToTarget");
+				statusEffectAttributesWrapper.BuffsToApplyToTarget = buffsToApplyToTarget.ToArray();
+			}
 
-			var unitTypeBuffsToApply = statusEffectAttributesWrapper.UnitTypeBuffsToApply.Select(x => new UnitTypeBuffWrapper(x)).ToList();
-			loader.ApplyListPatch(UnitTypeBuffsToApply.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), unitTypeBuffsToApply, () => new UnitTypeBuffWrapper(), "UnitTypeBuffsToApply");
-			statusEffectAttributesWrapper.UnitTypeBuffsToApply = unitTypeBuffsToApply.ToArray();
+			if (UnitTypeBuffsToApply != null)
+			{
+				var unitTypeBuffsToApply = statusEffectAttributesWrapper.UnitTypeBuffsToApply.Select(x => new UnitTypeBuffWrapper(x)).ToList();
+				loader.ApplyListPatch(UnitTypeBuffsToApply.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), unitTypeBuffsToApply, () => new UnitTypeBuffWrapper(), "UnitTypeBuffsToApply");
+				statusEffectAttributesWrapper.UnitTypeBuffsToApply = unitTypeBuffsToApply.ToArray();
+			}
 
 			if (Modifiers != null)
 			{
-				var wrapperModifiers = statusEffectAttributesWrapper.Modifiers.ToList();
+				var wrapperModifiers = new Stack<ModifierAttributes>();
 
 				var parsed = new Dictionary<int, ModifierAttributesPatch>();
 
@@ -44,8 +50,6 @@ namespace Subsystem.Patch
 					parsed[index] = kvp.Value;
 				}
 
-				var toDelete = new Stack<ModifierAttributes>();
-
 				foreach (var kvp in parsed.OrderBy(p => p.Key))
 				{
 					var index = kvp.Key;
@@ -55,26 +59,23 @@ namespace Subsystem.Patch
 					{
 						var remove = elementPatch.Remove;
 
-						if (index < wrapperModifiers.Count)
+						ModifierAttributes newValue;
+
+						if (index < statusEffectAttributesWrapper.Modifiers.Length)
 						{
 							if (remove)
 							{
 								loader.logger.Log("(removed)");
-								toDelete.Push(wrapperModifiers[index]);
 								continue;
 							}
 
-
-							ModifierAttributes newValue = new ModifierAttributes
+							newValue = new ModifierAttributes
 							{
-								EnableWeaponAttributes = wrapperModifiers[index].EnableWeaponAttributes,
-								HealthOverTimeAttributes = wrapperModifiers[index].HealthOverTimeAttributes,
-								ModifierType = wrapperModifiers[index].ModifierType,
-								SwapWeaponAttributes = wrapperModifiers[index].SwapWeaponAttributes
+								EnableWeaponAttributes = statusEffectAttributesWrapper.Modifiers[index].EnableWeaponAttributes,
+								HealthOverTimeAttributes = statusEffectAttributesWrapper.Modifiers[index].HealthOverTimeAttributes,
+								ModifierType = statusEffectAttributesWrapper.Modifiers[index].ModifierType,
+								SwapWeaponAttributes = statusEffectAttributesWrapper.Modifiers[index].SwapWeaponAttributes
 							};
-
-							elementPatch.Apply(loader, newValue, null);
-							wrapperModifiers[index] = newValue;
 						}
 						else if (index == wrapperModifiers.Count)
 						{
@@ -86,20 +87,33 @@ namespace Subsystem.Patch
 
 							loader.logger.Log("(created)");
 
-							ModifierAttributes newValue = new ModifierAttributes();
-							elementPatch.Apply(loader, newValue, null);
-
-							wrapperModifiers.Add(newValue);
+							newValue = new ModifierAttributes();
 						}
 						else // if (index > wrapperModifiers.Count)
 						{
 							loader.logger.Log("ERROR: Non-consecutive index");
 							continue;
 						}
+
+						loader.ApplyPropertyPatch(elementPatch.ModifierType, ref newValue.ModifierType, "ModifierType");
+						loader.ApplyPropertyPatch(elementPatch.EnableWeapon_WeaponID, ref newValue.EnableWeaponAttributes.WeaponID, "EnableWeapon_WeaponID");
+						loader.ApplyPropertyPatch(elementPatch.SwapFromWeaponID, ref newValue.SwapWeaponAttributes.SwapFromWeaponID, "SwapFromWeaponID");
+						loader.ApplyPropertyPatch(elementPatch.SwapToWeaponID, ref newValue.SwapWeaponAttributes.SwapToWeaponID, "SwapToWeaponID");
+
+						if (elementPatch.HealthOverTimeAttributes != null)
+						{
+							using (loader.logger.BeginScope("HealthOverTimeAttributes:"))
+							{
+								loader.ApplyPropertyPatch(elementPatch.HealthOverTimeAttributes.ID, ref newValue.HealthOverTimeAttributes.ID, "ID");
+								loader.ApplyPropertyPatch(elementPatch.HealthOverTimeAttributes.Amount, ref newValue.HealthOverTimeAttributes.Amount, "Amount");
+								loader.ApplyPropertyPatch(elementPatch.HealthOverTimeAttributes.MSTickDuration, ref newValue.HealthOverTimeAttributes.MSTickDuration, "MSTickDuration");
+								loader.ApplyPropertyPatch(elementPatch.HealthOverTimeAttributes.DamageType, ref newValue.HealthOverTimeAttributes.DamageType, "DamageType");
+							}
+						}
+
+						wrapperModifiers.Push(newValue);
 					}
 				}
-
-				wrapperModifiers.RemoveAll(x => toDelete.Contains(x));
 
 				statusEffectAttributesWrapper.Modifiers = wrapperModifiers.ToArray();
 			}

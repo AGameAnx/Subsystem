@@ -20,13 +20,13 @@ namespace Subsystem
 			if (!wroteNewline)
 			{
 				writer.WriteLine();
+				wroteNewline = true;
 			}
 
 			writeIndent(writer, indent);
 			writer.WriteLine(name);
-
-			wroteNewline = true;
-			indent += 1;
+			
+			IncreaseIndent();
 
 			return new ScopeDisposer(this);
 		}
@@ -37,6 +37,24 @@ namespace Subsystem
 			writer.WriteLine(log);
 
 			wroteNewline = false;
+		}
+
+		public void IncreaseIndent()
+		{
+			writer.WriteLine();
+			wroteNewline = true;
+
+			++indent;
+		}
+
+		public void DecreaseIndent()
+		{
+			if (!wroteNewline)
+			{
+				writer.WriteLine();
+				wroteNewline = true;
+			}
+			--indent;
 		}
 
 		private static void writeIndent(TextWriter writer, int indent)
@@ -56,7 +74,7 @@ namespace Subsystem
 
 			public void Dispose()
 			{
-				logger.indent -= 1;
+				logger.DecreaseIndent();
 			}
 		}
 	}

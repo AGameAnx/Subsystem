@@ -29,15 +29,22 @@ namespace Subsystem
 			try
 			{
 				AttributesPatch attributesPatch = JsonMapper.ToObject<AttributesPatch>(AttributeLoader.GetPatchData());
-				ApplyAttributesPatch(entityTypeCollection, attributesPatch);
+				if (attributesPatch != null)
+				{
+					ApplyAttributesPatch(entityTypeCollection, attributesPatch);
+				}
+				else
+				{
+					writer.WriteLine("Patch file empty or not found");
+				}
 			}
 			catch (Exception e)
 			{
 				Debug.LogWarning($"[SUBSYSTEM] Error applying patch file: {e}");
-				writer.WriteLine();
 				writer.WriteLine($"Error applying patch file: {e}");
-				File.WriteAllText(Path.Combine(Application.dataPath, "Subsystem.log"), writer.ToString());
 			}
+
+			File.WriteAllText(Path.Combine(Application.dataPath, "Subsystem.log"), writer.ToString());
 		}
 
 		public static string GetPatchData()
@@ -53,7 +60,7 @@ namespace Subsystem
 			}
 			catch (Exception)
 			{
-				Debug.LogWarning(string.Format("[SUBSYSTEM] Patch file not found", new object[0]));
+				Debug.LogWarning("[SUBSYSTEM] Patch file not found");
 				result = "";
 			}
 			return result;
@@ -117,7 +124,6 @@ namespace Subsystem
 				}
 			}
 
-			File.WriteAllText(Path.Combine(Application.dataPath, "Subsystem.log"), writer.ToString());
 			Debug.Log($"[SUBSYSTEM] Applied attributes patch. See Subsystem.log for details.");
 		}
 

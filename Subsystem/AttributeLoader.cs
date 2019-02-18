@@ -105,6 +105,8 @@ namespace Subsystem
 						entityType, entityTypePatch.StatusEffectAttributes, x => new StatusEffectAttributesWrapper(x));
 					applyUnnamedComponentPatch<PowerShuntAttributes, PowerShuntAttributesWrapper>(
 						entityType, entityTypePatch.PowerShuntAttributes, x => new PowerShuntAttributesWrapper(x));
+					applyUnnamedComponentPatch<ProjectileAttributes, ProjectileAttributesWrapper>(
+						entityType, entityTypePatch.ProjectileAttributes, x => new ProjectileAttributesWrapper(x));
 
 					applyNamedComponentPatch<AbilityAttributes, AbilityAttributesWrapper>(
 						entityType, entityTypePatch.AbilityAttributes.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), x => new AbilityAttributesWrapper(x));

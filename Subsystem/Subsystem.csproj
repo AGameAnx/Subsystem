@@ -54,6 +54,8 @@
     <Compile Include="Patch\Ability\AutocastAttributesPatch.cs" />
     <Compile Include="Patch\Ability\ChargeAttributesPatch.cs" />
     <Compile Include="Patch\Ability\TargetHighlightingAttributesPatch.cs" />
+    <Compile Include="Patch\ProjectileMotionStagePatch.cs" />
+    <Compile Include="Patch\ProjectileAttributesPatch.cs" />
     <Compile Include="SubsystemPatch.cs" />
     <Compile Include="IRemovable.cs" />
     <Compile Include="Patch\Ability\AbilityAttributesPatch.cs" />
@@ -102,6 +104,8 @@
     <Compile Include="Wrappers\CostAttributesWrapper.cs" />
     <Compile Include="EntityTypePatch.cs" />
     <Compile Include="Patch\HangarBayPatch.cs" />
+    <Compile Include="Wrappers\ProjectileMotionStageWrapper.cs" />
+    <Compile Include="Wrappers\ProjectileAttributesWrapper.cs" />
     <Compile Include="Wrappers\Weapon\EntityTypeToSpawnAttributesWrapper.cs" />
     <Compile Include="Wrappers\ExperienceAttributesWrapper.cs" />
     <Compile Include="Wrappers\ExperienceLevelAttributesWrapper.cs" />

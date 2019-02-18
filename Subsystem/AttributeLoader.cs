@@ -114,6 +114,8 @@ namespace Subsystem
 						entityType, entityTypePatch.PowerShuntAttributes, x => new PowerShuntAttributesWrapper(x));
 					applyUnnamedComponentPatch<ProjectileAttributes, ProjectileAttributesWrapper>(
 						entityType, entityTypePatch.ProjectileAttributes, x => new ProjectileAttributesWrapper(x));
+					applyUnnamedComponentPatch<ResourceAttributes, ResourceAttributesWrapper>(
+						entityType, entityTypePatch.ResourceAttributes, x => new ResourceAttributesWrapper(x));
 
 					applyNamedComponentPatch<AbilityAttributes, AbilityAttributesWrapper>(
 						entityType, entityTypePatch.AbilityAttributes.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), x => new AbilityAttributesWrapper(x));

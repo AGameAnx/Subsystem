@@ -14,6 +14,7 @@ namespace Subsystem
 		public StatusEffectAttributesPatch StatusEffectAttributes { get; set; }
 		public PowerShuntAttributesPatch PowerShuntAttributes { get; set; }
 		public ProjectileAttributesPatch ProjectileAttributes { get; set; }
+		public ResourceAttributesPatch ResourceAttributes { get; set; }
 		public Dictionary<string, AbilityAttributesPatch> AbilityAttributes { get; set; } = new Dictionary<string, AbilityAttributesPatch>();
 		public Dictionary<string, StorageAttributesPatch> StorageAttributes { get; set; } = new Dictionary<string, StorageAttributesPatch>();
 		public Dictionary<string, WeaponAttributesPatch> WeaponAttributes { get; set; } = new Dictionary<string, WeaponAttributesPatch>();

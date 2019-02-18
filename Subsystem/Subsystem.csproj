@@ -54,6 +54,7 @@
     <Compile Include="Patch\Ability\AutocastAttributesPatch.cs" />
     <Compile Include="Patch\Ability\ChargeAttributesPatch.cs" />
     <Compile Include="Patch\Ability\TargetHighlightingAttributesPatch.cs" />
+    <Compile Include="Patch\ResourceAttributesPatch.cs" />
     <Compile Include="Patch\Projectile\ProjectileMotionStagePatch.cs" />
     <Compile Include="Patch\Projectile\ProjectileAttributesPatch.cs" />
     <Compile Include="SubsystemPatch.cs" />
@@ -98,10 +99,11 @@
     <Compile Include="Wrappers\AttributeBuffWrapper.cs" />
     <Compile Include="Wrappers\Ability\ChargeAttributesWrapper.cs" />
     <Compile Include="Wrappers\Ability\TargetHighlightingAttributesWrapper.cs" />
+    <Compile Include="Wrappers\ResourceAttributesWrapper.cs" />
     <Compile Include="Wrappers\PowerShunt\PowerLevelAttributesWrapper.cs" />
     <Compile Include="Wrappers\PowerShunt\PowerSystemAttributesWrapper.cs" />
     <Compile Include="Wrappers\DetectableAttributesWrapper.cs" />
-    <Compile Include="Wrappers\CostAttributesWrapper.cs" />
+    <Compile Include="Wrappers\Ability\CostAttributesWrapper.cs" />
     <Compile Include="EntityTypePatch.cs" />
     <Compile Include="Patch\Hangar\HangarBayPatch.cs" />
     <Compile Include="Wrappers\Projectile\ProjectileMotionStageWrapper.cs" />
@@ -126,12 +128,12 @@
     <Compile Include="Wrappers\PowerShunt\PowerShuntAttributesWrapper.cs" />
     <Compile Include="Wrappers\UnitTypeBuffWrapper.cs" />
     <Compile Include="Wrappers\UnitAttributesWrapper.cs" />
-    <Compile Include="Patch\UnitDynamicsAttributesPatch.cs" />
-    <Compile Include="Wrappers\UnitDynamicsAttributesWrapper.cs" />
+    <Compile Include="Patch\Movement\UnitDynamicsAttributesPatch.cs" />
+    <Compile Include="Wrappers\Movement\UnitDynamicsAttributesWrapper.cs" />
     <Compile Include="Patch\Hangar\UnitHangarAttributesPatch.cs" />
     <Compile Include="Wrappers\Hangar\UnitHangarAttributesWrapper.cs" />
-    <Compile Include="Patch\UnitMovementAttributesPatch.cs" />
-    <Compile Include="Wrappers\UnitMovementAttributesWrapper.cs" />
+    <Compile Include="Patch\Movement\UnitMovementAttributesPatch.cs" />
+    <Compile Include="Wrappers\Movement\UnitMovementAttributesWrapper.cs" />
     <Compile Include="Patch\Weapon\WeaponAttributesPatch.cs" />
     <Compile Include="Wrappers\Weapon\StatusEffectsSetAttributesWrapper.cs" />
     <Compile Include="Wrappers\Weapon\WeaponAttributesWrapper.cs" />

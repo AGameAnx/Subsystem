@@ -87,12 +87,12 @@ namespace Subsystem.Patch
 				weaponAttributesWrapper.StatusEffectsSets = wrappers.Where(x => x != null).ToArray();
 			}
 
-			if (EntityTypesToSpawnOnImpact != null)
+			/*if (EntityTypesToSpawnOnImpact != null)
 			{
 				var wrappers = weaponAttributesWrapper.EntityTypesToSpawnOnImpact.Select(x => new EntityTypeToSpawnAttributesWrapper(x)).ToList();
 				loader.ApplyListPatch(EntityTypesToSpawnOnImpact.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), wrappers, () => new EntityTypeToSpawnAttributesWrapper(), nameof(EntityTypeToSpawnAttributes));
 				weaponAttributesWrapper.EntityTypesToSpawnOnImpact = wrappers.Where(x => x != null).ToArray();
-			}
+			}*/
 
 			if (TargetPrioritizationAttributes != null)
 			{
@@ -276,8 +276,10 @@ namespace Subsystem.Patch
 		public UnitClass? StatusEffectsExcludeTargetType { get; set; }
 		public int? ActiveStatusEffectsIndex { get; set; }
 		public Dictionary<string, StatusEffectsSetAttributesPatch> StatusEffectsSets { get; set; } = new Dictionary<string, StatusEffectsSetAttributesPatch>();
-		public Dictionary<string, EntityTypeToSpawnAttributesPatch> EntityTypesToSpawnOnImpact { get; set; } = new Dictionary<string, EntityTypeToSpawnAttributesPatch>();
 		public TargetPrioritizationAttributesPatch TargetPrioritizationAttributes { get; set; }
+
+		//Disabled for concerns of people spawning DLC entities
+		//public Dictionary<string, EntityTypeToSpawnAttributesPatch> EntityTypesToSpawnOnImpact { get; set; } = new Dictionary<string, EntityTypeToSpawnAttributesPatch>();
 
 		public bool OutputDPS { get; set; }
 	}

@@ -8,7 +8,7 @@ namespace Subsystem.Wrappers
 		public ExperienceAttributesWrapper(ExperienceAttributes other)
 		{
 			Names = other.Names;
-			Levels = other.Levels.ToArray();
+			Levels = other.Levels?.ToArray();
 		}
 
 		public string[] Names { get; set; }

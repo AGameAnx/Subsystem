@@ -12,7 +12,7 @@ namespace Subsystem.Wrappers
 		{
 			ProjectileType = other.ProjectileType;
 			DetonationDelay = other.DetonationDelay;
-			Stages = other.Stages.ToArray();
+			Stages = other.Stages?.ToArray();
 			MissStageIndex = other.MissStageIndex;
 			MinimumMissDistance = other.MinimumMissDistance;
 			MaximumMissDistance = other.MaximumMissDistance;

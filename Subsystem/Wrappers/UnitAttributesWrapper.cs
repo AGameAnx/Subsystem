@@ -48,7 +48,7 @@ namespace Subsystem.Wrappers
 			NoTextNotifications = other.NoTextNotifications;
 			NotificationFlags = other.NotificationFlags;
 			FireRateDisplay = other.FireRateDisplay;
-			WeaponLoadout = other.WeaponLoadout.ToArray();
+			WeaponLoadout = other.WeaponLoadout?.ToArray();
 			PriorityAsTarget = other.PriorityAsTarget;
 			ThreatData = other.ThreatData;
 			ThreatCounters = other.ThreatCounters;

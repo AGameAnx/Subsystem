@@ -18,9 +18,9 @@ namespace Subsystem.Wrappers
 			WeaponFireTriggerEndEvent = other.WeaponFireTriggerEndEvent;
 			MaxStacks = other.MaxStacks;
 			StackingBehaviour = other.StackingBehaviour;
-			BuffsToApplyToTarget = other.BuffsToApplyToTarget.ToArray();
-			UnitTypeBuffsToApply = other.UnitTypeBuffsToApply.ToArray();
-			Modifiers = other.Modifiers.ToArray();
+			BuffsToApplyToTarget = other.BuffsToApplyToTarget?.ToArray();
+			UnitTypeBuffsToApply = other.UnitTypeBuffsToApply?.ToArray();
+			Modifiers = other.Modifiers?.ToArray();
 		}
 
 		public StatusEffectLifetime Lifetime { get; set; }

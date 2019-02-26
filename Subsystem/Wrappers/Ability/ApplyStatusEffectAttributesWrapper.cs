@@ -7,7 +7,7 @@ namespace Subsystem.Wrappers
 	{
 		public ApplyStatusEffectAttributesWrapper(ApplyStatusEffectAttributes other)
 		{
-			StatusEffectsToApply = other.StatusEffectsToApply.ToArray();
+			StatusEffectsToApply = other.StatusEffectsToApply?.ToArray();
 		}
 
 		public StatusEffectAttributes[] StatusEffectsToApply { get; set; }

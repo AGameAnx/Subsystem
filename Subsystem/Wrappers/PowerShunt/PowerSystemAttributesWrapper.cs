@@ -14,7 +14,7 @@ namespace Subsystem.Wrappers
 			PowerSystemType = other.PowerSystemType;
 			StartingPowerLevelIndex = other.StartingPowerLevelIndex;
 			StartingMaxPowerLevelIndex = other.StartingMaxPowerLevelIndex;
-			PowerLevels = other.PowerLevels.ToArray();
+			PowerLevels = other.PowerLevels?.ToArray();
 			View = other.View;
 		}
 

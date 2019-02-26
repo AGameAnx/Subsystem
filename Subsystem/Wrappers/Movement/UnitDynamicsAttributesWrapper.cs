@@ -28,8 +28,8 @@ namespace Subsystem.Wrappers
 			MinCruiseSpeed = other.MinCruiseSpeed;
 			DeathDriftTime = other.DeathDriftTime;
 			PermanentlyImmobile = other.PermanentlyImmobile;
-			CruiseSpeedVariation = other.CruiseSpeedVariation.ToArray();
-			CruiseDirectionVariation = other.CruiseDirectionVariation.ToArray();
+			CruiseSpeedVariation = other.CruiseSpeedVariation?.ToArray();
+			CruiseDirectionVariation = other.CruiseDirectionVariation?.ToArray();
 		}
 
 		public UnitDriveType DriveType { get; set; }

@@ -11,7 +11,7 @@ namespace Subsystem.Wrappers
 
 		public StatusEffectsSetAttributesWrapper(StatusEffectsSetAttributes other)
 		{
-			StatusEffects = other.StatusEffects.ToArray();
+			StatusEffects = other.StatusEffects?.ToArray();
 		}
 
 		public string[] StatusEffects { get; set; }

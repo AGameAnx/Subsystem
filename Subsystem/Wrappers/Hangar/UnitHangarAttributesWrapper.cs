@@ -8,10 +8,10 @@ namespace Subsystem.Wrappers
 	{
 		public UnitHangarAttributesWrapper(UnitHangarAttributes other)
 		{
-			HangarBays = other.HangarBays.ToArray();
-			UnitDockingTriggers = other.UnitDockingTriggers.ToArray();
-			HangarDockingTriggers = other.HangarDockingTriggers.ToArray();
-			BoneResetTriggers = other.BoneResetTriggers.ToArray();
+			HangarBays = other.HangarBays?.ToArray();
+			UnitDockingTriggers = other.UnitDockingTriggers?.ToArray();
+			HangarDockingTriggers = other.HangarDockingTriggers?.ToArray();
+			BoneResetTriggers = other.BoneResetTriggers?.ToArray();
 			AlignmentTime = other.AlignmentTime;
 			ApproachTime = other.ApproachTime;
 		}

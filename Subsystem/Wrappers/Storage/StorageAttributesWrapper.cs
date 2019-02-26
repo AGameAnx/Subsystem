@@ -10,7 +10,7 @@ namespace Subsystem.Wrappers
 		{
 			LinkToPlayerBank = other.LinkToPlayerBank;
 			IsResourceController = other.IsResourceController;
-			InventoryLoadout = other.InventoryLoadout.ToArray();
+			InventoryLoadout = other.InventoryLoadout?.ToArray();
 		}
 
 		public bool LinkToPlayerBank { get; set; }

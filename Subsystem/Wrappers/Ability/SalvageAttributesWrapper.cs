@@ -9,12 +9,12 @@ namespace Subsystem.Wrappers
 		public SalvageAttributesWrapper(SalvageAttributes other)
 		{
 			TargetType = other.TargetType;
-			ExcludedResourceTargetTypes = other.ExcludedResourceTargetTypes.ToArray();
+			ExcludedResourceTargetTypes = other.ExcludedResourceTargetTypes?.ToArray();
 			AllowSearchingForNextNode = other.AllowSearchingForNextNode;
 			SearchRelativeToClosestResourceControllerOnDropOff = other.SearchRelativeToClosestResourceControllerOnDropOff;
 			TargetedSearchRange = other.TargetedSearchRange;
 			UseFallbackResourcing = other.UseFallbackResourcing;
-			FallbackResourceTargetType = other.FallbackResourceTargetType.ToArray();
+			FallbackResourceTargetType = other.FallbackResourceTargetType?.ToArray();
 		}
 
 		public SalvageTargetType TargetType { get; set; }

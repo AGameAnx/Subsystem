@@ -13,7 +13,7 @@ namespace Subsystem.Wrappers
 		{
 			PowerUnitsRequired = other.PowerUnitsRequired;
 			HeatPointsProvided = other.HeatPointsProvided;
-			StatusEffectsToApply = other.StatusEffectsToApply.ToArray();
+			StatusEffectsToApply = other.StatusEffectsToApply?.ToArray();
 			View = other.View;
 		}
 

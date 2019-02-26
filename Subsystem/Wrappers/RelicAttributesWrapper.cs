@@ -1,5 +1,6 @@
 ﻿using BBI.Core;
 using BBI.Game.Data;
+using System.Linq;
 
 namespace Subsystem.Wrappers
 {
@@ -9,7 +10,7 @@ namespace Subsystem.Wrappers
 		{
 			CollectibleType = other.CollectibleType;
 			BuffsWhileHolding = other.BuffsWhileHolding;
-			CommandsToRunAfterExtraction = other.CommandsToRunAfterExtraction;
+			CommandsToRunAfterExtraction = other.CommandsToRunAfterExtraction?.ToArray();
 			DetonationWeaponTypeID = other.DetonationWeaponTypeID;
 		}
 

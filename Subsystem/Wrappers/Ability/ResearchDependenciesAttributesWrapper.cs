@@ -7,7 +7,7 @@ namespace Subsystem.Wrappers
 	{
 		public ResearchDependenciesAttributesWrapper(ResearchDependenciesAttributes other)
 		{
-			RequiredResearch = other.RequiredResearch.ToArray();
+			RequiredResearch = other.RequiredResearch?.ToArray();
 		}
 
 		public string[] RequiredResearch { get; set; }

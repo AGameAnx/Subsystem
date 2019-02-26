@@ -16,7 +16,7 @@ namespace Subsystem.Wrappers
 			OverheatDamage = other.OverheatDamage;
 			NearOverheatWarningMargin = other.NearOverheatWarningMargin;
 			OverheatReminderPeriod = other.OverheatReminderPeriod;
-			PowerSystems = other.PowerSystems.ToArray();
+			PowerSystems = other.PowerSystems?.ToArray();
 			ReservePowerPool = other.ReservePowerPool;
 			OverheatingPool = other.OverheatingPool;
 			HeatSystem = other.HeatSystem;

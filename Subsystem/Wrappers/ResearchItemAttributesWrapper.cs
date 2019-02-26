@@ -17,8 +17,8 @@ namespace Subsystem.Wrappers
 			ResearchTime = other.ResearchTime;
 			Dependencies = other.Dependencies;
 			ResearchVOCode = other.ResearchVOCode;
-			UnitTypeBuffs = other.UnitTypeBuffs.ToArray();
-			CommandsToRun = other.CommandsToRun.ToArray();
+			UnitTypeBuffs = other.UnitTypeBuffs?.ToArray();
+			CommandsToRun = other.CommandsToRun?.ToArray();
 			Resource1Cost = other.Resource1Cost;
 			Resource2Cost = other.Resource2Cost;
 		}

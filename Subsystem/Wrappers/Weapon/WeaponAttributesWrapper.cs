@@ -46,8 +46,8 @@ namespace Subsystem.Wrappers
 			StatusEffectsTargetAlignment = other.StatusEffectsTargetAlignment;
 			StatusEffectsExcludeTargetType = other.StatusEffectsExcludeTargetType;
 			ActiveStatusEffectsIndex = other.ActiveStatusEffectsIndex;
-			StatusEffectsSets = other.StatusEffectsSets.ToArray();
-			EntityTypesToSpawnOnImpact = other.EntityTypesToSpawnOnImpact.ToArray();
+			StatusEffectsSets = other.StatusEffectsSets?.ToArray();
+			EntityTypesToSpawnOnImpact = other.EntityTypesToSpawnOnImpact?.ToArray();
 			TargetPriorizationAttributes = other.TargetPriorizationAttributes;
 		}
 

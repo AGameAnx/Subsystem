@@ -120,8 +120,8 @@ namespace Subsystem.Patch
 				{
 					var applyStatusEffectAttributesWrapper = new ApplyStatusEffectAttributesWrapper(abilityAttributesWrapper.ApplyStatusEffect);
 
-					var statusEffectWrappers = applyStatusEffectAttributesWrapper.StatusEffectsToApply.Select(x => new StatusEffectAttributesWrapper(x)).ToList();
-					loader.ApplyListPatch(ApplyStatusEffect.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), statusEffectWrappers, () => new StatusEffectAttributesWrapper(), nameof(StatusEffectAttributes));
+					var statusEffectWrappers = applyStatusEffectAttributesWrapper.StatusEffectsToApply?.Select(x => new StatusEffectAttributesWrapper(x)).ToList() ?? new List<StatusEffectAttributesWrapper>();
+					loader.ApplyListPatch(ApplyStatusEffect, statusEffectWrappers, () => new StatusEffectAttributesWrapper(), nameof(StatusEffectAttributes));
 					applyStatusEffectAttributesWrapper.StatusEffectsToApply = statusEffectWrappers.ToArray();
 
 					abilityAttributesWrapper.ApplyStatusEffect = applyStatusEffectAttributesWrapper;

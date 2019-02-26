@@ -16,7 +16,7 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(RequiredExperience, () => experienceLevelAttributesWrapper.RequiredExperience);
 
 			var attributeBuffSetWrapper = new AttributeBuffSetWrapper(experienceLevelAttributesWrapper.Buff);
-			loader.ApplyListPatch(Buff.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
+			loader.ApplyListPatch(Buff, attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
 			experienceLevelAttributesWrapper.Buff = attributeBuffSetWrapper;
 		}
 

@@ -50,8 +50,8 @@ namespace Subsystem.Patch
 
 			if (Modifiers != null)
 			{
-				var modifiers = weaponAttributesWrapper.Modifiers.Select(x => new WeaponModifierInfoWrapper(x)).ToList();
-				loader.ApplyListPatch(Modifiers.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), modifiers, () => new WeaponModifierInfoWrapper(), nameof(WeaponModifierInfo));
+				var modifiers = weaponAttributesWrapper.Modifiers?.Select(x => new WeaponModifierInfoWrapper(x)).ToList() ?? new List<WeaponModifierInfoWrapper>();
+				loader.ApplyListPatch(Modifiers, modifiers, () => new WeaponModifierInfoWrapper(), nameof(WeaponModifierInfo));
 				weaponAttributesWrapper.Modifiers = modifiers.ToArray();
 			}
 
@@ -82,15 +82,15 @@ namespace Subsystem.Patch
 
 			if (StatusEffectsSets != null)
 			{
-				var wrappers = weaponAttributesWrapper.StatusEffectsSets.Select(x => new StatusEffectsSetAttributesWrapper(x)).ToList();
-				loader.ApplyListPatch(StatusEffectsSets.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), wrappers, () => new StatusEffectsSetAttributesWrapper(), nameof(StatusEffectsSetAttributes));
+				var wrappers = weaponAttributesWrapper.StatusEffectsSets?.Select(x => new StatusEffectsSetAttributesWrapper(x)).ToList() ?? new List<StatusEffectsSetAttributesWrapper>();
+				loader.ApplyListPatch(StatusEffectsSets, wrappers, () => new StatusEffectsSetAttributesWrapper(), nameof(StatusEffectsSetAttributes));
 				weaponAttributesWrapper.StatusEffectsSets = wrappers.Where(x => x != null).ToArray();
 			}
 
 			/*if (EntityTypesToSpawnOnImpact != null)
 			{
-				var wrappers = weaponAttributesWrapper.EntityTypesToSpawnOnImpact.Select(x => new EntityTypeToSpawnAttributesWrapper(x)).ToList();
-				loader.ApplyListPatch(EntityTypesToSpawnOnImpact.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), wrappers, () => new EntityTypeToSpawnAttributesWrapper(), nameof(EntityTypeToSpawnAttributes));
+				var wrappers = weaponAttributesWrapper.EntityTypesToSpawnOnImpact?.Select(x => new EntityTypeToSpawnAttributesWrapper(x)).ToList() ?? new List<EntityTypeToSpawnAttributesWrapper>();
+				loader.ApplyListPatch(EntityTypesToSpawnOnImpact, wrappers, () => new EntityTypeToSpawnAttributesWrapper(), nameof(EntityTypeToSpawnAttributes));
 				weaponAttributesWrapper.EntityTypesToSpawnOnImpact = wrappers.Where(x => x != null).ToArray();
 			}*/
 

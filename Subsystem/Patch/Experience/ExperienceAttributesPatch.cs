@@ -12,8 +12,8 @@ namespace Subsystem.Patch
 			if (!(wrapper is ExperienceAttributesWrapper experienceAttributesWrapper))
 				throw new System.InvalidCastException();
 
-			var wrappers = experienceAttributesWrapper.Levels.Select(x => new ExperienceLevelAttributesWrapper(x)).ToList();
-			loader.ApplyListPatch(Levels.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), wrappers, () => new ExperienceLevelAttributesWrapper(), nameof(ExperienceLevelAttributes));
+			var wrappers = experienceAttributesWrapper.Levels?.Select(x => new ExperienceLevelAttributesWrapper(x)).ToList() ?? new List<ExperienceLevelAttributesWrapper>();
+			loader.ApplyListPatch(Levels, wrappers, () => new ExperienceLevelAttributesWrapper(), nameof(ExperienceLevelAttributes));
 			experienceAttributesWrapper.Levels = wrappers.ToArray();
 		}
 

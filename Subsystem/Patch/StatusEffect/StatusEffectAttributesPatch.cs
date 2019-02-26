@@ -21,15 +21,15 @@ namespace Subsystem.Patch
 
 			if (BuffsToApplyToTarget != null)
 			{
-				var buffsToApplyToTarget = statusEffectAttributesWrapper.BuffsToApplyToTarget.Select(x => new UnitTypeBuffWrapper(x)).ToList();
-				loader.ApplyListPatch(BuffsToApplyToTarget.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), buffsToApplyToTarget, () => new UnitTypeBuffWrapper(), "BuffsToApplyToTarget");
+				var buffsToApplyToTarget = statusEffectAttributesWrapper.BuffsToApplyToTarget?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
+				loader.ApplyListPatch(BuffsToApplyToTarget, buffsToApplyToTarget, () => new UnitTypeBuffWrapper(), "BuffsToApplyToTarget");
 				statusEffectAttributesWrapper.BuffsToApplyToTarget = buffsToApplyToTarget.ToArray();
 			}
 
 			if (UnitTypeBuffsToApply != null)
 			{
-				var unitTypeBuffsToApply = statusEffectAttributesWrapper.UnitTypeBuffsToApply.Select(x => new UnitTypeBuffWrapper(x)).ToList();
-				loader.ApplyListPatch(UnitTypeBuffsToApply.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), unitTypeBuffsToApply, () => new UnitTypeBuffWrapper(), "UnitTypeBuffsToApply");
+				var unitTypeBuffsToApply = statusEffectAttributesWrapper.UnitTypeBuffsToApply?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
+				loader.ApplyListPatch(UnitTypeBuffsToApply, unitTypeBuffsToApply, () => new UnitTypeBuffWrapper(), "UnitTypeBuffsToApply");
 				statusEffectAttributesWrapper.UnitTypeBuffsToApply = unitTypeBuffsToApply.ToArray();
 			}
 
@@ -61,7 +61,7 @@ namespace Subsystem.Patch
 
 						ModifierAttributes newValue;
 
-						if (index < statusEffectAttributesWrapper.Modifiers.Length)
+						if (statusEffectAttributesWrapper.Modifiers != null && index < statusEffectAttributesWrapper.Modifiers.Length)
 						{
 							if (remove)
 							{

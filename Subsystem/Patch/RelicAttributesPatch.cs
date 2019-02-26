@@ -17,7 +17,7 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(DetonationWeaponTypeID, () => relicAttributesWrapper.DetonationWeaponTypeID);
 
 			var attributeBuffSetWrapper = new AttributeBuffSetWrapper(relicAttributesWrapper.BuffsWhileHolding);
-			loader.ApplyListPatch(BuffsWhileHolding.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
+			loader.ApplyListPatch(BuffsWhileHolding, attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
 			relicAttributesWrapper.BuffsWhileHolding = attributeBuffSetWrapper;
 		}
 

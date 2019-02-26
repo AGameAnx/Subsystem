@@ -16,8 +16,8 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(StartingPowerLevelIndex, () => powerSystemAttributesWrapper.StartingPowerLevelIndex);
 			loader.ApplyPropertyPatch(StartingMaxPowerLevelIndex, () => powerSystemAttributesWrapper.StartingMaxPowerLevelIndex);
 
-			var powerLevels = powerSystemAttributesWrapper.PowerLevels.Select(x => new PowerLevelAttributesWrapper(x)).ToList();
-			loader.ApplyListPatch(PowerLevels.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), powerLevels, () => new PowerLevelAttributesWrapper(), "PowerLevels");
+			var powerLevels = powerSystemAttributesWrapper.PowerLevels?.Select(x => new PowerLevelAttributesWrapper(x)).ToList() ?? new List<PowerLevelAttributesWrapper>();
+			loader.ApplyListPatch(PowerLevels, powerLevels, () => new PowerLevelAttributesWrapper(), "PowerLevels");
 			powerSystemAttributesWrapper.PowerLevels = powerLevels.ToArray();
 		}
 

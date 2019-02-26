@@ -26,8 +26,8 @@ namespace Subsystem.Patch
 
 			if (UnitTypeBuffs != null)
 			{
-				var wrappers = researchItemAttributesWrapper.UnitTypeBuffs.Select(x => new UnitTypeBuffWrapper(x)).ToList();
-				loader.ApplyListPatch(UnitTypeBuffs.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), wrappers, () => new UnitTypeBuffWrapper(), nameof(UnitTypeBuff));
+				var wrappers = researchItemAttributesWrapper.UnitTypeBuffs?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
+				loader.ApplyListPatch(UnitTypeBuffs, wrappers, () => new UnitTypeBuffWrapper(), nameof(UnitTypeBuff));
 				researchItemAttributesWrapper.UnitTypeBuffs = wrappers.Where(x => x != null).ToArray();
 			}
 		}

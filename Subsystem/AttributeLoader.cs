@@ -119,12 +119,12 @@ namespace Subsystem
 					applyUnnamedComponentPatch<RelicAttributes, RelicAttributesWrapper>(
 						entityType, entityTypePatch.RelicAttributes, x => new RelicAttributesWrapper(x));
 
-					applyNamedComponentPatch<AbilityAttributes, AbilityAttributesWrapper>(
-						entityType, entityTypePatch.AbilityAttributes.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), x => new AbilityAttributesWrapper(x));
-					applyNamedComponentPatch<StorageAttributes, StorageAttributesWrapper>(
-						entityType, entityTypePatch.StorageAttributes.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), x => new StorageAttributesWrapper(x));
-					applyNamedComponentPatch<WeaponAttributes, WeaponAttributesWrapper>(
-						entityType, entityTypePatch.WeaponAttributes.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), x => new WeaponAttributesWrapper(x));
+					applyNamedComponentPatch<AbilityAttributes, AbilityAttributesWrapper, Patch.AbilityAttributesPatch>(
+						entityType, entityTypePatch.AbilityAttributes, x => new AbilityAttributesWrapper(x));
+					applyNamedComponentPatch<StorageAttributes, StorageAttributesWrapper, Patch.StorageAttributesPatch>(
+						entityType, entityTypePatch.StorageAttributes, x => new StorageAttributesWrapper(x));
+					applyNamedComponentPatch<WeaponAttributes, WeaponAttributesWrapper, Patch.WeaponAttributesPatch>(
+						entityType, entityTypePatch.WeaponAttributes, x => new WeaponAttributesWrapper(x));
 				}
 			}
 
@@ -139,9 +139,10 @@ namespace Subsystem
 				applyComponentPatch(entityType, patch, createWrapper);
 		}
 
-		private void applyNamedComponentPatch<TAttributes, TWrapper>(EntityTypeAttributes entityType, Dictionary<string, SubsystemPatch> patch, Func<TAttributes, TWrapper> createWrapper)
+		private void applyNamedComponentPatch<TAttributes, TWrapper, TSubsystemPatch>(EntityTypeAttributes entityType, Dictionary<string, TSubsystemPatch> patch, Func<TAttributes, TWrapper> createWrapper)
 			where TAttributes : class
 			where TWrapper : TAttributes
+			where TSubsystemPatch : SubsystemPatch
 		{
 			foreach (var kvp in patch)
 				applyComponentPatch(entityType, kvp.Value, createWrapper, kvp.Key);
@@ -257,10 +258,11 @@ namespace Subsystem
 			}
 		}
 
-		public void ApplyListPatch<TWrapper>(Dictionary<string, SubsystemPatch> patch, List<TWrapper> wrappers, Func<TWrapper> createWrapper, string elementName)
+		public void ApplyListPatch<TWrapper, TPatchType>(Dictionary<string, TPatchType> patch, List<TWrapper> wrappers, Func<TWrapper> createWrapper, string elementName)
 			where TWrapper : class
+			where TPatchType: SubsystemPatch
 		{
-			var parsed = new Dictionary<int, SubsystemPatch>();
+			var parsed = new Dictionary<int, TPatchType>();
 
 			foreach (var kvp in patch)
 			{

@@ -20,7 +20,7 @@ namespace Subsystem.Patch
 			if (BuffSet != null)
 			{
 				var attributeBuffSetWrapper = unitTypeBuffWrapper.BuffSet != null ? new AttributeBuffSetWrapper(unitTypeBuffWrapper.BuffSet) : new AttributeBuffSetWrapper();
-				loader.ApplyListPatch(BuffSet.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuffSet));
+				loader.ApplyListPatch(BuffSet, attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuffSet));
 				unitTypeBuffWrapper.BuffSet = attributeBuffSetWrapper;
 			}
 		}

@@ -21,8 +21,8 @@ namespace Subsystem.Patch
 
 			if (Stages.Count > 0)
 			{
-				var projectileMotionStageWrappers = projectileAttributesWrapper.Stages.Select(x => new ProjectileMotionStageWrapper(x)).ToList();
-				loader.ApplyListPatch(Stages.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), projectileMotionStageWrappers, () => new ProjectileMotionStageWrapper(), nameof(ProjectileMotionStage));
+				var projectileMotionStageWrappers = projectileAttributesWrapper.Stages?.Select(x => new ProjectileMotionStageWrapper(x)).ToList() ?? new List<ProjectileMotionStageWrapper>();
+				loader.ApplyListPatch(Stages, projectileMotionStageWrappers, () => new ProjectileMotionStageWrapper(), nameof(ProjectileMotionStage));
 				projectileAttributesWrapper.Stages = projectileMotionStageWrappers.ToArray();
 			}
 		}

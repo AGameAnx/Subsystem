@@ -20,8 +20,8 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(NearOverheatWarningMargin, () => powerShuntAttributesWrapper.NearOverheatWarningMargin);
 			loader.ApplyPropertyPatch(OverheatReminderPeriod, () => powerShuntAttributesWrapper.OverheatReminderPeriod);
 
-			var powerSystems = powerShuntAttributesWrapper.PowerSystems.Select(x => new PowerSystemAttributesWrapper(x)).ToList();
-			loader.ApplyListPatch(PowerSystems.ToDictionary(x => x.Key, x => (SubsystemPatch)x.Value), powerSystems, () => new PowerSystemAttributesWrapper(), "PowerSystems");
+			var powerSystems = powerShuntAttributesWrapper.PowerSystems?.Select(x => new PowerSystemAttributesWrapper(x)).ToList() ?? new List<PowerSystemAttributesWrapper>();
+			loader.ApplyListPatch(PowerSystems, powerSystems, () => new PowerSystemAttributesWrapper(), "PowerSystems");
 			powerShuntAttributesWrapper.PowerSystems = powerSystems.ToArray();
 
 			if (ReservePowerPool != null)

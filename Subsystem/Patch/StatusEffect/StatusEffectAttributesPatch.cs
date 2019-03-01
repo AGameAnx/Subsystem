@@ -35,7 +35,7 @@ namespace Subsystem.Patch
 
 			if (Modifiers != null)
 			{
-				var wrapperModifiers = new Stack<ModifierAttributes>();
+				var wrapperModifiers = statusEffectAttributesWrapper.Modifiers?.ToList() ?? new List<ModifierAttributes>();
 
 				var parsed = new Dictionary<int, ModifierAttributesPatch>();
 
@@ -50,6 +50,8 @@ namespace Subsystem.Patch
 					parsed[index] = kvp.Value;
 				}
 
+				var toRemove = new Stack<int>();
+
 				foreach (var kvp in parsed.OrderBy(p => p.Key))
 				{
 					var index = kvp.Key;
@@ -61,23 +63,18 @@ namespace Subsystem.Patch
 
 						ModifierAttributes newValue;
 
-						if (statusEffectAttributesWrapper.Modifiers != null && index < statusEffectAttributesWrapper.Modifiers.Length)
+						if (index < wrapperModifiers.Count())
 						{
 							if (remove)
 							{
 								loader.logger.Log("(removed)");
+								toRemove.Push(index);
 								continue;
 							}
 
-							newValue = new ModifierAttributes
-							{
-								EnableWeaponAttributes = statusEffectAttributesWrapper.Modifiers[index].EnableWeaponAttributes,
-								HealthOverTimeAttributes = statusEffectAttributesWrapper.Modifiers[index].HealthOverTimeAttributes,
-								ModifierType = statusEffectAttributesWrapper.Modifiers[index].ModifierType,
-								SwapWeaponAttributes = statusEffectAttributesWrapper.Modifiers[index].SwapWeaponAttributes
-							};
+							newValue = wrapperModifiers[index];
 						}
-						else if (index == wrapperModifiers.Count)
+						else if (index >= wrapperModifiers.Count())
 						{
 							if (remove)
 							{
@@ -111,9 +108,15 @@ namespace Subsystem.Patch
 							}
 						}
 
-						wrapperModifiers.Push(newValue);
+						if (index < wrapperModifiers.Count)
+							wrapperModifiers[index] = newValue;
+						else
+							wrapperModifiers.Add(newValue);
 					}
 				}
+
+				foreach (var v in toRemove)
+					wrapperModifiers.RemoveAt(v);
 
 				statusEffectAttributesWrapper.Modifiers = wrapperModifiers.ToArray();
 			}

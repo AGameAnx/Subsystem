@@ -15,7 +15,7 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(HeatPointsProvided, () => powerLevelAttributesWrapper.HeatPointsProvided);
 
 			var statusEffects = powerLevelAttributesWrapper.StatusEffectsToApply?.Select(x => new StatusEffectAttributesWrapper(x)).ToList() ?? new List<StatusEffectAttributesWrapper>();
-			loader.ApplyListPatch(StatusEffectsToApply, statusEffects, () => new StatusEffectAttributesWrapper(), "StatusEffectsToApply");
+			loader.ApplyListPatch(StatusEffectsToApply, statusEffects, () => new StatusEffectAttributesWrapper(), "StatusEffectsToApply", true);
 			powerLevelAttributesWrapper.StatusEffectsToApply = statusEffects.ToArray();
 		}
 

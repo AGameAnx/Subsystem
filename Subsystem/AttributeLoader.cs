@@ -258,7 +258,7 @@ namespace Subsystem
 			}
 		}
 
-		public void ApplyListPatch<TWrapper, TPatchType>(Dictionary<string, TPatchType> patch, List<TWrapper> wrappers, Func<TWrapper> createWrapper, string elementName)
+		public void ApplyListPatch<TWrapper, TPatchType>(Dictionary<string, TPatchType> patch, List<TWrapper> wrappers, Func<TWrapper> createWrapper, string elementName, bool disableCreation = false)
 			where TWrapper : class
 			where TPatchType: SubsystemPatch
 		{
@@ -301,6 +301,12 @@ namespace Subsystem
 					}
 					else if (index == wrappers.Count)
 					{
+						if (disableCreation)
+						{
+							logger.Log("WARNING: Creation of new elements is disabled for this list");
+							continue;
+						}
+
 						if (remove)
 						{
 							logger.Log("WARNING: Remove flag set for non-existent entry");

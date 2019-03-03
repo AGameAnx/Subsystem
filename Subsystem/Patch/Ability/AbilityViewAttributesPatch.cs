@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Subsystem.Patch
 {
-	public class AbilityViewAttributesPatch: SubsystemPatch
+	public class AbilityViewAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

@@ -3,7 +3,7 @@ using BBI.Core.Utility.FixedPoint;
 
 namespace Subsystem.Patch
 {
-	public class TargetPrioritizationAttributesPatch: SubsystemPatch
+	public class TargetPrioritizationAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

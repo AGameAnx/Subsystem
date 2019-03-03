@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Subsystem.Patch
 {
-	public class WeaponAttributesPatch: SubsystemPatch
+	public class WeaponAttributesPatch : SubsystemPatch
 	{
 		public override void Apply(AttributeLoader loader, object wrapper, EntityTypeAttributes entityType)
 		{

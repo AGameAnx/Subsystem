@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Subsystem.Patch
 {
-	public class PowerShuntAttributesPatch: SubsystemPatch
+	public class PowerShuntAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

@@ -2,7 +2,7 @@
 
 namespace Subsystem.Patch
 {
-	public class TechUpgradePatch: SubsystemPatch
+	public class TechUpgradePatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Subsystem.Patch
 {
-	public class RelicAttributesPatch: SubsystemPatch
+	public class RelicAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

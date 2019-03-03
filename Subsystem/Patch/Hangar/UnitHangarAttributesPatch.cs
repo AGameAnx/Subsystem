@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Subsystem.Patch
 {
-	public class UnitHangarAttributesPatch: SubsystemPatch
+	public class UnitHangarAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

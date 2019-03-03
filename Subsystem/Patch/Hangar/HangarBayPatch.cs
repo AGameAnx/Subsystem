@@ -4,7 +4,7 @@ using BBI.Game.Data;
 
 namespace Subsystem.Patch
 {
-	public class HangarBayPatch: SubsystemPatch
+	public class HangarBayPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

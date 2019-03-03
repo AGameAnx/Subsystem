@@ -2,7 +2,7 @@
 
 namespace Subsystem.Patch
 {
-	public class StatusEffectsSetAttributesPatch: SubsystemPatch
+	public class StatusEffectsSetAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

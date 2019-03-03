@@ -3,7 +3,7 @@ using BBI.Game.Data;
 
 namespace Subsystem.Patch
 {
-	public class UnitMovementAttributesPatch: SubsystemPatch
+	public class UnitMovementAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

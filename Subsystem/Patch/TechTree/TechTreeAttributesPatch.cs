@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Subsystem.Patch
 {
-	public class TechTreeAttributesPatch: SubsystemPatch
+	public class TechTreeAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

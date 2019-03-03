@@ -4,7 +4,7 @@ using BBI.Game.Data;
 
 namespace Subsystem.Patch
 {
-	public class UnitDynamicsAttributesPatch: SubsystemPatch
+	public class UnitDynamicsAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

@@ -2,7 +2,7 @@
 
 namespace Subsystem.Patch
 {
-	public class TechTreeTierPatch: SubsystemPatch
+	public class TechTreeTierPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

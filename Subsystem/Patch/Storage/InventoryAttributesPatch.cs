@@ -2,7 +2,7 @@
 
 namespace Subsystem.Patch
 {
-	public class InventoryAttributesPatch: SubsystemPatch
+	public class InventoryAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

@@ -3,7 +3,7 @@ using BBI.Core.Utility.FixedPoint;
 
 namespace Subsystem.Patch
 {
-	public class TurretAttributesPatch: SubsystemPatch
+	public class TurretAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

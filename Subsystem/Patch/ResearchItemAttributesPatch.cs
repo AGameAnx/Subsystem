@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Subsystem.Patch
 {
-	public class ResearchItemAttributesPatch: SubsystemPatch
+	public class ResearchItemAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

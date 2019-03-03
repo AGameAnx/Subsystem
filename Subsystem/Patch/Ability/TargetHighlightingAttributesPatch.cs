@@ -2,7 +2,7 @@
 
 namespace Subsystem.Patch
 {
-	public class TargetHighlightingAttributesPatch: SubsystemPatch
+	public class TargetHighlightingAttributesPatch : SubsystemPatch
 	{
 		protected override void Apply(AttributeLoader loader, object wrapper)
 		{

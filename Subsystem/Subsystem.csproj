@@ -59,6 +59,8 @@
     <Compile Include="Patch\Ability\AutocastAttributesPatch.cs" />
     <Compile Include="Patch\Ability\ChargeAttributesPatch.cs" />
     <Compile Include="Patch\Ability\TargetHighlightingAttributesPatch.cs" />
+    <Compile Include="Patch\PowerShunt\PowerShuntViewAttributesPatch.cs" />
+    <Compile Include="Patch\PowerShunt\PowerSystemViewAttributesPatch.cs" />
     <Compile Include="Patch\RelicAttributesPatch.cs" />
     <Compile Include="Patch\ResourceAttributesPatch.cs" />
     <Compile Include="Patch\Projectile\ProjectileMotionStagePatch.cs" />
@@ -109,6 +111,9 @@
     <Compile Include="Wrappers\AttributeBuffWrapper.cs" />
     <Compile Include="Wrappers\Ability\ChargeAttributesWrapper.cs" />
     <Compile Include="Wrappers\Ability\TargetHighlightingAttributesWrapper.cs" />
+    <Compile Include="Wrappers\PowerShunt\PowerLevelViewAttributesWrapper.cs" />
+    <Compile Include="Wrappers\PowerShunt\PowerShuntViewAttributesWrapper.cs" />
+    <Compile Include="Wrappers\PowerShunt\PowerSystemViewAttributesWrapper.cs" />
     <Compile Include="Wrappers\RelicAttributesWrapper.cs" />
     <Compile Include="Wrappers\ResourceAttributesWrapper.cs" />
     <Compile Include="Wrappers\PowerShunt\PowerLevelAttributesWrapper.cs" />

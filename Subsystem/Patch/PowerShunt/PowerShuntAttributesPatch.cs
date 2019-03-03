@@ -42,6 +42,12 @@ namespace Subsystem.Patch
 				HeatSystem.Apply(loader, inventoryAttributesWrapper, null);
 				powerShuntAttributesWrapper.HeatSystem = inventoryAttributesWrapper;
 			}
+			if (View != null)
+			{
+				PowerShuntViewAttributesWrapper powerShuntViewAttributesWrapper = new PowerShuntViewAttributesWrapper(powerShuntAttributesWrapper.View);
+				View.Apply(loader, powerShuntViewAttributesWrapper, null);
+				powerShuntAttributesWrapper.View = powerShuntViewAttributesWrapper;
+			}
 		}
 
 		public double? PowerLevelChargeTimeSeconds { get; set; }
@@ -55,6 +61,6 @@ namespace Subsystem.Patch
 		public InventoryAttributesPatch ReservePowerPool { get; set; }
 		public InventoryAttributesPatch OverheatingPool { get; set; }
 		public InventoryAttributesPatch HeatSystem { get; set; }
-		//public PowerShuntViewAttributes View { get; set; }
+		public PowerShuntViewAttributesPatch View { get; set; }
 	}
 }

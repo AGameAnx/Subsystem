@@ -17,11 +17,19 @@ namespace Subsystem.Patch
 			var statusEffects = powerLevelAttributesWrapper.StatusEffectsToApply?.Select(x => new StatusEffectAttributesWrapper(x)).ToList() ?? new List<StatusEffectAttributesWrapper>();
 			loader.ApplyNamedListPatch(StatusEffectsToApply, statusEffects, (x) => new StatusEffectAttributesWrapper(x), "StatusEffectsToApply");
 			powerLevelAttributesWrapper.StatusEffectsToApply = statusEffects.ToArray();
+
+			if (LocalizedShortDescriptionStringID != null)
+			{
+				PowerLevelViewAttributesWrapper powerLevelViewAttributesWrapper = new PowerLevelViewAttributesWrapper(powerLevelAttributesWrapper.View);
+				loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, () => powerLevelViewAttributesWrapper.LocalizedShortDescriptionStringID);
+				powerLevelAttributesWrapper.View = powerLevelViewAttributesWrapper;
+			}
 		}
 
 		public int? PowerUnitsRequired { get; set; }
 		public int? HeatPointsProvided { get; set; }
 		public Dictionary<string, StatusEffectAttributesPatch> StatusEffectsToApply { get; set; } = new Dictionary<string, StatusEffectAttributesPatch>();
-		//PowerLevelViewAttributes View { get; set; }
+
+		public string LocalizedShortDescriptionStringID { get; set; }
 	}
 }

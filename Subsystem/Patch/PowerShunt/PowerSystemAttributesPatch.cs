@@ -19,12 +19,19 @@ namespace Subsystem.Patch
 			var powerLevels = powerSystemAttributesWrapper.PowerLevels?.Select(x => new PowerLevelAttributesWrapper(x)).ToList() ?? new List<PowerLevelAttributesWrapper>();
 			loader.ApplyListPatch(PowerLevels, powerLevels, () => new PowerLevelAttributesWrapper(), "PowerLevels");
 			powerSystemAttributesWrapper.PowerLevels = powerLevels.ToArray();
+
+			if (View != null)
+			{
+				PowerSystemViewAttributesWrapper powerSystemViewAttributesWrapper = new PowerSystemViewAttributesWrapper(powerSystemAttributesWrapper.View);
+				View.Apply(loader, powerSystemViewAttributesWrapper, null);
+				powerSystemAttributesWrapper.View = powerSystemViewAttributesWrapper;
+			}
 		}
 
 		public PowerSystemType? PowerSystemType { get; set; }
 		public int? StartingPowerLevelIndex { get; set; }
 		public int? StartingMaxPowerLevelIndex { get; set; }
 		public Dictionary<string, PowerLevelAttributesPatch> PowerLevels { get; set; } = new Dictionary<string, PowerLevelAttributesPatch>();
-		//PowerSystemViewAttributes View { get; set; }
+		PowerSystemViewAttributesPatch View { get; set; }
 	}
 }

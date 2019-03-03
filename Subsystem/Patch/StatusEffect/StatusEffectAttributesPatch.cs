@@ -82,7 +82,7 @@ namespace Subsystem.Patch
 								continue;
 							}
 
-							loader.logger.Log("(created)");
+							loader.logger.BeginScope("(created)").Dispose();
 
 							newValue = new ModifierAttributes();
 						}

@@ -33,6 +33,10 @@
   <ItemGroup>
     <Reference Include="BBI.Core" />
     <Reference Include="BBI.Game.Data" />
+    <Reference Include="BBI.Unity.Game.Data, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\_ProgramFiles\SteamApps\SteamApps\common\Deserts of Kharak\Data\Managed\BBI.Unity.Game.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +46,7 @@
     <Reference Include="UnityEngine" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patch\Ability\AbilityViewAttributesPatch.cs" />
     <Compile Include="Patch\Ability\ChainCastingAttributesAttributesPatch.cs" />
     <Compile Include="Patch\Ability\AutoToggleOffConditionsAttributesPatch.cs" />
     <Compile Include="Patch\Ability\AirSortieAttributesPatch.cs" />
@@ -58,6 +63,10 @@
     <Compile Include="Patch\ResourceAttributesPatch.cs" />
     <Compile Include="Patch\Projectile\ProjectileMotionStagePatch.cs" />
     <Compile Include="Patch\Projectile\ProjectileAttributesPatch.cs" />
+    <Compile Include="Patch\TechTree\TechTreeTierPatch.cs" />
+    <Compile Include="Patch\TechTree\TechUpgradePatch.cs" />
+    <Compile Include="Patch\TechTree\TechTreePatch.cs" />
+    <Compile Include="Patch\TechTree\TechTreeAttributesPatch.cs" />
     <Compile Include="SubsystemPatch.cs" />
     <Compile Include="IRemovable.cs" />
     <Compile Include="Patch\Ability\AbilityAttributesPatch.cs" />
@@ -110,6 +119,10 @@
     <Compile Include="Patch\Hangar\HangarBayPatch.cs" />
     <Compile Include="Wrappers\Projectile\ProjectileMotionStageWrapper.cs" />
     <Compile Include="Wrappers\Projectile\ProjectileAttributesWrapper.cs" />
+    <Compile Include="Wrappers\TechTree\TechUpgradeWrapper.cs" />
+    <Compile Include="Wrappers\TechTree\TechTreeTierWrapper.cs" />
+    <Compile Include="Wrappers\TechTree\TechTreeWrapper.cs" />
+    <Compile Include="Wrappers\TechTree\TechTreeAttributesWrapper.cs" />
     <Compile Include="Wrappers\Weapon\EntityTypeToSpawnAttributesWrapper.cs" />
     <Compile Include="Wrappers\Experience\ExperienceAttributesWrapper.cs" />
     <Compile Include="Wrappers\Experience\ExperienceLevelAttributesWrapper.cs" />

@@ -164,7 +164,7 @@ namespace Subsystem.Patch
 					}
 					else
 					{
-						loader.logger.Log("(created)");
+						loader.logger.BeginScope("(created)").Dispose();
 						rangeWrapper = new RangeBasedWeaponAttributesWrapper(weaponRange);
 					}
 

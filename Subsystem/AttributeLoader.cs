@@ -1,6 +1,7 @@
 ﻿using BBI.Core;
 using BBI.Core.Data;
 using BBI.Game.Data;
+using BBI.Unity.Game.Data;
 using LitJson;
 using Subsystem.Wrappers;
 using System;
@@ -30,13 +31,9 @@ namespace Subsystem
 			{
 				AttributesPatch attributesPatch = JsonMapper.ToObject<AttributesPatch>(AttributeLoader.GetPatchData());
 				if (attributesPatch != null)
-				{
 					ApplyAttributesPatch(entityTypeCollection, attributesPatch);
-				}
 				else
-				{
 					writer.WriteLine("Patch file empty or not found");
-				}
 			}
 			catch (Exception e)
 			{
@@ -83,16 +80,42 @@ namespace Subsystem
 		{
 			foreach (var kvp in attributesPatch.Entities)
 			{
-				var entityTypeName = kvp.Key;
-				var entityTypePatch = kvp.Value;
+				string entityTypeName = kvp.Key;
+				EntityTypePatch entityTypePatch = kvp.Value;
 
-				var entityType = entityTypeCollection.GetEntityType(entityTypeName);
+				EntityTypeAttributes entityType;
+				if (!entityTypePatch.CloneFrom.IsNullOrEmpty())
+				{
+					EntityTypeAttributes toClone = entityTypeCollection.GetEntityType(entityTypePatch.CloneFrom);
+					if (toClone == null)
+					{
+						logger.Log($"ERROR: CloneFrom {entityTypePatch.CloneFrom} attributes not found");
+						continue;
+					}
+
+					entityType = new EntityTypeAttributes(entityTypeName) { Flags = toClone.Flags };
+
+					var attributes = toClone.GetAll<object>();
+					foreach (var w in attributes)
+						entityType.Add(w);
+
+					entityTypeCollection.Add(entityType);
+
+					logger.BeginScope($"Cloned {entityTypeName} from {entityTypePatch.CloneFrom}").Dispose();
+				}
+				else
+				{
+					entityType = entityTypeCollection.GetEntityType(entityTypeName);
+				}
 
 				using (logger.BeginScope($"EntityType: {entityTypeName}"))
 				{
 					if (entityType == null)
 					{
-						logger.Log($"NOTICE: EntityType not found");
+						if (entityTypePatch.CloneFrom.IsNullOrEmpty())
+							logger.Log("NOTICE: EntityType not found");
+						else
+							logger.Log("ERROR: Entity cloning failed");
 						continue;
 					}
 
@@ -118,9 +141,14 @@ namespace Subsystem
 						entityType, entityTypePatch.ResourceAttributes, x => new ResourceAttributesWrapper(x));
 					applyUnnamedComponentPatch<RelicAttributes, RelicAttributesWrapper>(
 						entityType, entityTypePatch.RelicAttributes, x => new RelicAttributesWrapper(x));
+					applyUnnamedComponentPatch<TechTreeAttributes, TechTreeAttributesWrapper>(
+						entityType, entityTypePatch.TechTreeAttributes, x => new TechTreeAttributesWrapper(x));
 
 					applyNamedComponentPatch<AbilityAttributes, AbilityAttributesWrapper, Patch.AbilityAttributesPatch>(
 						entityType, entityTypePatch.AbilityAttributes, x => new AbilityAttributesWrapper(x));
+					applyNamedComponentPatch<AbilityViewAttributes, AbilityViewAttributes, Patch.AbilityViewAttributesPatch>(
+						entityType, entityTypePatch.AbilityViewAttributes, x => x);
+
 					applyNamedComponentPatch<StorageAttributes, StorageAttributesWrapper, Patch.StorageAttributesPatch>(
 						entityType, entityTypePatch.StorageAttributes, x => new StorageAttributesWrapper(x));
 					applyNamedComponentPatch<WeaponAttributes, WeaponAttributesWrapper, Patch.WeaponAttributesPatch>(
@@ -131,15 +159,17 @@ namespace Subsystem
 			Debug.Log($"[SUBSYSTEM] Applied attributes patch. See Subsystem.log for details.");
 		}
 
-		private void applyUnnamedComponentPatch<TAttributes, TWrapper>(EntityTypeAttributes entityType, SubsystemPatch patch, Func<TAttributes, TWrapper> createWrapper)
+		private void applyUnnamedComponentPatch<TAttributes, TWrapper>(
+			EntityTypeAttributes entityType, SubsystemPatch patch, Func<TAttributes, TWrapper> createWrapper)
 			where TAttributes : class
 			where TWrapper : TAttributes
 		{
 			if (patch != null)
 				applyComponentPatch(entityType, patch, createWrapper);
 		}
-
-		private void applyNamedComponentPatch<TAttributes, TWrapper, TSubsystemPatch>(EntityTypeAttributes entityType, Dictionary<string, TSubsystemPatch> patch, Func<TAttributes, TWrapper> createWrapper)
+		
+		private void applyNamedComponentPatch<TAttributes, TWrapper, TSubsystemPatch>(
+			EntityTypeAttributes entityType, Dictionary<string, TSubsystemPatch> patch, Func<TAttributes, TWrapper> createWrapper)
 			where TAttributes : class
 			where TWrapper : TAttributes
 			where TSubsystemPatch : SubsystemPatch
@@ -148,7 +178,8 @@ namespace Subsystem
 				applyComponentPatch(entityType, kvp.Value, createWrapper, kvp.Key);
 		}
 
-		private void applyComponentPatch<TAttributes, TWrapper>(EntityTypeAttributes entityType, SubsystemPatch patch, Func<TAttributes, TWrapper> createWrapper, string name = null)
+		private void applyComponentPatch<TAttributes, TWrapper>(
+			EntityTypeAttributes entityType, SubsystemPatch patch, Func<TAttributes, TWrapper> createWrapper, string name = null)
 			where TAttributes : class
 			where TWrapper : TAttributes
 		{
@@ -160,7 +191,7 @@ namespace Subsystem
 
 				if (attributes == null)
 				{
-					logger.Log($"ERROR: {typeof(TAttributes).Name} not found");
+					logger.Log($"ERROR: {typeof(TAttributes).Name}" + (name != null ? $": {name}" : "") + " not found");
 					return;
 				}
 
@@ -258,7 +289,8 @@ namespace Subsystem
 			}
 		}
 
-		public void ApplyListPatch<TWrapper, TPatchType>(Dictionary<string, TPatchType> patch, List<TWrapper> wrappers, Func<TWrapper> createWrapper, string elementName, bool disableCreation = false)
+		public void ApplyListPatch<TWrapper, TPatchType>(
+			Dictionary<string, TPatchType> patch, List<TWrapper> wrappers, Func<TWrapper> createWrapper, string elementName, bool disableCreation = false)
 			where TWrapper : class
 			where TPatchType: SubsystemPatch
 		{
@@ -277,8 +309,8 @@ namespace Subsystem
 
 			foreach (var kvp in parsed.OrderBy(p => p.Key))
 			{
-				var index = kvp.Key;
-				var elementPatch = kvp.Value;
+				int index = kvp.Key;
+				TPatchType elementPatch = kvp.Value;
 
 				using (logger.BeginScope($"{elementName}: {index}"))
 				{
@@ -313,7 +345,7 @@ namespace Subsystem
 							continue;
 						}
 
-						logger.Log("(created)");
+						logger.BeginScope("(created)").Dispose();
 						var elementWrapper = createWrapper(); // Deal with INamed?
 
 						elementPatch.Apply(this, elementWrapper, null);
@@ -330,7 +362,70 @@ namespace Subsystem
 
 			wrappers.RemoveAll(x => x == null);
 		}
-		
+
+		public void ApplyNamedListPatch<TWrapper, TPatchType>(
+			Dictionary<string, TPatchType> patch, List<TWrapper> wrappers, Func<string, TWrapper> createWrapper, string elementName)
+			where TWrapper : NamedObjectBase
+			where TPatchType : SubsystemPatch
+		{
+			logger.BeginScope($"Existing entry list: {String.Join(", ", wrappers.Select(x => x.Name).ToArray())}").Dispose();
+
+			foreach (var kvp in patch)
+			{
+				string key = kvp.Key;
+				TPatchType elementPatch = kvp.Value;
+
+				using (logger.BeginScope($"{elementName}: {key}"))
+				{
+					var remove = elementPatch is IRemovable removable && removable.Remove;
+
+					int index = -1;
+
+					foreach (var w in wrappers)
+					{
+						if (w.Name == key)
+						{
+							index = wrappers.IndexOf(w);
+							break;
+						}
+					}
+
+					if (index >= 0)
+					{
+						if (remove)
+						{
+							logger.Log("(removed)");
+							wrappers[index] = null;
+							continue;
+						}
+
+						var elementWrapper = wrappers[index];
+
+						elementPatch.Apply(this, elementWrapper, null);
+
+						wrappers[index] = elementWrapper;
+					}
+					else
+					{
+						if (remove)
+						{
+							logger.Log("WARNING: Remove flag set for non-existent entry");
+							continue;
+						}
+
+						logger.BeginScope("(created)").Dispose();
+						var elementWrapper = createWrapper(key);
+
+						elementPatch.Apply(this, elementWrapper, null);
+
+						wrappers.Add(elementWrapper);
+					}
+				}
+			}
+
+			wrappers.RemoveAll(x => x == null);
+		}
+
 		public static string PatchOverrideData { get; set; } = "";
 	}
 }

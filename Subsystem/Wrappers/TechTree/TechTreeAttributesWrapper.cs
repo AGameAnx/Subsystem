@@ -8,7 +8,7 @@ namespace Subsystem.Wrappers
 	{
 		public TechTreeAttributesWrapper(TechTreeAttributes other) : base(other.Name)
 		{
-			TechTrees = other.TechTrees.ToArray();
+			TechTrees = other.TechTrees?.ToArray();
 		}
 
 		public TechTree[] TechTrees { get; set; }

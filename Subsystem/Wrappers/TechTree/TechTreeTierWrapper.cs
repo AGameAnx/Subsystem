@@ -12,7 +12,7 @@ namespace Subsystem.Wrappers
 
 		public TechTreeTierWrapper(TechTreeTier other)
 		{
-			ResearchItems = other.ResearchItems.ToArray();
+			ResearchItems = other.ResearchItems?.ToArray();
 			TierName = other.TierName;
 		}
 

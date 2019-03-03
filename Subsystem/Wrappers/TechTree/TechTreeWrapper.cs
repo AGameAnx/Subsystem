@@ -12,8 +12,8 @@ namespace Subsystem.Wrappers
 
 		public TechTreeWrapper(TechTree other)
 		{
-			Tiers = other.Tiers.ToArray();
-			Upgrades = other.Upgrades.ToArray();
+			Tiers = other.Tiers?.ToArray();
+			Upgrades = other.Upgrades?.ToArray();
 			TechTreeName = other.TechTreeName;
 			IconSpriteName = other.IconSpriteName;
 		}

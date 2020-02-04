@@ -32,6 +32,6 @@ namespace Subsystem.Patch
 		public int? StartingPowerLevelIndex { get; set; }
 		public int? StartingMaxPowerLevelIndex { get; set; }
 		public Dictionary<string, PowerLevelAttributesPatch> PowerLevels { get; set; } = new Dictionary<string, PowerLevelAttributesPatch>();
-		PowerSystemViewAttributesPatch View { get; set; }
+		public PowerSystemViewAttributesPatch View { get; set; }
 	}
 }

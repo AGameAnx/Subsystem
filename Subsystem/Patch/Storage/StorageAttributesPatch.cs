@@ -1,5 +1,6 @@
 ﻿using Subsystem.Wrappers;
 using BBI.Game.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +17,8 @@ namespace Subsystem.Patch
 			loader.ApplyPropertyPatch(IsResourceController, () => storageAttributesWrapper.IsResourceController);
 
 			var loadout = storageAttributesWrapper.InventoryLoadout.ToList();
+
+			loader.logger.BeginScope($"Available inventory IDs: {String.Join(", ", loadout.Select(x => x.InventoryID).ToArray())}").Dispose();
 
 			foreach (var kvp in InventoryLoadout)
 			{

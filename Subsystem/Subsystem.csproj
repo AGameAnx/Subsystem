@@ -46,6 +46,9 @@
     <Reference Include="UnityEngine" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WeaponDPSInfo.cs" />
+    <Compile Include="StatsSheetSettings.cs" />
+    <Compile Include="PatchMetaInfo.cs" />
     <Compile Include="Patch\Ability\AbilityViewAttributesPatch.cs" />
     <Compile Include="Patch\Ability\ChainCastingAttributesAttributesPatch.cs" />
     <Compile Include="Patch\Ability\AutoToggleOffConditionsAttributesPatch.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Patch\TechTree\TechUpgradePatch.cs" />
     <Compile Include="Patch\TechTree\TechTreePatch.cs" />
     <Compile Include="Patch\TechTree\TechTreeAttributesPatch.cs" />
+    <Compile Include="StatsSheetGenerator.cs" />
     <Compile Include="SubsystemPatch.cs" />
     <Compile Include="IRemovable.cs" />
     <Compile Include="Patch\Ability\AbilityAttributesPatch.cs" />

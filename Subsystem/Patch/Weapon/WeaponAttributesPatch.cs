@@ -2,7 +2,6 @@
 using BBI.Core.Data;
 using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -197,38 +196,23 @@ namespace Subsystem.Patch
 
 				if (weaponAttributesWrapper.RateOfFire > 0)
 				{
+					WeaponDPSInfo weaponDPSInfo = new WeaponDPSInfo(weaponAttributesWrapper);
+
 					loader.logger.Log("");
+					loader.logger.Log($"averageShotsPerBurst: {weaponDPSInfo.AverageShotsPerBurst:F4}");
+					loader.logger.Log($"trueROF: {weaponDPSInfo.TrueROF:F4}");
+					loader.logger.Log($"sequenceDuration: {weaponDPSInfo.SequenceDuration:F4}");
+					loader.logger.Log($"Pure DPS (excluding accuracy and armor): {weaponDPSInfo.PureDPS:F4}");
 
-					int burstVariance = weaponAttributesWrapper.BurstPeriodMaxTimeMS - weaponAttributesWrapper.BurstPeriodMinTimeMS;
-
-					int shotDuration = Math.Max(1, 1000 / weaponAttributesWrapper.RateOfFire);
-
-					int shotsMin = Math.Max(1, weaponAttributesWrapper.BurstPeriodMinTimeMS / shotDuration);
-					int shotsMax = Math.Max(1, weaponAttributesWrapper.BurstPeriodMaxTimeMS / shotDuration);
-
-					int lowBracket = Math.Min(weaponAttributesWrapper.BurstPeriodMinTimeMS, shotDuration - 1 - (weaponAttributesWrapper.BurstPeriodMinTimeMS - shotsMin * shotDuration));
-					int midBracket = Math.Max(0, shotsMax - shotsMin - 1) * shotDuration;
-					int highBracket = shotsMin < shotsMax ? weaponAttributesWrapper.BurstPeriodMaxTimeMS - shotsMax * shotDuration + 1 : 0;
-
-					double avgBurst = (weaponAttributesWrapper.BurstPeriodMaxTimeMS + weaponAttributesWrapper.BurstPeriodMinTimeMS) * 0.5;
-
-					double averageShotsPerBurst = burstVariance == 0 ? shotsMin : (double)(shotsMin * lowBracket + (shotsMax + shotsMin) / 2 * midBracket + shotsMax * highBracket) / (lowBracket + midBracket + highBracket);
-					double trueROF = averageShotsPerBurst / avgBurst * 1000;
-
-					double sequenceDuration = (weaponAttributesWrapper.WindUpTimeMS + (avgBurst + weaponAttributesWrapper.CooldownTimeMS) * (weaponAttributesWrapper.NumberOfBursts - 1) + avgBurst + weaponAttributesWrapper.ReloadTimeMS) / 1000;
-
-					loader.logger.Log($"averageShotsPerBurst: {averageShotsPerBurst:F4}");
-					loader.logger.Log($"trueROF: {trueROF:F4}");
-					loader.logger.Log($"sequenceDuration: {sequenceDuration:F4}");
-
-					for (double armor = 0; armor <= 18; armor += 6)
+					for (int armor = 0; armor <= 18; armor += 6)
 					{
+						Dictionary<WeaponRange, double> weaponArmorDPS = weaponDPSInfo.ArmorDPS(armor);
 						using (loader.logger.BeginScope($"Armor {armor} DPS:"))
 						{
-							double dps = Math.Max(1, Fixed64.UnsafeDoubleValue(weaponAttributesWrapper.BaseDamagePerRound) - armor * weaponAttributesWrapper.DamagePacketsPerShot) * averageShotsPerBurst * weaponAttributesWrapper.NumberOfBursts / sequenceDuration;
 							foreach (var range in weaponAttributesWrapper.Ranges)
 							{
-								loader.logger.Log($"{range.Range,6} ({range.Distance,5:D} /{(int)Fixed64.UnsafeDoubleValue(range.Accuracy),3:F2}%): {dps * Fixed64.UnsafeDoubleValue(range.Accuracy) / 100:F4}");
+								double accuracy = Fixed64.UnsafeDoubleValue(range.Accuracy) * 0.01;
+								loader.logger.Log($"{range.Range,6} ({range.Distance,5:D} /{accuracy*100,3:F2}%): {weaponArmorDPS[range.Range]:F4}");
 							}
 						}
 					}

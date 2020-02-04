@@ -15,9 +15,13 @@ namespace Subsystem
 {
 	public class AttributeLoader
 	{
-		public readonly StringLogger logger;
+		public StatsSheetSettings statsSheetSettings = new StatsSheetSettings();
+		public PatchMetaInfo metaInfo;
 
+		public readonly StringLogger logger;
 		private readonly StringWriter writer;
+
+		public static string PatchOverrideData { get; set; } = "";
 
 		public AttributeLoader()
 		{
@@ -31,7 +35,13 @@ namespace Subsystem
 			{
 				AttributesPatch attributesPatch = JsonMapper.ToObject<AttributesPatch>(AttributeLoader.GetPatchData());
 				if (attributesPatch != null)
+				{
+					statsSheetSettings = attributesPatch.StatsSheetSettings;
+					if (attributesPatch.Meta != null)
+						metaInfo = attributesPatch.Meta;
+
 					ApplyAttributesPatch(entityTypeCollection, attributesPatch);
+				}
 				else
 					writer.WriteLine("Patch file empty or not found");
 			}
@@ -39,6 +49,13 @@ namespace Subsystem
 			{
 				Debug.LogWarning($"[SUBSYSTEM] Error applying patch file: {e}");
 				writer.WriteLine($"Error applying patch file: {e}");
+			}
+
+			if (statsSheetSettings.Generate)
+			{
+				Debug.LogWarning("[SUBSYSTEM] Generating stats sheet...");
+				new StatsSheetGenerator(statsSheetSettings).Generate(entityTypeCollection);
+				Debug.LogWarning("[SUBSYSTEM] Stats sheet generated!");
 			}
 
 			File.WriteAllText(Path.Combine(Application.dataPath, "Subsystem.log"), writer.ToString());
@@ -425,7 +442,5 @@ namespace Subsystem
 
 			wrappers.RemoveAll(x => x == null);
 		}
-
-		public static string PatchOverrideData { get; set; } = "";
 	}
 }

@@ -60,16 +60,15 @@ To use this in multiplayer, all players in the game **must** have the same versi
 
 ### Modifiable Attributes
 
-See these source files for a list of attributes that can be modified:
-
-* [AbilityAttributesPatch.cs](https://github.com/Majiir/Subsystem/blob/develop/Subsystem/AbilityAttributesPatch.cs)
-* [ResearchItemAttributesPatch.cs](https://github.com/Majiir/Subsystem/blob/develop/Subsystem/ResearchItemAttributesPatch.cs)
-* [UnitAttributesPatch.cs](https://github.com/Majiir/Subsystem/blob/develop/Subsystem/UnitAttributesPatch.cs)
-* [WeaponAttributesPatch.cs](https://github.com/Majiir/Subsystem/blob/develop/Subsystem/WeaponAttributesPatch.cs)
+See the **patch** source files for a list of attributes that can be modified: https://github.com/AGameAnx/Subsystem/tree/master/Subsystem/Patch
 
 ### Entity Names
 
-This gist shows a dump of all named entity components: https://gist.github.com/Majiir/1c78930ad70a16e1bd9a116948f55409
+These gist show dumps of all named entity components:
+
+https://gist.github.com/Majiir/1c78930ad70a16e1bd9a116948f55409
+
+https://gist.github.com/Majiir/7af5032b89eea5f5b141fdec17faafc8
 
 ### Serialization Notes
 

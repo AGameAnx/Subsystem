@@ -2,10 +2,6 @@
 
 Subsystem is a mod loader for _Homeworld: Deserts of Kharak_. It aims to have a safe, auditable and data-oriented design.
 
-### Disclaimer
-
-Subsystem is currently in alpha. It may be extremely unstable, and it's not likely to provide useful debugging information. Use at your own risk, and please try to dig into logs on your own before reporting crashes or other odd behavior.
-
 ## Installation
 
 Place `Subsystem.dll` and `BBI.Unity.Game.dll` in the `Deserts of Kharak/Data/Managed/` folder. 

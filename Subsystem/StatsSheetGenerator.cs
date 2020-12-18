@@ -502,7 +502,7 @@ namespace Subsystem
 								Print($"sequenceDuration: {weaponDPSInfo.SequenceDuration}");
 								if (dps)
 								{
-									using (BeginScope("dpsvsArmor"))
+									using (BeginScope("dpsVsArmor"))
 									{
 										int[] armorVals = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 18, 21, 25, 50, 75, 100 };
 										for (int j = 0; j < armorVals.Length; ++j)
@@ -510,7 +510,7 @@ namespace Subsystem
 											using (BeginScope(armorVals[j].ToString()))
 											{
 												double armorDPS = weaponDPSInfo.ArmorDPS(armorVals[j]);
-												Print($"dps: {armorDPS}");
+												Print($"dpsBeforeAccuracy: {armorDPS}");
 
 												using (BeginScope("accuracyDps"))
 												{
@@ -520,6 +520,18 @@ namespace Subsystem
 												}
 											}
 										}
+									}
+								}
+								else
+								{
+									double armorDPS = weaponDPSInfo.ArmorDPS(0);
+									Print($"dpsBeforeAccuracy: {armorDPS}");
+
+									using (BeginScope("accuracyDps"))
+									{
+										Dictionary<WeaponRange, double> rangeDPS = weaponDPSInfo.RangeDPS(armorDPS);
+										foreach (RangeBasedWeaponAttributes r in w.Ranges)
+											Print($"{Enum.GetName(typeof(WeaponRange), r.Range)}: {rangeDPS[r.Range]}");
 									}
 								}
 							}

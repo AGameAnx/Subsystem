@@ -66,15 +66,22 @@ namespace Subsystem
 			}
 		}
 
-		public Dictionary<WeaponRange, double> ArmorDPS(int armor = 0)
+		public double ArmorDPS(int armor = 0)
+		{
+			return Math.Max(1, Fixed64.UnsafeDoubleValue(Weapon.BaseDamagePerRound) - armor * Weapon.DamagePacketsPerShot) * AverageShotsPerBurst * Weapon.NumberOfBursts / SequenceDuration;
+		}
+
+		public Dictionary<WeaponRange, double> RangeDPS(double armorDPS)
 		{
 			Dictionary<WeaponRange, double> result = new Dictionary<WeaponRange, double>();
-
-			double dps = Math.Max(1, Fixed64.UnsafeDoubleValue(Weapon.BaseDamagePerRound) - armor * Weapon.DamagePacketsPerShot) * AverageShotsPerBurst * Weapon.NumberOfBursts / SequenceDuration;
 			foreach (var range in Weapon.Ranges.OrderBy(r => r.Range))
-				result[range.Range] = dps * Math.Min(1, Math.Max(0, Fixed64.UnsafeDoubleValue(range.Accuracy) * 0.01));
-
+				result[range.Range] = armorDPS * Math.Min(1, Math.Max(0, Fixed64.UnsafeDoubleValue(range.Accuracy) * 0.01));
 			return result;
+		}
+
+		public Dictionary<WeaponRange, double> RangeDPS(int armor = 0)
+		{
+			return RangeDPS(ArmorDPS(armor));
 		}
 	}
 }

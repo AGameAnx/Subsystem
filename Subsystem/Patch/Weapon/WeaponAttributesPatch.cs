@@ -199,20 +199,22 @@ namespace Subsystem.Patch
 					WeaponDPSInfo weaponDPSInfo = new WeaponDPSInfo(weaponAttributesWrapper);
 
 					loader.logger.Log("");
-					loader.logger.Log($"averageShotsPerBurst: {weaponDPSInfo.AverageShotsPerBurst:F4}");
-					loader.logger.Log($"trueROF: {weaponDPSInfo.TrueROF:F4}");
-					loader.logger.Log($"sequenceDuration: {weaponDPSInfo.SequenceDuration:F4}");
-					loader.logger.Log($"Pure DPS (excluding accuracy and armor): {weaponDPSInfo.PureDPS:F4}");
+					loader.logger.Log($"AverageShotsPerBurst: {weaponDPSInfo.AverageShotsPerBurst:F4}");
+					loader.logger.Log($"TrueROF: {weaponDPSInfo.TrueROF:F4}");
+					loader.logger.Log($"SequenceDuration: {weaponDPSInfo.SequenceDuration:F4}");
+					loader.logger.Log($"PureDPS: {weaponDPSInfo.PureDPS:F4}");
 
 					for (int armor = 0; armor <= 18; armor += 6)
 					{
-						Dictionary<WeaponRange, double> weaponArmorDPS = weaponDPSInfo.ArmorDPS(armor);
-						using (loader.logger.BeginScope($"Armor {armor} DPS:"))
+						using (loader.logger.BeginScope($"Armor{armor}DPS:"))
 						{
+							double armorDPS = weaponDPSInfo.ArmorDPS(armor);
+							Dictionary<WeaponRange, double> rangeDPS = weaponDPSInfo.RangeDPS(armorDPS);
+							loader.logger.Log($"pure: {armorDPS:F4}");
 							foreach (var range in weaponAttributesWrapper.Ranges)
 							{
 								double accuracy = Fixed64.UnsafeDoubleValue(range.Accuracy) * 0.01;
-								loader.logger.Log($"{range.Range,6} ({range.Distance,5:D} /{accuracy*100,3:F2}%): {weaponArmorDPS[range.Range]:F4}");
+								loader.logger.Log($"{range.Range,6} ({range.Distance,5:D} /{accuracy*100,3:F2}%): {rangeDPS[range.Range]:F4}");
 							}
 						}
 					}

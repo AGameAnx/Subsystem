@@ -314,8 +314,13 @@ namespace Subsystem
 			//Print($"uniqueTypeName: {buffSet.UniqueTypeName}");
 			//using (BeginScope($"buffs"))
 			//{
-				foreach (var buff in buffSet.Buffs)
+			foreach (var buff in buffSet.Buffs)
+			{
+				using (BeginScope())
+				{
 					OutputForBuff(buff);
+				}
+			}
 			//}
 		}
 
@@ -455,8 +460,13 @@ namespace Subsystem
 					{
 						using (BeginScope(w.Name))
 						{
+							Print($"damageType: {w.DamageType}");
 							Print($"dmg: {w.BaseDamagePerRound}");
 							Print($"packets: {w.DamagePacketsPerShot}");
+							Print($"excludeFromHighGround: {w.ExcludeFromHeightAdvantage}");
+							Print($"lineOfSightRequired: {w.LineOfSightRequired}");
+							Print($"friendlyFireDamageScalar: {w.FriendlyFireDamageScalar}");
+							Print($"leadsTarget: {w.LeadsTarget}");
 							Print($"windUp: {w.WindUpTimeMS}");
 							Print($"windDown: {w.WindDownTimeMS}");
 							Print($"rof: {w.RateOfFire}");
@@ -476,6 +486,24 @@ namespace Subsystem
 									{
 										Print($"distance: {r.Distance}");
 										Print($"accuracy: {r.Accuracy}");
+									}
+								}
+							}
+
+							if (w.Modifiers.Length > 0)
+							{
+								using (BeginScope($"modifiers"))
+								{
+									for (int j = 0; j < w.Modifiers.Length; ++j)
+									{
+										WeaponModifierInfo modifierInfo = w.Modifiers[j];
+										using (BeginScope(j.ToString()))
+										{
+											Print($"targetClass: {modifierInfo.TargetClass}");
+											Print($"classOperator: {modifierInfo.ClassOperator}");
+											Print($"modifierType: {modifierInfo.Modifier}");
+											Print($"amount: {modifierInfo.Amount}");
+										}
 									}
 								}
 							}
@@ -503,68 +531,35 @@ namespace Subsystem
 							}
 
 							WeaponDPSInfo weaponDPSInfo = new WeaponDPSInfo(w);
-							using (BeginScope("dps"))
+							using (BeginScope("dpsInfo"))
 							{
 								Print($"avgShots: {weaponDPSInfo.AverageShotsPerBurst}");
-								Print($"trueRof: {weaponDPSInfo.TrueROF}");
+								Print($"trueROF: {weaponDPSInfo.TrueROF}");
 								Print($"sequenceDuration: {weaponDPSInfo.SequenceDuration}");
-								Print($"pureDps: {weaponDPSInfo.PureDPS}");
-								using (BeginScope("dpsvsarmor"))
+								using (BeginScope("dpsvsArmor"))
 								{
 									int[] armorVals = { 0, 3, 6, 9, 12, 15, 18, 21, 25, 35, 50, 75, 100 };
 									for (int j = 0; j < armorVals.Length; ++j)
 									{
-										Dictionary<WeaponRange, double> armorDPS = weaponDPSInfo.ArmorDPS(armorVals[j]);
-										Print($"armor: {armorVals[j]}");
-										using (BeginScope("rangeDps"))
+										using (BeginScope(armorVals[j].ToString()))
 										{
-											foreach (RangeBasedWeaponAttributes r in w.Ranges)
+											double armorDPS = weaponDPSInfo.ArmorDPS(armorVals[j]);
+											Print($"dps: {armorDPS}");
+
+											using (BeginScope("accuracyDps"))
 											{
-												Print($"range: {Enum.GetName(typeof(WeaponRange), r.Range)}");
-												Print($"dps: {armorDPS[r.Range]}");
+												Dictionary<WeaponRange, double> rangeDPS = weaponDPSInfo.RangeDPS(armorDPS);
+												foreach (RangeBasedWeaponAttributes r in w.Ranges)
+												{
+													Print($"range: {Enum.GetName(typeof(WeaponRange), r.Range)}");
+													Print($"rangeDps: {rangeDPS[r.Range]}");
+												}
 											}
 										}
 									}
 								}
 							}
 
-							/*double maxDPS = 0;
-
-							Dictionary<WeaponRange, double>[] armorDPS = new Dictionary<WeaponRange, double>[armorVals.Length];
-							for (int j = 0; j < armorVals.Length; ++j)
-							{
-								armorDPS[j] = weaponDPSInfo.ArmorDPS(armorVals[j]);
-								foreach (RangeBasedWeaponAttributes r in w.Ranges)
-								{
-									if (armorDPS[j][r.Range] > maxDPS)
-										maxDPS = armorDPS[j][r.Range];
-								}
-							}
-
-							if (maxDPS < 10)
-								maxDPS += Math.Sqrt(10 - maxDPS);
-							else
-								maxDPS = Math.Max(50, maxDPS);
-
-							Print($"<canvas id=\"dpsChart_{entityTypeAttributes.Name}_{w.Name}\" width=\"550\" height=\"170\"></canvas>");
-							Print("<script>");
-							Print($"new Chart('dpsChart_{entityTypeAttributes.Name}_{w.Name}',");
-							Print($"{{type: 'line', options: {{elements: {{line: {{tension: 0.000001}}}}, scales: {{yAxes: [{{ticks: {{stepSize: {Math.Ceiling(maxDPS / 250) * 25}, min: 0, max: {Math.Ceiling(maxDPS)} }} }}] }} }}, data: {{");
-							Print($"labels: [{String.Join(", ", armorVals.Select(a => a.ToString()).ToArray())}],");
-							Print("datasets: [");
-
-							double[] dpsValues = new double[armorVals.Length];
-							foreach (RangeBasedWeaponAttributes r in w.Ranges)
-							{
-								Print($"{{label: 'DPS vs Armor on Range {Enum.GetName(typeof(WeaponRange), r.Range)}', data: [");
-
-								for (int j = 0; j < armorVals.Length; ++j)
-									dpsValues[j] = armorDPS[j][r.Range];
-
-								Print($"{String.Join(", ", dpsValues.Select(p => p.ToString()).ToArray())}");
-
-								Print("]},");
-							}*/
 						}
 					}
 				}

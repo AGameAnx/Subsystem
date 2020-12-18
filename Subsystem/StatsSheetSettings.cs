@@ -27,6 +27,33 @@ namespace Subsystem
 			}
 		}
 
+		public Dictionary<string, UnitSetting> CarrierList { get; set; } = new Dictionary<string, UnitSetting>()
+		{
+			{ "C_Carrier_MP", new UnitSetting("C Carrier", new string[] {
+				"C_Carrier_Weapon_G2All_MP",
+				"C_Carrier_Weapon_G2All_PenetrationShots_MP",
+				"C_CarrierMissiles_Weapon_A2G_MP",
+				"C_Carrier_Weapon_CruiseMissile_MP"
+			}) },
+			{ "C_Sob_Carrier_MP", new UnitSetting("S Carrier", new string[] {
+				"C_Sob_Carrier_Weapon_G2All_Dummy_MP",
+				"C_Sob_Carrier_Railgun_Weapon_G2G_MP",
+				"C_Sob_Carrier_Weapon_Nuke_MP"
+			}) },
+			{ "G_Carrier_MP", new UnitSetting("G Carrier", new string[] {
+				"G_Carrier_Weapon_G2All_MP",
+				"G_Carrier_Weapon_G2All_APBULLETS_MP",
+				"G_Carrier_Weapon_DefaultMissile_MP",
+				"G_Carrier_Weapon_BarrageMissile_MP"
+			}) },
+			{ "K_Carrier_MP", new UnitSetting("K Carrier", new string[] {
+				"K_Carrier_Weapon_G2All_MP",
+				"G_Carrier_Weapon_G2All_APBULLETS_MP",
+				"K_Carrier_Weapon_DefaultMissile_MP",
+				"K_Carrier_Weapon_BarrageMissile_MP"
+			}) }
+		};
+
 		public Dictionary<string, UnitSetting> UnitList { get; set; } = new Dictionary<string, UnitSetting>()
 		{
 			{ "C_Carrier_MP", new UnitSetting("C Carrier", new string[] {
@@ -188,7 +215,12 @@ namespace Subsystem
 			{ "G_ArtilleryCruiser_MP", new UnitSetting("G Siege Cruiser") },
 			{ "K_ArtilleryCruiser_MP", new UnitSetting("K Siege Cruiser") }
 		};
-
-		public string Filename { get; set; } = "patch_unit_stats.yml";
+		public string FilenameResearch { get; set; } = "Subsystem_stats_research.yml";
+		public string FilenameGeneral { get; set; } = "Subsystem_stats_general.yml";
+		public string FilenameCarrier { get; set; } = "Subsystem_stats_carrier.yml";
+		public string FilenameExperience { get; set; } = "Subsystem_stats_experience.yml";
+		public string FilenameMovement { get; set; } = "Subsystem_stats_movement.yml";
+		public string FilenameDPS { get; set; } = "Subsystem_stats_dps.yml";
+		//public string FilenameOther { get; set; } = "Subsystem_stats_other.yml";
 	}
 }

@@ -81,23 +81,12 @@ namespace Subsystem
 
 		public void Generate(EntityTypeCollection entityTypeCollection)
 		{
+			System.Text.StringBuilder sb = writer.GetStringBuilder();
+
 			indent = 0;
 
-			/*using (BeginScope("ranges"))
-			{
-				WeaponRange[] allRanges = (WeaponRange[])Enum.GetValues(typeof(WeaponRange));
-				for (int i = 0; i < allRanges.Length; ++i)
-					Print($"- {allRanges[i]}");
-			}
-
-			using (BeginScope("falloffTypes"))
-			{
-				AOEFalloffType[] allFallofftypes = (AOEFalloffType[])Enum.GetValues(typeof(AOEFalloffType));
-				for (int i = 0; i < allFallofftypes.Length; ++i)
-					Print($" - {allFallofftypes[i]}");
-			}*/
-
-			/*using (BeginScope("techTrees"))
+			// Tech / Research
+			using (BeginScope("techTrees"))
 			{
 				foreach (var treeName in settings.TechTrees)
 				{
@@ -105,8 +94,7 @@ namespace Subsystem
 					if (entityTypeAttributes != null)
 						OutputForTechTree(entityTypeAttributes);
 				}
-			}*/
-
+			}
 			using (BeginScope("tierResearch"))
 			{
 				foreach (var treeName in settings.TechTrees)
@@ -116,7 +104,6 @@ namespace Subsystem
 						OutputForTierResearch(entityTypeCollection, entityTypeAttributes);
 				}
 			}
-
 			using (BeginScope("upgradeResearch"))
 			{
 				foreach (var treeName in settings.TechTrees)
@@ -126,20 +113,84 @@ namespace Subsystem
 						OutputForUpgradeResearch(entityTypeCollection, entityTypeAttributes);
 				}
 			}
+			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameResearch), writer.ToString());
+			sb.Remove(0, sb.Length);
 
-			using (BeginScope("units"))
+			// General
+			foreach (var kvp in settings.UnitList)
 			{
-				foreach (var kvp in settings.UnitList)
-				{
-					EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(kvp.Key);
-					if (entityTypeAttributes == null)
-						Debug.Log($"[SUBSYSTEM] StatsSheetGenerator: couldn't find EntityList entity type \"{kvp.Key}\"");
-					else
-						OutputForUnit(entityTypeCollection, entityTypeAttributes, kvp.Value);
-				}
+				EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(kvp.Key);
+				if (entityTypeAttributes == null)
+					Debug.Log($"[SUBSYSTEM] StatsSheetGenerator: couldn't find EntityList entity type \"{kvp.Key}\"");
+				else
+					OutputForGeneral(entityTypeCollection, entityTypeAttributes, kvp.Value);
 			}
+			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameGeneral), writer.ToString());
+			sb.Remove(0, sb.Length);
 
-			File.WriteAllText(Path.Combine(Application.dataPath, settings.Filename), writer.ToString());
+			// Carrier
+			foreach (var kvp in settings.CarrierList)
+			{
+				EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(kvp.Key);
+				if (entityTypeAttributes == null)
+					Debug.Log($"[SUBSYSTEM] StatsSheetGenerator: couldn't find EntityList entity type \"{kvp.Key}\"");
+				else
+					OutputForCarrier(entityTypeCollection, entityTypeAttributes, kvp.Value);
+			}
+			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameCarrier), writer.ToString());
+			sb.Remove(0, sb.Length);
+
+			// Experience
+			foreach (var kvp in settings.UnitList)
+			{
+				EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(kvp.Key);
+				if (entityTypeAttributes == null)
+					Debug.Log($"[SUBSYSTEM] StatsSheetGenerator: couldn't find EntityList entity type \"{kvp.Key}\"");
+				else
+					OutputForExperience(entityTypeCollection, entityTypeAttributes, kvp.Value);
+			}
+			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameExperience), writer.ToString());
+			sb.Remove(0, sb.Length);
+
+			// Movement
+			foreach (var kvp in settings.UnitList)
+			{
+				EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(kvp.Key);
+				if (entityTypeAttributes == null)
+					Debug.Log($"[SUBSYSTEM] StatsSheetGenerator: couldn't find EntityList entity type \"{kvp.Key}\"");
+				else
+					OutputForMovement(entityTypeCollection, entityTypeAttributes, kvp.Value);
+			}
+			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameMovement), writer.ToString());
+			sb.Remove(0, sb.Length);
+
+			// DPS
+			foreach (var kvp in settings.UnitList)
+			{
+				EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(kvp.Key);
+				if (entityTypeAttributes == null)
+					Debug.Log($"[SUBSYSTEM] StatsSheetGenerator: couldn't find EntityList entity type \"{kvp.Key}\"");
+				else
+					OutputForDPS(entityTypeCollection, entityTypeAttributes, kvp.Value);
+			}
+			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameDPS), writer.ToString());
+			sb.Remove(0, sb.Length);
+
+			// Other
+			/*using (BeginScope("ranges"))
+			{
+				WeaponRange[] allRanges = (WeaponRange[])Enum.GetValues(typeof(WeaponRange));
+				for (int i = 0; i < allRanges.Length; ++i)
+					Print($"{allRanges[i]}");
+			}
+			using (BeginScope("falloffTypes"))
+			{
+				AOEFalloffType[] allFallofftypes = (AOEFalloffType[])Enum.GetValues(typeof(AOEFalloffType));
+				for (int i = 0; i < allFallofftypes.Length; ++i)
+					Print($"{allFallofftypes[i]}");
+			}
+			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameOther), writer.ToString());
+			sb.Remove(0, sb.Length);*/
 		}
 
 		protected void OutputForTechTree(EntityTypeAttributes entityTypeAttributes)
@@ -228,10 +279,13 @@ namespace Subsystem
 				Print($"time: {researchItemAttributes.ResearchTime}");
 				Print($"type: {researchItemAttributes.TypeOfResearch}");
 				Print($"dependencies: [{String.Join(", ", researchItemAttributes.Dependencies)}]");
-				using (BeginScope("unitTypeBuffs"))
+				if (researchItemAttributes.UnitTypeBuffs.Length > 0)
 				{
-					for (int i = 0; i < researchItemAttributes.UnitTypeBuffs.Length; ++i)
-						OutputForUnitTypeBuff(researchItemAttributes.UnitTypeBuffs[i]);
+					using (BeginScope("unitTypeBuffs"))
+					{
+						for (int i = 0; i < researchItemAttributes.UnitTypeBuffs.Length; ++i)
+							OutputForUnitTypeBuff(researchItemAttributes.UnitTypeBuffs[i]);
+					}
 				}
 			}
 		}
@@ -243,41 +297,53 @@ namespace Subsystem
 			Print($"stackingBehaviour: {statusEffect.StackingBehaviour}");
 			Print($"maxStacks: {statusEffect.MaxStacks}");
 			Print($"weaponFireTriggerEndEvent: {statusEffect.WeaponFireTriggerEndEvent}");
-			using (BeginScope("unitTypeBuffs"))
+
+			if (statusEffect.UnitTypeBuffsToApply.Length > 0)
 			{
-				for (int i = 0; i < statusEffect.UnitTypeBuffsToApply.Length; ++i)
-					OutputForUnitTypeBuff(statusEffect.UnitTypeBuffsToApply[i]);
-			}
-			using (BeginScope("buffsToApplyToTarget"))
-			{
-				for (int i = 0; i < statusEffect.BuffsToApplyToTarget.Length; ++i)
-					OutputForUnitTypeBuff(statusEffect.BuffsToApplyToTarget[i]);
-			}
-			using (BeginScope("modifiers"))
-			{
-				for (int i = 0; i < statusEffect.Modifiers.Length; ++i)
+				using (BeginScope("unitTypeBuffs"))
 				{
-					ModifierAttributes modifier = statusEffect.Modifiers[i];
-					using (BeginScope())
+					for (int i = 0; i < statusEffect.UnitTypeBuffsToApply.Length; ++i)
+						OutputForUnitTypeBuff(statusEffect.UnitTypeBuffsToApply[i]);
+				}
+			}
+
+			if (statusEffect.BuffsToApplyToTarget.Length > 0)
+			{
+				using (BeginScope("buffsToApplyToTarget"))
+				{
+					for (int i = 0; i < statusEffect.BuffsToApplyToTarget.Length; ++i)
+						OutputForUnitTypeBuff(statusEffect.BuffsToApplyToTarget[i]);
+				}
+			}
+
+			if (statusEffect.Modifiers.Length > 0)
+			{
+				using (BeginScope("modifiers"))
+				{
+					for (int i = 0; i < statusEffect.Modifiers.Length; ++i)
 					{
-						Print($"modifierType: {modifier.ModifierType}");
-						switch (modifier.ModifierType)
+						ModifierAttributes modifier = statusEffect.Modifiers[i];
+						using (BeginScope())
 						{
-							case ModifierType.EnableWeapon:
-								Print($"weaponID: {modifier.EnableWeaponAttributes.WeaponID}");
-								break;
-							case ModifierType.SwapWeapons:
-								Print($"swapFromWeaponID: {modifier.SwapWeaponAttributes.SwapFromWeaponID}");
-								Print($"swapToWeaponID: {modifier.SwapWeaponAttributes.SwapToWeaponID}");
-								break;
-							case ModifierType.HealthOverTime:
-								Print($"id: {modifier.HealthOverTimeAttributes.ID}");
-								Print($"tickDurationMS: {modifier.HealthOverTimeAttributes.MSTickDuration}");
-								Print($"damageType: {modifier.HealthOverTimeAttributes.DamageType}");
-								Print($"amount: {modifier.HealthOverTimeAttributes.Amount}");
-								break;
-							default:
-								break;
+							Print($"modifierType: {modifier.ModifierType}");
+							switch (modifier.ModifierType)
+							{
+								case ModifierType.EnableWeapon:
+									Print($"weaponID: {modifier.EnableWeaponAttributes.WeaponID}");
+									break;
+								case ModifierType.SwapWeapons:
+									Print($"swapFromWeaponID: {modifier.SwapWeaponAttributes.SwapFromWeaponID}");
+									Print($"swapToWeaponID: {modifier.SwapWeaponAttributes.SwapToWeaponID}");
+									break;
+								case ModifierType.HealthOverTime:
+									Print($"id: {modifier.HealthOverTimeAttributes.ID}");
+									Print($"tickDurationMS: {modifier.HealthOverTimeAttributes.MSTickDuration}");
+									Print($"damageType: {modifier.HealthOverTimeAttributes.DamageType}");
+									Print($"amount: {modifier.HealthOverTimeAttributes.Amount}");
+									break;
+								default:
+									break;
+							}
 						}
 					}
 				}
@@ -301,7 +367,7 @@ namespace Subsystem
 				Print($"classOperator: {buff.ClassOperator}");
 				Print($"unitClass: {buff.UnitClass}");
 				Print($"unitType: {buff.UnitType}");
-				//Print($"useAsPrefix: {buff.UseAsPrefix}");
+				Print($"useAsPrefix: {buff.UseAsPrefix}");
 				using (BeginScope($"buffSet"))
 				{
 					OutputForAttributeBuffSet(new AttributeBuffSetWrapper(buff.BuffSet));
@@ -313,116 +379,12 @@ namespace Subsystem
 		{
 			//Print($"uniqueTypeName: {buffSet.UniqueTypeName}");
 			//using (BeginScope($"buffs"))
-			//{
 			foreach (var buff in buffSet.Buffs)
 			{
 				using (BeginScope())
 				{
 					OutputForBuff(buff);
 				}
-			}
-			//}
-		}
-
-		protected void OutputForUnit(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, StatsSheetSettings.UnitSetting unitSetting = null)
-		{
-			UnitAttributes unitAttributes = entityTypeAttributes.Get<UnitAttributes>();
-			if (unitAttributes == null)
-				return;
-
-			using (BeginScope(entityTypeAttributes.Name))
-			{
-				// Unit Attributes
-				Print($"readableName: {unitSetting.readableName}");
-				Print($"cu: {unitAttributes.Resource1Cost}");
-				Print($"ru: {unitAttributes.Resource2Cost}");
-				Print($"time: {unitAttributes.ProductionTime}");
-				Print($"pop: {unitAttributes.PopCapCost}");
-				Print($"hp: {unitAttributes.MaxHealth}");
-				Print($"armor: {unitAttributes.Armour}");
-				Print($"sensor: {unitAttributes.SensorRadius}");
-				Print($"contact: {unitAttributes.ContactRadius}");
-				Print($"xp: {unitAttributes.ExperienceValue}");
-
-				// Movement Attributes
-				UnitMovementAttributes movement = entityTypeAttributes.Get<UnitMovementAttributes>();
-				if (movement != null)
-					OutputForMovementAttributes(movement);
-
-				// Experience Attributes
-				ExperienceAttributes experience = entityTypeAttributes.Get<ExperienceAttributes>();
-				if (experience != null)
-					OutputForExperienceAttributes(experience);
-
-				// Weapons
-				if (unitAttributes.WeaponLoadout.Length > 0 && (unitSetting.weapons == null || unitSetting.weapons.Length > 0))
-					OutputForWeapons(entityTypeCollection, entityTypeAttributes, unitSetting.weapons);
-
-				// Power Shunt Attributes
-				PowerShuntAttributes powerShunt = entityTypeAttributes.Get<PowerShuntAttributes>();
-				if (powerShunt != null)
-					OutputForPowerShuntAttributes(powerShunt);
-			}
-		}
-
-		protected void OutputForMovementAttributes(UnitMovementAttributes movement)
-		{
-			using (BeginScope("movement"))
-			{
-				Print($"driveType: {movement.DriveType}");
-				using (BeginScope("dynamics"))
-				{
-					//Print($"driveType: {movement.Dynamics.DriveType}");
-					//Print($"deathDriftTime: {movement.Dynamics.DeathDriftTime}");
-					Print($"permanentlyImmobile: {movement.Dynamics.PermanentlyImmobile}");
-					Print($"minCruiseSpeed: {movement.Dynamics.MinCruiseSpeed}");
-					//Print($"maxDriftRecoverTime: {movement.Dynamics.MaxDriftRecoverTime}");
-					//Print($"minDriftSlipSpeed: {movement.Dynamics.MinDriftSlipSpeed}");
-					//Print($"fishTailControlRecover: {movement.Dynamics.FishTailControlRecover}");
-					//Print($"fishTailingTimeIntervals: {movement.Dynamics.FishTailingTimeIntervals}");
-					//Print($"driftOvershootFactor: {movement.Dynamics.DriftOvershootFactor}");
-					//Print($"reverseDriftMultiplier: {movement.Dynamics.ReverseDriftMultiplier}");
-					Print($"maxEaseIntoTurnTime: {movement.Dynamics.MaxEaseIntoTurnTime}");
-					Print($"maxSpeedTurnRadius: {movement.Dynamics.MaxSpeedTurnRadius}");
-					Print($"brakingTime: {movement.Dynamics.BrakingTime}");
-					Print($"accelerationTime: {movement.Dynamics.AccelerationTime}");
-					Print($"reverseFactor: {movement.Dynamics.ReverseFactor}");
-					Print($"maxSpeed: {movement.Dynamics.MaxSpeed}");
-					Print($"width: {movement.Dynamics.Width}");
-					Print($"length: {movement.Dynamics.Length}");
-					//Print($"driftType: {movement.Dynamics.DriftType}");
-				}
-				/*using (BeginScope("hover"))
-				{
-					Print($"turnAcceleration: {movement.Hover.TurnAcceleration}");
-					Print($"turnMaxLookAheadTime: {movement.Hover.TurnMaxLookAheadTime}");
-					Print($"noTurnDistance: {movement.Hover.NoTurnDistance}");
-					Print($"faceTargetOnlyInCombat: {movement.Hover.FaceTargetOnlyInCombat}");
-					Print($"turnHeuristic: {movement.Hover.TurnHeuristic}");
-				}*/
-				/*using (BeginScope("combat"))
-				{
-					Print($"passiveCombatApproachMode: {movement.Combat.PassiveCombatApproachMode}");
-					Print($"activeCombatApproachMode: {movement.Combat.ActiveCombatApproachMode}");
-					Print($"minDesiredCombatRange: {movement.Combat.MinDesiredCombatRange}");
-					Print($"maxDesiredCombatRange: {movement.Combat.MaxDesiredCombatRange}");
-					Print($"hoverStrafeCycleDuration: {movement.Combat.HoverStrafeCycleDuration}");
-					Print($"hoverStrafeLateralDisplacement: {movement.Combat.HoverStrafeLateralDisplacement}");
-					Print($"advanceThroughSmokeScreen: {movement.Combat.AdvanceThroughSmokeScreen}");
-				}*/
-				/*using (BeginScope("avoidance"))
-				{
-					Print($"avoidsCarriers: {movement.Avoidance.AvoidsCarriers}");
-					Print($"avoidsWrecks: {movement.Avoidance.AvoidsWrecks}");
-					Print($"avoidanceDistance: {movement.Avoidance.AvoidanceDistance}");
-				}*/
-				/*using (BeginScope("reversePolarity"))
-				{
-					Print($"enabled: {movement.ReversePolarity.Enabled}");
-					Print($"relativeWeight: {movement.ReversePolarity.RelativeWeight}");
-					Print($"pushRadiusMultiplier: {movement.ReversePolarity.PushRadiusMultiplier}");
-					Print($"squishinessFactor: {movement.ReversePolarity.SquishinessFactor}");
-				}*/
 			}
 		}
 
@@ -448,7 +410,7 @@ namespace Subsystem
 			}
 		}
 
-		protected void OutputForWeapons(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, string[] selectedWeapons)
+		protected void OutputForWeapons(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, string[] selectedWeapons, bool dps = false)
 		{
 			using (BeginScope("weapons"))
 			{
@@ -490,40 +452,42 @@ namespace Subsystem
 								}
 							}
 
-							if (w.Modifiers.Length > 0)
+							if (!dps)
 							{
-								using (BeginScope($"modifiers"))
+								if (w.Modifiers.Length > 0)
 								{
-									for (int j = 0; j < w.Modifiers.Length; ++j)
+									using (BeginScope($"modifiers"))
 									{
-										WeaponModifierInfo modifierInfo = w.Modifiers[j];
-										using (BeginScope(j.ToString()))
+										for (int j = 0; j < w.Modifiers.Length; ++j)
 										{
-											Print($"targetClass: {modifierInfo.TargetClass}");
-											Print($"classOperator: {modifierInfo.ClassOperator}");
-											Print($"modifierType: {modifierInfo.Modifier}");
-											Print($"amount: {modifierInfo.Amount}");
+											WeaponModifierInfo modifierInfo = w.Modifiers[j];
+											using (BeginScope(j.ToString()))
+											{
+												Print($"targetClass: {modifierInfo.TargetClass}");
+												Print($"classOperator: {modifierInfo.ClassOperator}");
+												Print($"modifierType: {modifierInfo.Modifier}");
+												Print($"amount: {modifierInfo.Amount}");
+											}
 										}
 									}
 								}
-							}
-
-							if (w.StatusEffectsSets.Length > 0)
-							{
-								Print($"statusEffectsExcludeTargetType: {w.StatusEffectsExcludeTargetType}");
-								Print($"statusEffectsTargetAlignment: {w.StatusEffectsTargetAlignment}");
-								using (BeginScope("statusEffectSets"))
+								if (w.StatusEffectsSets.Length > 0)
 								{
-									for (int j = 0; j < w.StatusEffectsSets.Length; ++j)
+									Print($"statusEffectsExcludeTargetType: {w.StatusEffectsExcludeTargetType}");
+									Print($"statusEffectsTargetAlignment: {w.StatusEffectsTargetAlignment}");
+									using (BeginScope("statusEffectSets"))
 									{
-										for (int k = 0; k < w.StatusEffectsSets[j].StatusEffects.Length; ++k)
+										for (int j = 0; j < w.StatusEffectsSets.Length; ++j)
 										{
-											using (BeginScope(w.StatusEffectsSets[j].StatusEffects[k]))
+											for (int k = 0; k < w.StatusEffectsSets[j].StatusEffects.Length; ++k)
 											{
-												EntityTypeAttributes seEntityTypeAttributes = entityTypeCollection.GetEntityType(w.StatusEffectsSets[j].StatusEffects[k]);
-												StatusEffectAttributes[] statusEffectAttributes = seEntityTypeAttributes.GetAll<StatusEffectAttributes>();
-												if (statusEffectAttributes.Length > 0)
-													OutputForStatusEffect(statusEffectAttributes[0]);
+												using (BeginScope(w.StatusEffectsSets[j].StatusEffects[k]))
+												{
+													EntityTypeAttributes seEntityTypeAttributes = entityTypeCollection.GetEntityType(w.StatusEffectsSets[j].StatusEffects[k]);
+													StatusEffectAttributes[] statusEffectAttributes = seEntityTypeAttributes.GetAll<StatusEffectAttributes>();
+													if (statusEffectAttributes.Length > 0)
+														OutputForStatusEffect(statusEffectAttributes[0]);
+												}
 											}
 										}
 									}
@@ -536,23 +500,23 @@ namespace Subsystem
 								Print($"avgShots: {weaponDPSInfo.AverageShotsPerBurst}");
 								Print($"trueROF: {weaponDPSInfo.TrueROF}");
 								Print($"sequenceDuration: {weaponDPSInfo.SequenceDuration}");
-								using (BeginScope("dpsvsArmor"))
+								if (dps)
 								{
-									int[] armorVals = { 0, 3, 6, 9, 12, 15, 18, 21, 25, 35, 50, 75, 100 };
-									for (int j = 0; j < armorVals.Length; ++j)
+									using (BeginScope("dpsvsArmor"))
 									{
-										using (BeginScope(armorVals[j].ToString()))
+										int[] armorVals = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 18, 21, 25, 50, 75, 100 };
+										for (int j = 0; j < armorVals.Length; ++j)
 										{
-											double armorDPS = weaponDPSInfo.ArmorDPS(armorVals[j]);
-											Print($"dps: {armorDPS}");
-
-											using (BeginScope("accuracyDps"))
+											using (BeginScope(armorVals[j].ToString()))
 											{
-												Dictionary<WeaponRange, double> rangeDPS = weaponDPSInfo.RangeDPS(armorDPS);
-												foreach (RangeBasedWeaponAttributes r in w.Ranges)
+												double armorDPS = weaponDPSInfo.ArmorDPS(armorVals[j]);
+												Print($"dps: {armorDPS}");
+
+												using (BeginScope("accuracyDps"))
 												{
-													Print($"range: {Enum.GetName(typeof(WeaponRange), r.Range)}");
-													Print($"rangeDps: {rangeDPS[r.Range]}");
+													Dictionary<WeaponRange, double> rangeDPS = weaponDPSInfo.RangeDPS(armorDPS);
+													foreach (RangeBasedWeaponAttributes r in w.Ranges)
+														Print($"{Enum.GetName(typeof(WeaponRange), r.Range)}: {rangeDPS[r.Range]}");
 												}
 											}
 										}
@@ -565,7 +529,7 @@ namespace Subsystem
 				}
 			}
 		}
-	
+
 		protected void OutputForPowerShuntAttributes(PowerShuntAttributes powerShunt)
 		{
 			Print($"powerLevelChargeTime: {powerShunt.PowerLevelChargeTimeSeconds}");
@@ -635,5 +599,208 @@ namespace Subsystem
 			Print($"capacity: {inventory.Capacity}");
 			Print($"startingAmount: {inventory.StartingAmount}");
 		}
+
+		protected void OutputForMovementAttributes(UnitMovementAttributes movement, bool advanced = false)
+		{
+			using (BeginScope("movement"))
+			{
+				Print($"driveType: {movement.DriveType}");
+				using (BeginScope("dynamics"))
+				{
+					Print($"permanentlyImmobile: {movement.Dynamics.PermanentlyImmobile}");
+					Print($"minCruiseSpeed: {movement.Dynamics.MinCruiseSpeed}");
+					Print($"maxEaseIntoTurnTime: {movement.Dynamics.MaxEaseIntoTurnTime}");
+					Print($"maxSpeedTurnRadius: {movement.Dynamics.MaxSpeedTurnRadius}");
+					Print($"brakingTime: {movement.Dynamics.BrakingTime}");
+					Print($"accelerationTime: {movement.Dynamics.AccelerationTime}");
+					Print($"reverseFactor: {movement.Dynamics.ReverseFactor}");
+					Print($"maxSpeed: {movement.Dynamics.MaxSpeed}");
+					Print($"width: {movement.Dynamics.Width}");
+					Print($"length: {movement.Dynamics.Length}");
+					if (advanced)
+					{
+						Print($"driveType: {movement.Dynamics.DriveType}");
+						Print($"deathDriftTime: {movement.Dynamics.DeathDriftTime}");
+						Print($"maxDriftRecoverTime: {movement.Dynamics.MaxDriftRecoverTime}");
+						Print($"minDriftSlipSpeed: {movement.Dynamics.MinDriftSlipSpeed}");
+						Print($"fishTailControlRecover: {movement.Dynamics.FishTailControlRecover}");
+						Print($"fishTailingTimeIntervals: {movement.Dynamics.FishTailingTimeIntervals}");
+						Print($"driftOvershootFactor: {movement.Dynamics.DriftOvershootFactor}");
+						Print($"reverseDriftMultiplier: {movement.Dynamics.ReverseDriftMultiplier}");
+						Print($"driftType: {movement.Dynamics.DriftType}");
+					}
+				}
+				if (advanced)
+				{
+					using (BeginScope("hover"))
+					{
+						Print($"turnAcceleration: {movement.Hover.TurnAcceleration}");
+						Print($"turnMaxLookAheadTime: {movement.Hover.TurnMaxLookAheadTime}");
+						Print($"noTurnDistance: {movement.Hover.NoTurnDistance}");
+						Print($"faceTargetOnlyInCombat: {movement.Hover.FaceTargetOnlyInCombat}");
+						Print($"turnHeuristic: {movement.Hover.TurnHeuristic}");
+					}
+					using (BeginScope("combat"))
+					{
+						Print($"passiveCombatApproachMode: {movement.Combat.PassiveCombatApproachMode}");
+						Print($"activeCombatApproachMode: {movement.Combat.ActiveCombatApproachMode}");
+						Print($"minDesiredCombatRange: {movement.Combat.MinDesiredCombatRange}");
+						Print($"maxDesiredCombatRange: {movement.Combat.MaxDesiredCombatRange}");
+						Print($"hoverStrafeCycleDuration: {movement.Combat.HoverStrafeCycleDuration}");
+						Print($"hoverStrafeLateralDisplacement: {movement.Combat.HoverStrafeLateralDisplacement}");
+						Print($"advanceThroughSmokeScreen: {movement.Combat.AdvanceThroughSmokeScreen}");
+					}
+					using (BeginScope("avoidance"))
+					{
+						Print($"avoidsCarriers: {movement.Avoidance.AvoidsCarriers}");
+						Print($"avoidsWrecks: {movement.Avoidance.AvoidsWrecks}");
+						Print($"avoidanceDistance: {movement.Avoidance.AvoidanceDistance}");
+					}
+					using (BeginScope("reversePolarity"))
+					{
+						Print($"enabled: {movement.ReversePolarity.Enabled}");
+						Print($"relativeWeight: {movement.ReversePolarity.RelativeWeight}");
+						Print($"pushRadiusMultiplier: {movement.ReversePolarity.PushRadiusMultiplier}");
+						Print($"squishinessFactor: {movement.ReversePolarity.SquishinessFactor}");
+					}
+				}
+			}
+		}
+
+		protected void OutputForGeneral(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, StatsSheetSettings.UnitSetting unitSetting = null)
+		{
+			UnitAttributes unitAttributes = entityTypeAttributes.Get<UnitAttributes>();
+			if (unitAttributes == null)
+				return;
+
+			using (BeginScope(entityTypeAttributes.Name))
+			{
+				// Unit Attributes
+				Print($"readableName: {unitSetting.readableName}");
+				Print($"cu: {unitAttributes.Resource1Cost}");
+				Print($"ru: {unitAttributes.Resource2Cost}");
+				Print($"time: {unitAttributes.ProductionTime}");
+				Print($"pop: {unitAttributes.PopCapCost}");
+				Print($"hp: {unitAttributes.MaxHealth}");
+				Print($"armor: {unitAttributes.Armour}");
+				Print($"sensor: {unitAttributes.SensorRadius}");
+				Print($"contact: {unitAttributes.ContactRadius}");
+				Print($"xp: {unitAttributes.ExperienceValue}");
+
+				// Movement Attributes
+				UnitMovementAttributes movement = entityTypeAttributes.Get<UnitMovementAttributes>();
+				if (movement != null)
+					OutputForMovementAttributes(movement);
+
+				// Weapons
+				if (unitAttributes.WeaponLoadout.Length > 0 && (unitSetting.weapons == null || unitSetting.weapons.Length > 0))
+					OutputForWeapons(entityTypeCollection, entityTypeAttributes, unitSetting.weapons);
+			}
+		}
+
+		protected void OutputForCarrier(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, StatsSheetSettings.UnitSetting unitSetting = null)
+		{
+			UnitAttributes unitAttributes = entityTypeAttributes.Get<UnitAttributes>();
+			if (unitAttributes == null)
+				return;
+
+			using (BeginScope(entityTypeAttributes.Name))
+			{
+				// Unit Attributes
+				Print($"readableName: {unitSetting.readableName}");
+				Print($"cu: {unitAttributes.Resource1Cost}");
+				Print($"ru: {unitAttributes.Resource2Cost}");
+				Print($"time: {unitAttributes.ProductionTime}");
+				Print($"pop: {unitAttributes.PopCapCost}");
+				Print($"hp: {unitAttributes.MaxHealth}");
+				Print($"armor: {unitAttributes.Armour}");
+				Print($"sensor: {unitAttributes.SensorRadius}");
+
+				// Power Shunt Attributes
+				PowerShuntAttributes powerShunt = entityTypeAttributes.Get<PowerShuntAttributes>();
+				if (powerShunt != null)
+					OutputForPowerShuntAttributes(powerShunt);
+			}
+		}
+
+		protected void OutputForMovement(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, StatsSheetSettings.UnitSetting unitSetting = null)
+		{
+			UnitAttributes unitAttributes = entityTypeAttributes.Get<UnitAttributes>();
+			if (unitAttributes == null)
+				return;
+
+			UnitMovementAttributes movement = entityTypeAttributes.Get<UnitMovementAttributes>();
+			if (movement == null)
+				return;
+
+			using (BeginScope(entityTypeAttributes.Name))
+			{
+				// Unit Attributes
+				Print($"readableName: {unitSetting.readableName}");
+				Print($"cu: {unitAttributes.Resource1Cost}");
+				Print($"ru: {unitAttributes.Resource2Cost}");
+				Print($"time: {unitAttributes.ProductionTime}");
+				Print($"pop: {unitAttributes.PopCapCost}");
+				Print($"hp: {unitAttributes.MaxHealth}");
+				Print($"armor: {unitAttributes.Armour}");
+				Print($"sensor: {unitAttributes.SensorRadius}");
+
+				OutputForMovementAttributes(movement, true);
+			}
+		}
+
+		protected void OutputForExperience(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, StatsSheetSettings.UnitSetting unitSetting = null)
+		{
+			UnitAttributes unitAttributes = entityTypeAttributes.Get<UnitAttributes>();
+			if (unitAttributes == null)
+				return;
+
+			using (BeginScope(entityTypeAttributes.Name))
+			{
+				// Unit Attributes
+				Print($"readableName: {unitSetting.readableName}");
+				Print($"cu: {unitAttributes.Resource1Cost}");
+				Print($"ru: {unitAttributes.Resource2Cost}");
+				Print($"time: {unitAttributes.ProductionTime}");
+				Print($"pop: {unitAttributes.PopCapCost}");
+				Print($"hp: {unitAttributes.MaxHealth}");
+				Print($"armor: {unitAttributes.Armour}");
+				Print($"sensor: {unitAttributes.SensorRadius}");
+				Print($"contact: {unitAttributes.ContactRadius}");
+				Print($"xp: {unitAttributes.ExperienceValue}");
+
+				// Experience Attributes
+				ExperienceAttributes experience = entityTypeAttributes.Get<ExperienceAttributes>();
+				if (experience != null)
+					OutputForExperienceAttributes(experience);
+			}
+		}
+
+		protected void OutputForDPS(EntityTypeCollection entityTypeCollection, EntityTypeAttributes entityTypeAttributes, StatsSheetSettings.UnitSetting unitSetting = null)
+		{
+			UnitAttributes unitAttributes = entityTypeAttributes.Get<UnitAttributes>();
+			if (unitAttributes == null)
+				return;
+
+			if (unitAttributes.WeaponLoadout.Length == 0 || !(unitSetting.weapons == null || unitSetting.weapons.Length > 0))
+				return;
+
+			using (BeginScope(entityTypeAttributes.Name))
+			{
+				// Unit Attributes
+				Print($"readableName: {unitSetting.readableName}");
+				Print($"cu: {unitAttributes.Resource1Cost}");
+				Print($"ru: {unitAttributes.Resource2Cost}");
+				Print($"time: {unitAttributes.ProductionTime}");
+				Print($"pop: {unitAttributes.PopCapCost}");
+				Print($"hp: {unitAttributes.MaxHealth}");
+				Print($"armor: {unitAttributes.Armour}");
+				Print($"sensor: {unitAttributes.SensorRadius}");
+
+				// Weapons
+				OutputForWeapons(entityTypeCollection, entityTypeAttributes, unitSetting.weapons, true);
+			}
+		}
+
 	}
 }

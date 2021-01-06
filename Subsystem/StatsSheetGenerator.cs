@@ -90,27 +90,36 @@ namespace Subsystem
 			{
 				foreach (var treeName in settings.TechTrees)
 				{
-					EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(treeName);
-					if (entityTypeAttributes != null)
-						OutputForTechTree(entityTypeAttributes);
+					using (BeginScope(treeName))
+					{
+						EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(treeName);
+						if (entityTypeAttributes != null)
+							OutputForTechTree(entityTypeAttributes);
+					}
 				}
 			}
 			using (BeginScope("tierResearch"))
 			{
 				foreach (var treeName in settings.TechTrees)
 				{
-					EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(treeName);
-					if (entityTypeAttributes != null)
-						OutputForTierResearch(entityTypeCollection, entityTypeAttributes);
+					using (BeginScope(treeName))
+					{
+						EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(treeName);
+						if (entityTypeAttributes != null)
+							OutputForTierResearch(entityTypeCollection, entityTypeAttributes);
+					}
 				}
 			}
 			using (BeginScope("upgradeResearch"))
 			{
 				foreach (var treeName in settings.TechTrees)
 				{
-					EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(treeName);
-					if (entityTypeAttributes != null)
-						OutputForUpgradeResearch(entityTypeCollection, entityTypeAttributes);
+					using (BeginScope(treeName))
+					{
+						EntityTypeAttributes entityTypeAttributes = entityTypeCollection.GetEntityType(treeName);
+						if (entityTypeAttributes != null)
+							OutputForUpgradeResearch(entityTypeCollection, entityTypeAttributes);
+					}
 				}
 			}
 			File.WriteAllText(Path.Combine(Application.dataPath, settings.FilenameResearch), writer.ToString());

@@ -82,7 +82,8 @@ namespace Subsystem
 
 			{ "C_Sob_NukeEmitter_MP", new UnitSetting("Microwave Emitter") },
 
-			{ "C_Sob_PopcapScanner", new UnitSetting("ALM") },
+			{ "C_PopcapScanner", new UnitSetting("Logistics Module") },
+			{ "C_Sob_PopcapScanner", new UnitSetting("Armed Logistics Module (ALM)") },
 			{ "N_Gun_Turret_MP", new UnitSetting("Baserunner Turret") },
 			{ "N_Missle_Turret_MP", new UnitSetting("Baserunner AA Turret") },
 			{ "N_ECMField_MP", new UnitSetting("Baserunner Targeting Jammer", new string[] {}) },

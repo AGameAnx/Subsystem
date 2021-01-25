@@ -46,6 +46,7 @@
     <Reference Include="UnityEngine" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Curl.cs" />
     <Compile Include="WeaponDPSInfo.cs" />
     <Compile Include="StatsSheetSettings.cs" />
     <Compile Include="PatchMetaInfo.cs" />

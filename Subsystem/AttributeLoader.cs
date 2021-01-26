@@ -16,7 +16,6 @@ namespace Subsystem
 	public class AttributeLoader
 	{
 		public StatsSheetSettings statsSheetSettings = new StatsSheetSettings();
-		public PatchMetaInfo metaInfo;
 
 		public readonly StringLogger logger;
 		private readonly StringWriter writer;
@@ -31,34 +30,43 @@ namespace Subsystem
 
 		public void LoadAttributes(EntityTypeCollection entityTypeCollection)
 		{
-			try
+			AttributesPatch attributesPatch = GetPatchObject(GetPatchData());
+			if (attributesPatch != null)
 			{
-				AttributesPatch attributesPatch = JsonMapper.ToObject<AttributesPatch>(AttributeLoader.GetPatchData());
-				if (attributesPatch != null)
+				statsSheetSettings = attributesPatch.StatsSheetSettings;
+
+				ApplyAttributesPatch(entityTypeCollection, attributesPatch);
+
+				if (statsSheetSettings.Generate)
 				{
-					statsSheetSettings = attributesPatch.StatsSheetSettings;
-					if (attributesPatch.Meta != null)
-						metaInfo = attributesPatch.Meta;
-
-					ApplyAttributesPatch(entityTypeCollection, attributesPatch);
+					Console.WriteLine("[SUBSYSTEM] Generating stats sheet...");
+					new StatsSheetGenerator(statsSheetSettings).Generate(entityTypeCollection);
+					Console.WriteLine("[SUBSYSTEM] Stats sheet generated!");
 				}
-				else
-					writer.WriteLine("Patch file empty or not found");
 			}
-			catch (Exception e)
+			else
 			{
-				Debug.LogWarning($"[SUBSYSTEM] Error applying patch file: {e}");
-				writer.WriteLine($"Error applying patch file: {e}");
-			}
-
-			if (statsSheetSettings.Generate)
-			{
-				Debug.LogWarning("[SUBSYSTEM] Generating stats sheet...");
-				new StatsSheetGenerator(statsSheetSettings).Generate(entityTypeCollection);
-				Debug.LogWarning("[SUBSYSTEM] Stats sheet generated!");
+				writer.WriteLine("Patch file empty or not found");
 			}
 
 			File.WriteAllText(Path.Combine(Application.dataPath, "Subsystem.log"), writer.ToString());
+		}
+
+		public static AttributesPatch GetPatchObject(string patchData)
+		{
+			if (patchData.Length > 0)
+			{
+				try
+				{
+					return JsonMapper.ToObject<AttributesPatch>(patchData);
+				}
+				catch (Exception e)
+				{
+					Debug.LogWarning($"[SUBSYSTEM] Json error: {e}");
+				}
+			}
+
+			return null;
 		}
 
 		public static string GetPatchData()
@@ -67,30 +75,18 @@ namespace Subsystem
 			{
 				return AttributeLoader.PatchOverrideData;
 			}
-			string result;
-			try
+			else
 			{
-				result = File.ReadAllText(Path.Combine(Path.Combine(Application.dataPath, (Application.platform == RuntimePlatform.OSXPlayer) ? "Resources/Data" : ""), "patch.json"));
+				try
+				{
+					return File.ReadAllText(Path.Combine(Path.Combine(Application.dataPath, (Application.platform == RuntimePlatform.OSXPlayer) ? "Resources/Data" : ""), "patch.json"));
+				}
+				catch (Exception e)
+				{
+					Debug.LogWarning("[SUBSYSTEM] Patch file not found or read failed: {e}");
+				}
 			}
-			catch (Exception)
-			{
-				Debug.LogWarning("[SUBSYSTEM] Patch file not found");
-				result = "";
-			}
-			return result;
-		}
-
-		public static bool IsPatchValid(string patch)
-		{
-			try
-			{
-				JsonMapper.ToObject<AttributesPatch>(patch);
-			}
-			catch
-			{
-				return false;
-			}
-			return true;
+			return "";
 		}
 
 		public void ApplyAttributesPatch(EntityTypeCollection entityTypeCollection, AttributesPatch attributesPatch)

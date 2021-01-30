@@ -36,8 +36,8 @@ namespace Subsystem
 				"C_Carrier_Weapon_CruiseMissile_MP"
 			}) },
 			{ "C_Sob_Carrier_MP", new UnitSetting("S Carrier", new string[] {
-				"C_Sob_Carrier_Weapon_G2All_Dummy_MP",
 				"C_Sob_Carrier_Railgun_Weapon_G2G_MP",
+				"C_Sob_CarrierMissiles_Weapon_A2G_MP",
 				"C_Sob_Carrier_Weapon_Nuke_MP"
 			}) },
 			{ "G_Carrier_MP", new UnitSetting("G Carrier", new string[] {

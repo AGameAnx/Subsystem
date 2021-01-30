@@ -21,9 +21,20 @@ namespace Subsystem.Patch
 					unitMovementAttributesWrapper.Dynamics = unitDynamicsAttributesWrapper;
 				}
 			}
+
+			if (Combat != null)
+			{
+				using (loader.logger.BeginScope($"Combat:"))
+				{
+					var unitCombatBehaviorAttributesWrapper = new UnitCombatBehaviorAttributesWrapper(unitMovementAttributesWrapper.Combat);
+					Combat.Apply(loader, unitCombatBehaviorAttributesWrapper, null);
+					unitMovementAttributesWrapper.Combat = unitCombatBehaviorAttributesWrapper;
+				}
+			}
 		}
 
 		public UnitDriveType? DriveType { get; set; }
 		public UnitDynamicsAttributesPatch Dynamics { get; set; }
+		public UnitCombatBehaviorAttributesPatch Combat { get; set; }
 	}
 }

@@ -463,6 +463,13 @@ namespace Subsystem
 
 							if (!dps)
 							{
+								using (BeginScope($"turret"))
+								{
+									Print($"fieldOfView: {w.Turret.FieldOfView}");
+									Print($"fieldOfFire: {w.Turret.FieldOfFire}");
+									Print($"rotationSpeed: {w.Turret.RotationSpeed}");
+								}
+
 								if (w.Modifiers.Length > 0)
 								{
 									using (BeginScope($"modifiers"))

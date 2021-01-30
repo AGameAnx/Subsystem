@@ -47,7 +47,7 @@
     <Reference Include="UnityEngine" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Patch\Movement\UnitCombatBehaviorAttributesOatch.cs" />
+    <Compile Include="Patch\Movement\UnitCombatBehaviorAttributesPatch.cs" />
     <Compile Include="WeaponDPSInfo.cs" />
     <Compile Include="StatsSheetSettings.cs" />
     <Compile Include="PatchMetaInfo.cs" />

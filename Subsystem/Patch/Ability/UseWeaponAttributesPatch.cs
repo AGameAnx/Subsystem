@@ -4,13 +4,13 @@ namespace Subsystem.Patch
 {
 	public class ProduceUnitAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ProduceUnitAttributesWrapper produceUnitAttributesWrapper))
+			if (!(wrapperObj is ProduceUnitAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(UnitTypeToProduce, () => produceUnitAttributesWrapper.UnitTypeToProduce);
-			loader.ApplyPropertyPatch(BypassQueue, () => produceUnitAttributesWrapper.BypassQueue);
+			loader.ApplyPropertyPatch(UnitTypeToProduce, () => wrapper.UnitTypeToProduce);
+			loader.ApplyPropertyPatch(BypassQueue, () => wrapper.BypassQueue);
 		}
 
 		public string UnitTypeToProduce { get; set; }

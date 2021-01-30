@@ -7,17 +7,19 @@ namespace Subsystem.Patch
 {
 	public class ExperienceLevelAttributesPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ExperienceLevelAttributesWrapper experienceLevelAttributesWrapper))
+			if (!(wrapperObj is ExperienceLevelAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(BuffTooltipLocID, () => experienceLevelAttributesWrapper.BuffTooltipLocID);
-			loader.ApplyPropertyPatch(RequiredExperience, () => experienceLevelAttributesWrapper.RequiredExperience);
+			loader.ApplyPropertyPatch(BuffTooltipLocID, () => wrapper.BuffTooltipLocID);
+			loader.ApplyPropertyPatch(RequiredExperience, () => wrapper.RequiredExperience);
 
-			var attributeBuffSetWrapper = new AttributeBuffSetWrapper(experienceLevelAttributesWrapper.Buff);
-			loader.ApplyListPatch(Buff, attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
-			experienceLevelAttributesWrapper.Buff = attributeBuffSetWrapper;
+			{
+				var l = new AttributeBuffSetWrapper(wrapper.Buff);
+				loader.ApplyListPatch(Buff, l.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
+				wrapper.Buff = l;
+			}
 		}
 
 		public string BuffTooltipLocID { get; set; }

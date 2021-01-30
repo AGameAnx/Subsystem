@@ -4,14 +4,14 @@ namespace Subsystem.Patch
 {
 	public class InventoryAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is InventoryAttributesWrapper inventoryAttributesWrapper))
+			if (!(wrapperObj is InventoryAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(Capacity, () => inventoryAttributesWrapper.Capacity);
-			loader.ApplyPropertyPatch(HasUnlimitedCapacity, () => inventoryAttributesWrapper.HasUnlimitedCapacity);
-			loader.ApplyPropertyPatch(StartingAmount, () => inventoryAttributesWrapper.StartingAmount);
+			loader.ApplyPropertyPatch(Capacity, () => wrapper.Capacity);
+			loader.ApplyPropertyPatch(HasUnlimitedCapacity, () => wrapper.HasUnlimitedCapacity);
+			loader.ApplyPropertyPatch(StartingAmount, () => wrapper.StartingAmount);
 		}
 
 		public bool? HasUnlimitedCapacity { get; set; }

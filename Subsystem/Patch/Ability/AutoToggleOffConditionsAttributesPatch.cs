@@ -5,13 +5,13 @@ namespace Subsystem.Patch
 {
 	public class AutoToggleOffConditionsAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is AutoToggleOffConditionsAttributesWrapper autoToggleOffConditionsAttributesWrapper))
+			if (!(wrapperObj is AutoToggleOffConditionsAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(ManeuveringConditions, () => autoToggleOffConditionsAttributesWrapper.ManeuveringConditions);
-			loader.ApplyPropertyPatch(TakeDamage, () => autoToggleOffConditionsAttributesWrapper.TakeDamage);
+			loader.ApplyPropertyPatch(ManeuveringConditions, () => wrapper.ManeuveringConditions);
+			loader.ApplyPropertyPatch(TakeDamage, () => wrapper.TakeDamage);
 		}
 
 		public ManeuveringRequirements? ManeuveringConditions { get; set; }

@@ -4,13 +4,13 @@ namespace Subsystem.Patch
 {
 	public class TechTreeTierPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is TechTreeTierWrapper techTreeTierWrapper))
+			if (!(wrapperObj is TechTreeTierWrapper wrapper))
 				throw new System.InvalidCastException();
 			
-			loader.ApplyPropertyPatch(ResearchItems, () => techTreeTierWrapper.ResearchItems);
-			loader.ApplyPropertyPatch(TierName, () => techTreeTierWrapper.TierName);
+			loader.ApplyPropertyPatch(ResearchItems, () => wrapper.ResearchItems);
+			loader.ApplyPropertyPatch(TierName, () => wrapper.TierName);
 		}
 
 		public string[] ResearchItems { get; set; }

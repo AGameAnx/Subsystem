@@ -8,17 +8,19 @@ namespace Subsystem.Patch
 {
 	public class RelicAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObjj)
 		{
-			if (!(wrapper is RelicAttributesWrapper relicAttributesWrapper))
+			if (!(wrapperObjj is RelicAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(CollectibleType, () => relicAttributesWrapper.CollectibleType);
-			loader.ApplyPropertyPatch(DetonationWeaponTypeID, () => relicAttributesWrapper.DetonationWeaponTypeID);
+			loader.ApplyPropertyPatch(CollectibleType, () => wrapper.CollectibleType);
+			loader.ApplyPropertyPatch(DetonationWeaponTypeID, () => wrapper.DetonationWeaponTypeID);
 
-			var attributeBuffSetWrapper = new AttributeBuffSetWrapper(relicAttributesWrapper.BuffsWhileHolding);
-			loader.ApplyListPatch(BuffsWhileHolding, attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
-			relicAttributesWrapper.BuffsWhileHolding = attributeBuffSetWrapper;
+			{
+				var l = new AttributeBuffSetWrapper(wrapper.BuffsWhileHolding);
+				loader.ApplyListPatch(BuffsWhileHolding, l.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuff));
+				wrapper.BuffsWhileHolding = l;
+			}
 		}
 
 		public CollectibleType? CollectibleType { get; set; }

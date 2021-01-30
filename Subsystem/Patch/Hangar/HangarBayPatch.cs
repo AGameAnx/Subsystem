@@ -6,36 +6,36 @@ namespace Subsystem.Patch
 {
 	public class HangarBayPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is HangarBayWrapper hangarBayWrapper))
+			if (!(wrapperObj is HangarBayWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(EntityType, () => hangarBayWrapper.EntityType);
-			loader.ApplyPropertyPatch(MaxCount, () => hangarBayWrapper.MaxCount);
-			loader.ApplyPropertyPatch(UsesStrictClassMatching, () => hangarBayWrapper.UsesStrictClassMatching);
-			loader.ApplyPropertyPatch(HoldsClass, () => hangarBayWrapper.HoldsClass);
-			loader.ApplyPropertyPatch(SlotCount, () => hangarBayWrapper.SlotCount);
-			loader.ApplyPropertyPatch(UndockPresCtrlBone, () => hangarBayWrapper.UndockPresCtrlBone);
-			loader.ApplyPropertyPatch(UndockTotalSeconds, () => hangarBayWrapper.UndockTotalSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UndockAnimationSeconds, () => hangarBayWrapper.UndockAnimationSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UndockSlotStaggerSeconds, () => hangarBayWrapper.UndockSlotStaggerSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UndockXOffsetPos, () => hangarBayWrapper.UndockXOffsetPos, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UndockYOffsetPos, () => hangarBayWrapper.UndockYOffsetPos, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UndockSlotXSeperationOffset, () => hangarBayWrapper.UndockSlotXSeperationOffset, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DegreesOffsetUndockAngle, () => hangarBayWrapper.DegreesOffsetUndockAngle, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UndockSpeed, () => hangarBayWrapper.UndockSpeed, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DockPresCtrlBone, () => hangarBayWrapper.DockPresCtrlBone);
-			loader.ApplyPropertyPatch(DockBringInAnimationSeconds, () => hangarBayWrapper.DockBringInAnimationSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DockSlotStaggerSeconds, () => hangarBayWrapper.DockSlotStaggerSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxDamageCoolingSeconds, () => hangarBayWrapper.MaxDamageCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxDamageCoolingSeconds, () => hangarBayWrapper.MaxDamageCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxPayloadCoolingSeconds, () => hangarBayWrapper.MaxPayloadCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MinDockCoolingSeconds, () => hangarBayWrapper.MinDockCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DockReceivingXOffset, () => hangarBayWrapper.DockReceivingXOffset, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DockReceivingYOffset, () => hangarBayWrapper.DockReceivingYOffset, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DoorAnimationSeconds, () => hangarBayWrapper.DoorAnimationSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UndockLiftTime, () => hangarBayWrapper.UndockLiftTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(EntityType, () => wrapper.EntityType);
+			loader.ApplyPropertyPatch(MaxCount, () => wrapper.MaxCount);
+			loader.ApplyPropertyPatch(UsesStrictClassMatching, () => wrapper.UsesStrictClassMatching);
+			loader.ApplyPropertyPatch(HoldsClass, () => wrapper.HoldsClass);
+			loader.ApplyPropertyPatch(SlotCount, () => wrapper.SlotCount);
+			loader.ApplyPropertyPatch(UndockPresCtrlBone, () => wrapper.UndockPresCtrlBone);
+			loader.ApplyPropertyPatch(UndockTotalSeconds, () => wrapper.UndockTotalSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UndockAnimationSeconds, () => wrapper.UndockAnimationSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UndockSlotStaggerSeconds, () => wrapper.UndockSlotStaggerSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UndockXOffsetPos, () => wrapper.UndockXOffsetPos, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UndockYOffsetPos, () => wrapper.UndockYOffsetPos, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UndockSlotXSeperationOffset, () => wrapper.UndockSlotXSeperationOffset, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DegreesOffsetUndockAngle, () => wrapper.DegreesOffsetUndockAngle, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UndockSpeed, () => wrapper.UndockSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DockPresCtrlBone, () => wrapper.DockPresCtrlBone);
+			loader.ApplyPropertyPatch(DockBringInAnimationSeconds, () => wrapper.DockBringInAnimationSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DockSlotStaggerSeconds, () => wrapper.DockSlotStaggerSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxDamageCoolingSeconds, () => wrapper.MaxDamageCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxDamageCoolingSeconds, () => wrapper.MaxDamageCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxPayloadCoolingSeconds, () => wrapper.MaxPayloadCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MinDockCoolingSeconds, () => wrapper.MinDockCoolingSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DockReceivingXOffset, () => wrapper.DockReceivingXOffset, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DockReceivingYOffset, () => wrapper.DockReceivingYOffset, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DoorAnimationSeconds, () => wrapper.DoorAnimationSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UndockLiftTime, () => wrapper.UndockLiftTime, x => Fixed64.UnsafeFromDouble(x));
 		}
 
 		public string EntityType { get; set; }

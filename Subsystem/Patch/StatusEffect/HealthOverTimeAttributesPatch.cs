@@ -4,7 +4,7 @@ namespace Subsystem.Patch
 {
 	public class HealthOverTimeAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{ } // Does nothing because HealthOverTimeAttributes is a struct, see StatusEffectAttributesPatch class
 
 		public string ID { get; set; }

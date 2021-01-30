@@ -4,13 +4,13 @@ namespace Subsystem.Patch
 {
 	public class TargetHighlightingAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is TargetHighlightingAttributesWrapper targetHighlightingAttributesWrapper))
+			if (!(wrapperObj is TargetHighlightingAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(HighlightWrecks, () => targetHighlightingAttributesWrapper.HighlightWrecks);
-			loader.ApplyPropertyPatch(HighlightArtifacts, () => targetHighlightingAttributesWrapper.HighlightArtifacts);
+			loader.ApplyPropertyPatch(HighlightWrecks, () => wrapper.HighlightWrecks);
+			loader.ApplyPropertyPatch(HighlightArtifacts, () => wrapper.HighlightArtifacts);
 		}
 
 		public bool? HighlightWrecks { get; set; }

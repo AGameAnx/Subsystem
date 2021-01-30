@@ -6,30 +6,30 @@ namespace Subsystem.Patch
 {
 	public class UnitDynamicsAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is UnitDynamicsAttributesWrapper unitDynamicsAttributesWrapper))
+			if (!(wrapperObj is UnitDynamicsAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(DriveType, () => unitDynamicsAttributesWrapper.DriveType);
-			loader.ApplyPropertyPatch(Length, () => unitDynamicsAttributesWrapper.Length, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(Width, () => unitDynamicsAttributesWrapper.Width, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxSpeed, () => unitDynamicsAttributesWrapper.MaxSpeed, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(ReverseFactor, () => unitDynamicsAttributesWrapper.ReverseFactor, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(AccelerationTime, () => unitDynamicsAttributesWrapper.AccelerationTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(BrakingTime, () => unitDynamicsAttributesWrapper.BrakingTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxSpeedTurnRadius, () => unitDynamicsAttributesWrapper.MaxSpeedTurnRadius, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxEaseIntoTurnTime, () => unitDynamicsAttributesWrapper.MaxEaseIntoTurnTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DriftType, () => unitDynamicsAttributesWrapper.DriftType, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(ReverseDriftMultiplier, () => unitDynamicsAttributesWrapper.ReverseDriftMultiplier, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DriftOvershootFactor, () => unitDynamicsAttributesWrapper.DriftOvershootFactor, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(FishTailingTimeIntervals, () => unitDynamicsAttributesWrapper.FishTailingTimeIntervals, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(FishTailControlRecover, () => unitDynamicsAttributesWrapper.FishTailControlRecover, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MinDriftSlipSpeed, () => unitDynamicsAttributesWrapper.MinDriftSlipSpeed, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxDriftRecoverTime, () => unitDynamicsAttributesWrapper.MaxDriftRecoverTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MinCruiseSpeed, () => unitDynamicsAttributesWrapper.MinCruiseSpeed, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DeathDriftTime, () => unitDynamicsAttributesWrapper.DeathDriftTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(PermanentlyImmobile, () => unitDynamicsAttributesWrapper.PermanentlyImmobile);
+			loader.ApplyPropertyPatch(DriveType, () => wrapper.DriveType);
+			loader.ApplyPropertyPatch(Length, () => wrapper.Length, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(Width, () => wrapper.Width, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxSpeed, () => wrapper.MaxSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(ReverseFactor, () => wrapper.ReverseFactor, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AccelerationTime, () => wrapper.AccelerationTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(BrakingTime, () => wrapper.BrakingTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxSpeedTurnRadius, () => wrapper.MaxSpeedTurnRadius, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxEaseIntoTurnTime, () => wrapper.MaxEaseIntoTurnTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DriftType, () => wrapper.DriftType, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(ReverseDriftMultiplier, () => wrapper.ReverseDriftMultiplier, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DriftOvershootFactor, () => wrapper.DriftOvershootFactor, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(FishTailingTimeIntervals, () => wrapper.FishTailingTimeIntervals, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(FishTailControlRecover, () => wrapper.FishTailControlRecover, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MinDriftSlipSpeed, () => wrapper.MinDriftSlipSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxDriftRecoverTime, () => wrapper.MaxDriftRecoverTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MinCruiseSpeed, () => wrapper.MinCruiseSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DeathDriftTime, () => wrapper.DeathDriftTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(PermanentlyImmobile, () => wrapper.PermanentlyImmobile);
 		}
 
 		public UnitDriveType? DriveType { get; set; }

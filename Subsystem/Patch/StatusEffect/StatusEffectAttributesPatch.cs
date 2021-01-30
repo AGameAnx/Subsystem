@@ -8,34 +8,34 @@ namespace Subsystem.Patch
 {
 	public class StatusEffectAttributesPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperbj)
 		{
-			if (!(wrapper is StatusEffectAttributesWrapper statusEffectAttributesWrapper))
+			if (!(wrapperbj is StatusEffectAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(Lifetime, () => statusEffectAttributesWrapper.Lifetime);
-			loader.ApplyPropertyPatch(Duration, () => statusEffectAttributesWrapper.Duration, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(WeaponFireTriggerEndEvent, () => statusEffectAttributesWrapper.WeaponFireTriggerEndEvent);
-			loader.ApplyPropertyPatch(MaxStacks, () => statusEffectAttributesWrapper.MaxStacks);
-			loader.ApplyPropertyPatch(StackingBehaviour, () => statusEffectAttributesWrapper.StackingBehaviour);
+			loader.ApplyPropertyPatch(Lifetime, () => wrapper.Lifetime);
+			loader.ApplyPropertyPatch(Duration, () => wrapper.Duration, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(WeaponFireTriggerEndEvent, () => wrapper.WeaponFireTriggerEndEvent);
+			loader.ApplyPropertyPatch(MaxStacks, () => wrapper.MaxStacks);
+			loader.ApplyPropertyPatch(StackingBehaviour, () => wrapper.StackingBehaviour);
 
 			if (BuffsToApplyToTarget != null)
 			{
-				var buffsToApplyToTarget = statusEffectAttributesWrapper.BuffsToApplyToTarget?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
-				loader.ApplyListPatch(BuffsToApplyToTarget, buffsToApplyToTarget, () => new UnitTypeBuffWrapper(), "BuffsToApplyToTarget");
-				statusEffectAttributesWrapper.BuffsToApplyToTarget = buffsToApplyToTarget.ToArray();
+				var l = wrapper.BuffsToApplyToTarget?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
+				loader.ApplyListPatch(BuffsToApplyToTarget, l, () => new UnitTypeBuffWrapper(), "BuffsToApplyToTarget");
+				wrapper.BuffsToApplyToTarget = l.ToArray();
 			}
 
 			if (UnitTypeBuffsToApply != null)
 			{
-				var unitTypeBuffsToApply = statusEffectAttributesWrapper.UnitTypeBuffsToApply?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
-				loader.ApplyListPatch(UnitTypeBuffsToApply, unitTypeBuffsToApply, () => new UnitTypeBuffWrapper(), "UnitTypeBuffsToApply");
-				statusEffectAttributesWrapper.UnitTypeBuffsToApply = unitTypeBuffsToApply.ToArray();
+				var l = wrapper.UnitTypeBuffsToApply?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
+				loader.ApplyListPatch(UnitTypeBuffsToApply, l, () => new UnitTypeBuffWrapper(), "UnitTypeBuffsToApply");
+				wrapper.UnitTypeBuffsToApply = l.ToArray();
 			}
 
 			if (Modifiers != null)
 			{
-				var wrapperModifiers = statusEffectAttributesWrapper.Modifiers?.ToList() ?? new List<ModifierAttributes>();
+				var wrapperModifiers = wrapper.Modifiers?.ToList() ?? new List<ModifierAttributes>();
 
 				var parsed = new Dictionary<int, ModifierAttributesPatch>();
 
@@ -118,7 +118,7 @@ namespace Subsystem.Patch
 				foreach (var v in toRemove)
 					wrapperModifiers.RemoveAt(v);
 
-				statusEffectAttributesWrapper.Modifiers = wrapperModifiers.ToArray();
+				wrapper.Modifiers = wrapperModifiers.ToArray();
 			}
 		}
 

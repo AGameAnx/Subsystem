@@ -8,22 +8,22 @@ namespace Subsystem.Patch
 {
 	public class ProjectileAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ProjectileAttributesWrapper projectileAttributesWrapper))
+			if (!(wrapperObj is ProjectileAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(ProjectileType, () => projectileAttributesWrapper.ProjectileType);
-			loader.ApplyPropertyPatch(DetonationDelay, () => projectileAttributesWrapper.DetonationDelay, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MissStageIndex, () => projectileAttributesWrapper.MissStageIndex);
-			loader.ApplyPropertyPatch(MinimumMissDistance, () => projectileAttributesWrapper.MinimumMissDistance, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaximumMissDistance, () => projectileAttributesWrapper.MaximumMissDistance, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(ProjectileType, () => wrapper.ProjectileType);
+			loader.ApplyPropertyPatch(DetonationDelay, () => wrapper.DetonationDelay, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MissStageIndex, () => wrapper.MissStageIndex);
+			loader.ApplyPropertyPatch(MinimumMissDistance, () => wrapper.MinimumMissDistance, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaximumMissDistance, () => wrapper.MaximumMissDistance, x => Fixed64.UnsafeFromDouble(x));
 
 			if (Stages.Count > 0)
 			{
-				var projectileMotionStageWrappers = projectileAttributesWrapper.Stages?.Select(x => new ProjectileMotionStageWrapper(x)).ToList() ?? new List<ProjectileMotionStageWrapper>();
-				loader.ApplyListPatch(Stages, projectileMotionStageWrappers, () => new ProjectileMotionStageWrapper(), nameof(ProjectileMotionStage));
-				projectileAttributesWrapper.Stages = projectileMotionStageWrappers.ToArray();
+				var l = wrapper.Stages?.Select(x => new ProjectileMotionStageWrapper(x)).ToList() ?? new List<ProjectileMotionStageWrapper>();
+				loader.ApplyListPatch(Stages, l, () => new ProjectileMotionStageWrapper(), nameof(ProjectileMotionStage));
+				wrapper.Stages = l.ToArray();
 			}
 		}
 

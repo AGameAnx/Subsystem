@@ -4,13 +4,13 @@ namespace Subsystem.Patch
 {
 	public class UseWeaponAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is UseWeaponAttributesWrapper useWeaponAttributesWrapper))
+			if (!(wrapperObj is UseWeaponAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(WeaponID, () => useWeaponAttributesWrapper.WeaponID);
-			loader.ApplyPropertyPatch(ClearGoalsOnUse, () => useWeaponAttributesWrapper.ClearGoalsOnUse);
+			loader.ApplyPropertyPatch(WeaponID, () => wrapper.WeaponID);
+			loader.ApplyPropertyPatch(ClearGoalsOnUse, () => wrapper.ClearGoalsOnUse);
 		}
 
 		public string WeaponID { get; set; }

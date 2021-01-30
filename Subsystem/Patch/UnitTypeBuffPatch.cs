@@ -7,21 +7,21 @@ namespace Subsystem.Patch
 {
 	public class UnitTypeBuffPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is UnitTypeBuffWrapper unitTypeBuffWrapper))
+			if (!(wrapperObj is UnitTypeBuffWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(UnitType, () => unitTypeBuffWrapper.UnitType);
-			loader.ApplyPropertyPatch(UseAsPrefix, () => unitTypeBuffWrapper.UseAsPrefix);
-			loader.ApplyPropertyPatch(UnitClass, () => unitTypeBuffWrapper.UnitClass);
-			loader.ApplyPropertyPatch(ClassOperator, () => unitTypeBuffWrapper.ClassOperator);
+			loader.ApplyPropertyPatch(UnitType, () => wrapper.UnitType);
+			loader.ApplyPropertyPatch(UseAsPrefix, () => wrapper.UseAsPrefix);
+			loader.ApplyPropertyPatch(UnitClass, () => wrapper.UnitClass);
+			loader.ApplyPropertyPatch(ClassOperator, () => wrapper.ClassOperator);
 
 			if (BuffSet != null)
 			{
-				var attributeBuffSetWrapper = unitTypeBuffWrapper.BuffSet != null ? new AttributeBuffSetWrapper(unitTypeBuffWrapper.BuffSet) : new AttributeBuffSetWrapper();
-				loader.ApplyListPatch(BuffSet, attributeBuffSetWrapper.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuffSet));
-				unitTypeBuffWrapper.BuffSet = attributeBuffSetWrapper;
+				var l = wrapper.BuffSet != null ? new AttributeBuffSetWrapper(wrapper.BuffSet) : new AttributeBuffSetWrapper();
+				loader.ApplyListPatch(BuffSet, l.Buffs, () => new AttributeBuffWrapper(), nameof(AttributeBuffSet));
+				wrapper.BuffSet = l;
 			}
 		}
 

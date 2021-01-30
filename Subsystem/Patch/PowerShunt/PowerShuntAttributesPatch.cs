@@ -7,46 +7,48 @@ namespace Subsystem.Patch
 {
 	public class PowerShuntAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is PowerShuntAttributesWrapper powerShuntAttributesWrapper))
+			if (!(wrapperObj is PowerShuntAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(PowerLevelChargeTimeSeconds, () => powerShuntAttributesWrapper.PowerLevelChargeTimeSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(PowerLevelDrainTimeSeconds, () => powerShuntAttributesWrapper.PowerLevelDrainTimeSeconds, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(HeatThreshold, () => powerShuntAttributesWrapper.HeatThreshold);
-			loader.ApplyPropertyPatch(CooldownRate, () => powerShuntAttributesWrapper.CooldownRate);
-			loader.ApplyPropertyPatch(OverheatDamage, () => powerShuntAttributesWrapper.OverheatDamage);
-			loader.ApplyPropertyPatch(NearOverheatWarningMargin, () => powerShuntAttributesWrapper.NearOverheatWarningMargin);
-			loader.ApplyPropertyPatch(OverheatReminderPeriod, () => powerShuntAttributesWrapper.OverheatReminderPeriod);
+			loader.ApplyPropertyPatch(PowerLevelChargeTimeSeconds, () => wrapper.PowerLevelChargeTimeSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(PowerLevelDrainTimeSeconds, () => wrapper.PowerLevelDrainTimeSeconds, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(HeatThreshold, () => wrapper.HeatThreshold);
+			loader.ApplyPropertyPatch(CooldownRate, () => wrapper.CooldownRate);
+			loader.ApplyPropertyPatch(OverheatDamage, () => wrapper.OverheatDamage);
+			loader.ApplyPropertyPatch(NearOverheatWarningMargin, () => wrapper.NearOverheatWarningMargin);
+			loader.ApplyPropertyPatch(OverheatReminderPeriod, () => wrapper.OverheatReminderPeriod);
 
-			var powerSystems = powerShuntAttributesWrapper.PowerSystems?.Select(x => new PowerSystemAttributesWrapper(x)).ToList() ?? new List<PowerSystemAttributesWrapper>();
-			loader.ApplyListPatch(PowerSystems, powerSystems, () => new PowerSystemAttributesWrapper(), "PowerSystems");
-			powerShuntAttributesWrapper.PowerSystems = powerSystems.ToArray();
+			{
+				var l = wrapper.PowerSystems?.Select(x => new PowerSystemAttributesWrapper(x)).ToList() ?? new List<PowerSystemAttributesWrapper>();
+				loader.ApplyListPatch(PowerSystems, l, () => new PowerSystemAttributesWrapper(), "PowerSystems");
+				wrapper.PowerSystems = l.ToArray();
+			}
 
 			if (ReservePowerPool != null)
 			{
-				InventoryAttributesWrapper inventoryAttributesWrapper = new InventoryAttributesWrapper(powerShuntAttributesWrapper.ReservePowerPool);
+				InventoryAttributesWrapper inventoryAttributesWrapper = new InventoryAttributesWrapper(wrapper.ReservePowerPool);
 				ReservePowerPool.Apply(loader, inventoryAttributesWrapper, null);
-				powerShuntAttributesWrapper.ReservePowerPool = inventoryAttributesWrapper;
+				wrapper.ReservePowerPool = inventoryAttributesWrapper;
 			}
 			if (OverheatingPool != null)
 			{
-				InventoryAttributesWrapper inventoryAttributesWrapper = new InventoryAttributesWrapper(powerShuntAttributesWrapper.OverheatingPool);
+				InventoryAttributesWrapper inventoryAttributesWrapper = new InventoryAttributesWrapper(wrapper.OverheatingPool);
 				OverheatingPool.Apply(loader, inventoryAttributesWrapper, null);
-				powerShuntAttributesWrapper.OverheatingPool = inventoryAttributesWrapper;
+				wrapper.OverheatingPool = inventoryAttributesWrapper;
 			}
 			if (HeatSystem != null)
 			{
-				InventoryAttributesWrapper inventoryAttributesWrapper = new InventoryAttributesWrapper(powerShuntAttributesWrapper.HeatSystem);
+				InventoryAttributesWrapper inventoryAttributesWrapper = new InventoryAttributesWrapper(wrapper.HeatSystem);
 				HeatSystem.Apply(loader, inventoryAttributesWrapper, null);
-				powerShuntAttributesWrapper.HeatSystem = inventoryAttributesWrapper;
+				wrapper.HeatSystem = inventoryAttributesWrapper;
 			}
 			if (View != null)
 			{
-				PowerShuntViewAttributesWrapper powerShuntViewAttributesWrapper = new PowerShuntViewAttributesWrapper(powerShuntAttributesWrapper.View);
+				PowerShuntViewAttributesWrapper powerShuntViewAttributesWrapper = new PowerShuntViewAttributesWrapper(wrapper.View);
 				View.Apply(loader, powerShuntViewAttributesWrapper, null);
-				powerShuntAttributesWrapper.View = powerShuntViewAttributesWrapper;
+				wrapper.View = powerShuntViewAttributesWrapper;
 			}
 		}
 

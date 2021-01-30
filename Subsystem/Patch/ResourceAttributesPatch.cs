@@ -5,14 +5,14 @@ namespace Subsystem.Patch
 {
 	public class ResourceAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ResourceAttributesWrapper resourceAttributesWrapper))
+			if (!(wrapperObj is ResourceAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(ResourceType, () => resourceAttributesWrapper.ResourceType);
-			loader.ApplyPropertyPatch(StartingAmount, () => resourceAttributesWrapper.StartingAmount);
-			loader.ApplyPropertyPatch(MaxHarvesters, () => resourceAttributesWrapper.MaxHarvesters);
+			loader.ApplyPropertyPatch(ResourceType, () => wrapper.ResourceType);
+			loader.ApplyPropertyPatch(StartingAmount, () => wrapper.StartingAmount);
+			loader.ApplyPropertyPatch(MaxHarvesters, () => wrapper.MaxHarvesters);
 		}
 
 		public ResourceType? ResourceType { get; set; }

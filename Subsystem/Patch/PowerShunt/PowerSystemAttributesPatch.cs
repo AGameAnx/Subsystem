@@ -7,24 +7,26 @@ namespace Subsystem.Patch
 {
 	public class PowerSystemAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is PowerSystemAttributesWrapper powerSystemAttributesWrapper))
+			if (!(wrapperObj is PowerSystemAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 			
-			loader.ApplyPropertyPatch(PowerSystemType, () => powerSystemAttributesWrapper.PowerSystemType);
-			loader.ApplyPropertyPatch(StartingPowerLevelIndex, () => powerSystemAttributesWrapper.StartingPowerLevelIndex);
-			loader.ApplyPropertyPatch(StartingMaxPowerLevelIndex, () => powerSystemAttributesWrapper.StartingMaxPowerLevelIndex);
+			loader.ApplyPropertyPatch(PowerSystemType, () => wrapper.PowerSystemType);
+			loader.ApplyPropertyPatch(StartingPowerLevelIndex, () => wrapper.StartingPowerLevelIndex);
+			loader.ApplyPropertyPatch(StartingMaxPowerLevelIndex, () => wrapper.StartingMaxPowerLevelIndex);
 
-			var powerLevels = powerSystemAttributesWrapper.PowerLevels?.Select(x => new PowerLevelAttributesWrapper(x)).ToList() ?? new List<PowerLevelAttributesWrapper>();
-			loader.ApplyListPatch(PowerLevels, powerLevels, () => new PowerLevelAttributesWrapper(), "PowerLevels");
-			powerSystemAttributesWrapper.PowerLevels = powerLevels.ToArray();
+			{
+				var l = wrapper.PowerLevels?.Select(x => new PowerLevelAttributesWrapper(x)).ToList() ?? new List<PowerLevelAttributesWrapper>();
+				loader.ApplyListPatch(PowerLevels, l, () => new PowerLevelAttributesWrapper(), "PowerLevels");
+				wrapper.PowerLevels = l.ToArray();
+			}
 
 			if (View != null)
 			{
-				PowerSystemViewAttributesWrapper powerSystemViewAttributesWrapper = new PowerSystemViewAttributesWrapper(powerSystemAttributesWrapper.View);
+				PowerSystemViewAttributesWrapper powerSystemViewAttributesWrapper = new PowerSystemViewAttributesWrapper(wrapper.View);
 				View.Apply(loader, powerSystemViewAttributesWrapper, null);
-				powerSystemAttributesWrapper.View = powerSystemViewAttributesWrapper;
+				wrapper.View = powerSystemViewAttributesWrapper;
 			}
 		}
 

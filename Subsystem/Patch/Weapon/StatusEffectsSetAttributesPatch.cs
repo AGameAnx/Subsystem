@@ -4,12 +4,12 @@ namespace Subsystem.Patch
 {
 	public class StatusEffectsSetAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is StatusEffectsSetAttributesWrapper statusEffectsSetAttributesWrapper))
+			if (!(wrapperObj is StatusEffectsSetAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyArrayPropertyPatch(StatusEffects, statusEffectsSetAttributesWrapper, "StatusEffects");
+			loader.ApplyArrayPropertyPatch(StatusEffects, wrapper, "StatusEffects");
 		}
 
 		public string[] StatusEffects { get; set; } = null;

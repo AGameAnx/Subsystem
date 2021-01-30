@@ -4,17 +4,17 @@ namespace Subsystem.Patch
 {
 	public class PowerSystemViewAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is PowerSystemViewAttributesWrapper powerSystemViewAttributesWrapper))
+			if (!(wrapperObj is PowerSystemViewAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(EnabledIconName, () => powerSystemViewAttributesWrapper.EnabledIconName);
-			loader.ApplyPropertyPatch(DisabledIconName, () => powerSystemViewAttributesWrapper.DisabledIconName);
-			loader.ApplyPropertyPatch(LocalizedTitleStringID, () => powerSystemViewAttributesWrapper.LocalizedTitleStringID);
-			loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, () => powerSystemViewAttributesWrapper.LocalizedShortDescriptionStringID);
-			loader.ApplyPropertyPatch(LocalizedLongDescriptionStringID, () => powerSystemViewAttributesWrapper.LocalizedLongDescriptionStringID);
-			loader.ApplyPropertyPatch(LocalizedSystemDisabledStringID, () => powerSystemViewAttributesWrapper.LocalizedSystemDisabledStringID);
+			loader.ApplyPropertyPatch(EnabledIconName, () => wrapper.EnabledIconName);
+			loader.ApplyPropertyPatch(DisabledIconName, () => wrapper.DisabledIconName);
+			loader.ApplyPropertyPatch(LocalizedTitleStringID, () => wrapper.LocalizedTitleStringID);
+			loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, () => wrapper.LocalizedShortDescriptionStringID);
+			loader.ApplyPropertyPatch(LocalizedLongDescriptionStringID, () => wrapper.LocalizedLongDescriptionStringID);
+			loader.ApplyPropertyPatch(LocalizedSystemDisabledStringID, () => wrapper.LocalizedSystemDisabledStringID);
 		}
 
 		public string EnabledIconName { get; set; }

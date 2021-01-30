@@ -7,58 +7,58 @@ namespace Subsystem.Patch
 {
 	public class UnitAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is UnitAttributesWrapper unitAttributesWrapper))
+			if (!(wrapperObj is UnitAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(Class, () => unitAttributesWrapper.Class);
-			loader.ApplyPropertyPatch(SelectionFlags, () => unitAttributesWrapper.SelectionFlags);
-			loader.ApplyPropertyPatch(MaxHealth, () => unitAttributesWrapper.MaxHealth);
-			loader.ApplyPropertyPatch(Armour, () => unitAttributesWrapper.Armour);
-			loader.ApplyPropertyPatch(DamageReceivedMultiplier, () => unitAttributesWrapper.DamageReceivedMultiplier, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(AccuracyReceivedMultiplier, () => unitAttributesWrapper.AccuracyReceivedMultiplier, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(PopCapCost, () => unitAttributesWrapper.PopCapCost);
-			loader.ApplyPropertyPatch(ExperienceValue, () => unitAttributesWrapper.ExperienceValue);
-			loader.ApplyPropertyPatch(ProductionTime, () => unitAttributesWrapper.ProductionTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(AggroRange, () => unitAttributesWrapper.AggroRange, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(LeashRange, () => unitAttributesWrapper.LeashRange, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(AlertRange, () => unitAttributesWrapper.AlertRange, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(RepairPickupRange, () => unitAttributesWrapper.RepairPickupRange, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UnitPositionReaggroConditions, () => unitAttributesWrapper.UnitPositionReaggroConditions);
-			loader.ApplyPropertyPatch(LeashPositionReaggroConditions, () => unitAttributesWrapper.LeashPositionReaggroConditions);
-			loader.ApplyPropertyPatch(LeadPriority, () => unitAttributesWrapper.LeadPriority);
-			loader.ApplyPropertyPatch(Selectable, () => unitAttributesWrapper.Selectable);
-			loader.ApplyPropertyPatch(Controllable, () => unitAttributesWrapper.Controllable);
-			loader.ApplyPropertyPatch(Targetable, () => unitAttributesWrapper.Targetable);
-			loader.ApplyPropertyPatch(NonAutoTargetable, () => unitAttributesWrapper.NonAutoTargetable);
-			loader.ApplyPropertyPatch(RetireTargetable, () => unitAttributesWrapper.RetireTargetable);
-			loader.ApplyPropertyPatch(HackedReturnTargetable, () => unitAttributesWrapper.HackedReturnTargetable);
-			loader.ApplyPropertyPatch(HackableProperties, () => unitAttributesWrapper.HackableProperties);
-			loader.ApplyPropertyPatch(ExcludeFromUnitStats, () => unitAttributesWrapper.ExcludeFromUnitStats);
-			loader.ApplyPropertyPatch(BlocksLOF, () => unitAttributesWrapper.BlocksLOF);
-			loader.ApplyPropertyPatch(WorldHeightOffset, () => unitAttributesWrapper.WorldHeightOffset, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DoNotPersist, () => unitAttributesWrapper.DoNotPersist);
-			loader.ApplyPropertyPatch(LevelBound, () => unitAttributesWrapper.LevelBound);
-			loader.ApplyPropertyPatch(StartsInHangar, () => unitAttributesWrapper.StartsInHangar);
-			loader.ApplyPropertyPatch(SensorRadius, () => unitAttributesWrapper.SensorRadius, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(ContactRadius, () => unitAttributesWrapper.ContactRadius, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(NumProductionQueues, () => unitAttributesWrapper.NumProductionQueues);
-			loader.ApplyPropertyPatch(ProductionQueueDepth, () => unitAttributesWrapper.ProductionQueueDepth);
-			loader.ApplyPropertyPatch(ShowProductionQueues, () => unitAttributesWrapper.ShowProductionQueues);
-			loader.ApplyPropertyPatch(NoTextNotifications, () => unitAttributesWrapper.NoTextNotifications);
-			loader.ApplyPropertyPatch(NotificationFlags, () => unitAttributesWrapper.NotificationFlags);
-			loader.ApplyPropertyPatch(FireRateDisplay, () => unitAttributesWrapper.FireRateDisplay);
-			loader.ApplyPropertyPatch(PriorityAsTarget, () => unitAttributesWrapper.PriorityAsTarget, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(Class, () => wrapper.Class);
+			loader.ApplyPropertyPatch(SelectionFlags, () => wrapper.SelectionFlags);
+			loader.ApplyPropertyPatch(MaxHealth, () => wrapper.MaxHealth);
+			loader.ApplyPropertyPatch(Armour, () => wrapper.Armour);
+			loader.ApplyPropertyPatch(DamageReceivedMultiplier, () => wrapper.DamageReceivedMultiplier, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AccuracyReceivedMultiplier, () => wrapper.AccuracyReceivedMultiplier, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(PopCapCost, () => wrapper.PopCapCost);
+			loader.ApplyPropertyPatch(ExperienceValue, () => wrapper.ExperienceValue);
+			loader.ApplyPropertyPatch(ProductionTime, () => wrapper.ProductionTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AggroRange, () => wrapper.AggroRange, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(LeashRange, () => wrapper.LeashRange, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AlertRange, () => wrapper.AlertRange, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(RepairPickupRange, () => wrapper.RepairPickupRange, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UnitPositionReaggroConditions, () => wrapper.UnitPositionReaggroConditions);
+			loader.ApplyPropertyPatch(LeashPositionReaggroConditions, () => wrapper.LeashPositionReaggroConditions);
+			loader.ApplyPropertyPatch(LeadPriority, () => wrapper.LeadPriority);
+			loader.ApplyPropertyPatch(Selectable, () => wrapper.Selectable);
+			loader.ApplyPropertyPatch(Controllable, () => wrapper.Controllable);
+			loader.ApplyPropertyPatch(Targetable, () => wrapper.Targetable);
+			loader.ApplyPropertyPatch(NonAutoTargetable, () => wrapper.NonAutoTargetable);
+			loader.ApplyPropertyPatch(RetireTargetable, () => wrapper.RetireTargetable);
+			loader.ApplyPropertyPatch(HackedReturnTargetable, () => wrapper.HackedReturnTargetable);
+			loader.ApplyPropertyPatch(HackableProperties, () => wrapper.HackableProperties);
+			loader.ApplyPropertyPatch(ExcludeFromUnitStats, () => wrapper.ExcludeFromUnitStats);
+			loader.ApplyPropertyPatch(BlocksLOF, () => wrapper.BlocksLOF);
+			loader.ApplyPropertyPatch(WorldHeightOffset, () => wrapper.WorldHeightOffset, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DoNotPersist, () => wrapper.DoNotPersist);
+			loader.ApplyPropertyPatch(LevelBound, () => wrapper.LevelBound);
+			loader.ApplyPropertyPatch(StartsInHangar, () => wrapper.StartsInHangar);
+			loader.ApplyPropertyPatch(SensorRadius, () => wrapper.SensorRadius, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(ContactRadius, () => wrapper.ContactRadius, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(NumProductionQueues, () => wrapper.NumProductionQueues);
+			loader.ApplyPropertyPatch(ProductionQueueDepth, () => wrapper.ProductionQueueDepth);
+			loader.ApplyPropertyPatch(ShowProductionQueues, () => wrapper.ShowProductionQueues);
+			loader.ApplyPropertyPatch(NoTextNotifications, () => wrapper.NoTextNotifications);
+			loader.ApplyPropertyPatch(NotificationFlags, () => wrapper.NotificationFlags);
+			loader.ApplyPropertyPatch(FireRateDisplay, () => wrapper.FireRateDisplay);
+			loader.ApplyPropertyPatch(PriorityAsTarget, () => wrapper.PriorityAsTarget, x => Fixed64.UnsafeFromDouble(x));
 
-			loader.ApplyPropertyPatch(BaseThreat, () => unitAttributesWrapper.ThreatData.BaseThreat);
-			loader.ApplyPropertyPatch(ThreatTier, () => unitAttributesWrapper.ThreatData.Tier);
+			loader.ApplyPropertyPatch(BaseThreat, () => wrapper.ThreatData.BaseThreat);
+			loader.ApplyPropertyPatch(ThreatTier, () => wrapper.ThreatData.Tier);
 
-			loader.ApplyPropertyPatch(ThreatCounters, () => unitAttributesWrapper.ThreatCounters, c => c.Select(x => new ThreatCounter(x)));
-			loader.ApplyPropertyPatch(ThreatCounteredBys, () => unitAttributesWrapper.ThreatCounteredBys, c => c.Select(x => new ThreatCounter(x)));
+			loader.ApplyPropertyPatch(ThreatCounters, () => wrapper.ThreatCounters, c => c.Select(x => new ThreatCounter(x)));
+			loader.ApplyPropertyPatch(ThreatCounteredBys, () => wrapper.ThreatCounteredBys, c => c.Select(x => new ThreatCounter(x)));
 
-			loader.ApplyPropertyPatch(Resource1Cost, () => unitAttributesWrapper.Resource1Cost);
-			loader.ApplyPropertyPatch(Resource2Cost, () => unitAttributesWrapper.Resource2Cost);
+			loader.ApplyPropertyPatch(Resource1Cost, () => wrapper.Resource1Cost);
+			loader.ApplyPropertyPatch(Resource2Cost, () => wrapper.Resource2Cost);
 		}
 
 		public UnitClass? Class { get; set; }

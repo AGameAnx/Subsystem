@@ -4,17 +4,17 @@ namespace Subsystem.Patch
 {
 	public class PowerShuntViewAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is PowerShuntViewAttributesWrapper powerShuntViewAttributesWrapper))
+			if (!(wrapperObj is PowerShuntViewAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(ReservePowerPoolLocalizedTitleStringID, () => powerShuntViewAttributesWrapper.ReservePowerPoolLocalizedTitleStringID);
-			loader.ApplyPropertyPatch(ReservePowerPoolLocalizedShortDescriptionStringID, () => powerShuntViewAttributesWrapper.ReservePowerPoolLocalizedShortDescriptionStringID);
-			loader.ApplyPropertyPatch(ReservePowerPoolLocalizedLongDescriptionStringID, () => powerShuntViewAttributesWrapper.ReservePowerPoolLocalizedLongDescriptionStringID);
-			loader.ApplyPropertyPatch(TemperatureGaugeLocalizedTitleStringID, () => powerShuntViewAttributesWrapper.TemperatureGaugeLocalizedTitleStringID);
-			loader.ApplyPropertyPatch(TemperatureGaugeLocalizedShortDescriptionStringID, () => powerShuntViewAttributesWrapper.TemperatureGaugeLocalizedShortDescriptionStringID);
-			loader.ApplyPropertyPatch(TemperatureGaugeLocalizedLongDescriptionStringID, () => powerShuntViewAttributesWrapper.TemperatureGaugeLocalizedLongDescriptionStringID);
+			loader.ApplyPropertyPatch(ReservePowerPoolLocalizedTitleStringID, () => wrapper.ReservePowerPoolLocalizedTitleStringID);
+			loader.ApplyPropertyPatch(ReservePowerPoolLocalizedShortDescriptionStringID, () => wrapper.ReservePowerPoolLocalizedShortDescriptionStringID);
+			loader.ApplyPropertyPatch(ReservePowerPoolLocalizedLongDescriptionStringID, () => wrapper.ReservePowerPoolLocalizedLongDescriptionStringID);
+			loader.ApplyPropertyPatch(TemperatureGaugeLocalizedTitleStringID, () => wrapper.TemperatureGaugeLocalizedTitleStringID);
+			loader.ApplyPropertyPatch(TemperatureGaugeLocalizedShortDescriptionStringID, () => wrapper.TemperatureGaugeLocalizedShortDescriptionStringID);
+			loader.ApplyPropertyPatch(TemperatureGaugeLocalizedLongDescriptionStringID, () => wrapper.TemperatureGaugeLocalizedLongDescriptionStringID);
 		}
 
 		public string ReservePowerPoolLocalizedTitleStringID { get; set; }

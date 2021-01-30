@@ -5,32 +5,32 @@ namespace Subsystem.Patch
 {
 	public class AbilityViewAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is AbilityViewAttributes abilityViewAttributesWrapper))
+			if (!(wrapperObj is AbilityViewAttributes wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(LocalizedTitleStringID, ref abilityViewAttributesWrapper.LocalizedTitleStringID, "LocalizedTitleStringID");
-			loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, ref abilityViewAttributesWrapper.LocalizedShortDescriptionStringID, "LocalizedShortDescriptionStringID");
-			loader.ApplyPropertyPatch(LocalizedLongDescriptionStringID, ref abilityViewAttributesWrapper.LocalizedLongDescriptionStringID, "LocalizedLongDescriptionStringID");
-			loader.ApplyPropertyPatch(LocalizedToggledTitleStringID, ref abilityViewAttributesWrapper.LocalizedToggledTitleStringID, "LocalizedToggledTitleStringID");
-			loader.ApplyPropertyPatch(LocalizedToggledShortDescriptionStringID, ref abilityViewAttributesWrapper.LocalizedToggledShortDescriptionStringID, "LocalizedToggledShortDescriptionStringID");
-			loader.ApplyPropertyPatch(LocalizedToggledLongDescriptionStringID, ref abilityViewAttributesWrapper.LocalizedToggledLongDescriptionStringID, "LocalizedToggledLongDescriptionStringID");
+			loader.ApplyPropertyPatch(LocalizedTitleStringID, ref wrapper.LocalizedTitleStringID, "LocalizedTitleStringID");
+			loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, ref wrapper.LocalizedShortDescriptionStringID, "LocalizedShortDescriptionStringID");
+			loader.ApplyPropertyPatch(LocalizedLongDescriptionStringID, ref wrapper.LocalizedLongDescriptionStringID, "LocalizedLongDescriptionStringID");
+			loader.ApplyPropertyPatch(LocalizedToggledTitleStringID, ref wrapper.LocalizedToggledTitleStringID, "LocalizedToggledTitleStringID");
+			loader.ApplyPropertyPatch(LocalizedToggledShortDescriptionStringID, ref wrapper.LocalizedToggledShortDescriptionStringID, "LocalizedToggledShortDescriptionStringID");
+			loader.ApplyPropertyPatch(LocalizedToggledLongDescriptionStringID, ref wrapper.LocalizedToggledLongDescriptionStringID, "LocalizedToggledLongDescriptionStringID");
 
-			loader.ApplyPropertyPatch(IconName, ref abilityViewAttributesWrapper.IconName, "IconName");
-			loader.ApplyPropertyPatch(ToggledIconName, ref abilityViewAttributesWrapper.ToggledIconName, "ToggledIconName");
+			loader.ApplyPropertyPatch(IconName, ref wrapper.IconName, "IconName");
+			loader.ApplyPropertyPatch(ToggledIconName, ref wrapper.ToggledIconName, "ToggledIconName");
 
-			loader.ApplyPropertyPatch(Hotkey, ref abilityViewAttributesWrapper.Hotkey, "Hotkey");
-			loader.ApplyPropertyPatch(ToggledHotkey, ref abilityViewAttributesWrapper.ToggledHotkey, "ToggledHotkey");
+			loader.ApplyPropertyPatch(Hotkey, ref wrapper.Hotkey, "Hotkey");
+			loader.ApplyPropertyPatch(ToggledHotkey, ref wrapper.ToggledHotkey, "ToggledHotkey");
 
-			loader.ApplyPropertyPatch(BindingIsExclusive, ref abilityViewAttributesWrapper.BindingIsExclusive, "BindingIsExclusive");
-			loader.ApplyPropertyPatch(AutocastHotkeyModifier, ref abilityViewAttributesWrapper.AutocastHotkeyModifier, "AutocastHotkeyModifier");
-			loader.ApplyPropertyPatch(DrawPreviewRouteLine, ref abilityViewAttributesWrapper.DrawPreviewRouteLine, "DrawPreviewRouteLine");
-			loader.ApplyPropertyPatch(ForceHideAutocastSprite, ref abilityViewAttributesWrapper.ForceHideAutocastSprite, "ForceHideAutocastSprite");
-			loader.ApplyPropertyPatch(ForcePassiveVisuals, ref abilityViewAttributesWrapper.ForcePassiveVisuals, "ForcePassiveVisuals");
-			loader.ApplyPropertyPatch(WillToggleDialIndicator, ref abilityViewAttributesWrapper.WillToggleDialIndicator, "WillToggleDialIndicator");
-			loader.ApplyPropertyPatch(InventoryID, ref abilityViewAttributesWrapper.InventoryID, "InventoryID");
-			loader.ApplyPropertyPatch(InvertFillCooldown, ref abilityViewAttributesWrapper.InvertFillCooldown, "InvertFillCooldown");
+			loader.ApplyPropertyPatch(BindingIsExclusive, ref wrapper.BindingIsExclusive, "BindingIsExclusive");
+			loader.ApplyPropertyPatch(AutocastHotkeyModifier, ref wrapper.AutocastHotkeyModifier, "AutocastHotkeyModifier");
+			loader.ApplyPropertyPatch(DrawPreviewRouteLine, ref wrapper.DrawPreviewRouteLine, "DrawPreviewRouteLine");
+			loader.ApplyPropertyPatch(ForceHideAutocastSprite, ref wrapper.ForceHideAutocastSprite, "ForceHideAutocastSprite");
+			loader.ApplyPropertyPatch(ForcePassiveVisuals, ref wrapper.ForcePassiveVisuals, "ForcePassiveVisuals");
+			loader.ApplyPropertyPatch(WillToggleDialIndicator, ref wrapper.WillToggleDialIndicator, "WillToggleDialIndicator");
+			loader.ApplyPropertyPatch(InventoryID, ref wrapper.InventoryID, "InventoryID");
+			loader.ApplyPropertyPatch(InvertFillCooldown, ref wrapper.InvertFillCooldown, "InvertFillCooldown");
 		}
 
 		public string LocalizedTitleStringID;

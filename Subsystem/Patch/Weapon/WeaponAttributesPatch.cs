@@ -9,103 +9,103 @@ namespace Subsystem.Patch
 {
 	public class WeaponAttributesPatch : SubsystemPatch
 	{
-		public override void Apply(AttributeLoader loader, object wrapper, EntityTypeAttributes entityType)
+		public override void Apply(AttributeLoader loader, object wrapperObj, EntityTypeAttributes entityType)
 		{
-			base.Apply(loader, wrapper, entityType);
+			base.Apply(loader, wrapperObj, entityType);
 
-			RebindWeaponAttributes(entityType, wrapper as WeaponAttributesWrapper);
+			RebindWeaponAttributes(entityType, wrapperObj as WeaponAttributesWrapper);
 		}
 
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is WeaponAttributesWrapper weaponAttributesWrapper))
+			if (!(wrapperObj is WeaponAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(ExcludeFromAutoTargetAcquisition, () => weaponAttributesWrapper.ExcludeFromAutoTargetAcquisition);
-			loader.ApplyPropertyPatch(ExcludeFromAutoFire, () => weaponAttributesWrapper.ExcludeFromAutoFire);
-			loader.ApplyPropertyPatch(ExcludeFromHeightAdvantage, () => weaponAttributesWrapper.ExcludeFromHeightAdvantage);
-			loader.ApplyPropertyPatch(DamageType, () => weaponAttributesWrapper.DamageType);
-			loader.ApplyPropertyPatch(IsTracer, () => weaponAttributesWrapper.IsTracer);
-			loader.ApplyPropertyPatch(TracerSpeed, () => weaponAttributesWrapper.TracerSpeed, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(TracerLength, () => weaponAttributesWrapper.TracerLength, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(BaseDamagePerRound, () => weaponAttributesWrapper.BaseDamagePerRound, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(BaseWreckDamagePerRound, () => weaponAttributesWrapper.BaseWreckDamagePerRound, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(FiringRecoil, () => weaponAttributesWrapper.FiringRecoil);
-			loader.ApplyPropertyPatch(WindUpTimeMS, () => weaponAttributesWrapper.WindUpTimeMS);
-			loader.ApplyPropertyPatch(RateOfFire, () => weaponAttributesWrapper.RateOfFire);
-			loader.ApplyPropertyPatch(NumberOfBursts, () => weaponAttributesWrapper.NumberOfBursts);
-			loader.ApplyPropertyPatch(DamagePacketsPerShot, () => weaponAttributesWrapper.DamagePacketsPerShot);
-			loader.ApplyPropertyPatch(BurstPeriodMinTimeMS, () => weaponAttributesWrapper.BurstPeriodMinTimeMS);
-			loader.ApplyPropertyPatch(BurstPeriodMaxTimeMS, () => weaponAttributesWrapper.BurstPeriodMaxTimeMS);
-			loader.ApplyPropertyPatch(CooldownTimeMS, () => weaponAttributesWrapper.CooldownTimeMS);
-			loader.ApplyPropertyPatch(WindDownTimeMS, () => weaponAttributesWrapper.WindDownTimeMS);
-			loader.ApplyPropertyPatch(ReloadTimeMS, () => weaponAttributesWrapper.ReloadTimeMS);
-			loader.ApplyPropertyPatch(LineOfSightRequired, () => weaponAttributesWrapper.LineOfSightRequired);
-			loader.ApplyPropertyPatch(LeadsTarget, () => weaponAttributesWrapper.LeadsTarget);
-			loader.ApplyPropertyPatch(KillSkipsUnitDeathSequence, () => weaponAttributesWrapper.KillSkipsUnitDeathSequence);
-			loader.ApplyPropertyPatch(RevealTriggers, () => weaponAttributesWrapper.RevealTriggers);
-			loader.ApplyPropertyPatch(UnitStatusAttackingTriggers, () => weaponAttributesWrapper.UnitStatusAttackingTriggers);
-			loader.ApplyPropertyPatch(TargetStyle, () => weaponAttributesWrapper.TargetStyle);
+			loader.ApplyPropertyPatch(ExcludeFromAutoTargetAcquisition, () => wrapper.ExcludeFromAutoTargetAcquisition);
+			loader.ApplyPropertyPatch(ExcludeFromAutoFire, () => wrapper.ExcludeFromAutoFire);
+			loader.ApplyPropertyPatch(ExcludeFromHeightAdvantage, () => wrapper.ExcludeFromHeightAdvantage);
+			loader.ApplyPropertyPatch(DamageType, () => wrapper.DamageType);
+			loader.ApplyPropertyPatch(IsTracer, () => wrapper.IsTracer);
+			loader.ApplyPropertyPatch(TracerSpeed, () => wrapper.TracerSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(TracerLength, () => wrapper.TracerLength, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(BaseDamagePerRound, () => wrapper.BaseDamagePerRound, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(BaseWreckDamagePerRound, () => wrapper.BaseWreckDamagePerRound, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(FiringRecoil, () => wrapper.FiringRecoil);
+			loader.ApplyPropertyPatch(WindUpTimeMS, () => wrapper.WindUpTimeMS);
+			loader.ApplyPropertyPatch(RateOfFire, () => wrapper.RateOfFire);
+			loader.ApplyPropertyPatch(NumberOfBursts, () => wrapper.NumberOfBursts);
+			loader.ApplyPropertyPatch(DamagePacketsPerShot, () => wrapper.DamagePacketsPerShot);
+			loader.ApplyPropertyPatch(BurstPeriodMinTimeMS, () => wrapper.BurstPeriodMinTimeMS);
+			loader.ApplyPropertyPatch(BurstPeriodMaxTimeMS, () => wrapper.BurstPeriodMaxTimeMS);
+			loader.ApplyPropertyPatch(CooldownTimeMS, () => wrapper.CooldownTimeMS);
+			loader.ApplyPropertyPatch(WindDownTimeMS, () => wrapper.WindDownTimeMS);
+			loader.ApplyPropertyPatch(ReloadTimeMS, () => wrapper.ReloadTimeMS);
+			loader.ApplyPropertyPatch(LineOfSightRequired, () => wrapper.LineOfSightRequired);
+			loader.ApplyPropertyPatch(LeadsTarget, () => wrapper.LeadsTarget);
+			loader.ApplyPropertyPatch(KillSkipsUnitDeathSequence, () => wrapper.KillSkipsUnitDeathSequence);
+			loader.ApplyPropertyPatch(RevealTriggers, () => wrapper.RevealTriggers);
+			loader.ApplyPropertyPatch(UnitStatusAttackingTriggers, () => wrapper.UnitStatusAttackingTriggers);
+			loader.ApplyPropertyPatch(TargetStyle, () => wrapper.TargetStyle);
 
 			if (Modifiers != null)
 			{
-				var modifiers = weaponAttributesWrapper.Modifiers?.Select(x => new WeaponModifierInfoWrapper(x)).ToList() ?? new List<WeaponModifierInfoWrapper>();
-				loader.ApplyListPatch(Modifiers, modifiers, () => new WeaponModifierInfoWrapper(), nameof(WeaponModifierInfo));
-				weaponAttributesWrapper.Modifiers = modifiers.ToArray();
+				var l = wrapper.Modifiers?.Select(x => new WeaponModifierInfoWrapper(x)).ToList() ?? new List<WeaponModifierInfoWrapper>();
+				loader.ApplyListPatch(Modifiers, l, () => new WeaponModifierInfoWrapper(), nameof(WeaponModifierInfo));
+				wrapper.Modifiers = l.ToArray();
 			}
 
-			loader.ApplyPropertyPatch(AreaOfEffectFalloffType, () => weaponAttributesWrapper.AreaOfEffectFalloffType);
-			loader.ApplyPropertyPatch(AreaOfEffectRadius, () => weaponAttributesWrapper.AreaOfEffectRadius, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(ExcludeWeaponOwnerFromAreaOfEffect, () => weaponAttributesWrapper.ExcludeWeaponOwnerFromAreaOfEffect);
-			loader.ApplyPropertyPatch(FriendlyFireDamageScalar, () => weaponAttributesWrapper.FriendlyFireDamageScalar, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(WeaponOwnerFriendlyFireDamageScalar, () => weaponAttributesWrapper.WeaponOwnerFriendlyFireDamageScalar, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AreaOfEffectFalloffType, () => wrapper.AreaOfEffectFalloffType);
+			loader.ApplyPropertyPatch(AreaOfEffectRadius, () => wrapper.AreaOfEffectRadius, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(ExcludeWeaponOwnerFromAreaOfEffect, () => wrapper.ExcludeWeaponOwnerFromAreaOfEffect);
+			loader.ApplyPropertyPatch(FriendlyFireDamageScalar, () => wrapper.FriendlyFireDamageScalar, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(WeaponOwnerFriendlyFireDamageScalar, () => wrapper.WeaponOwnerFriendlyFireDamageScalar, x => Fixed64.UnsafeFromDouble(x));
 
 			if (Turret != null)
 			{
 				using (loader.logger.BeginScope($"Turret:"))
 				{
-					var turretWrapper = new TurretAttributesWrapper(weaponAttributesWrapper.Turret);
-					Turret.Apply(loader, turretWrapper, null);
-					weaponAttributesWrapper.Turret = turretWrapper;
+					var w = new TurretAttributesWrapper(wrapper.Turret);
+					Turret.Apply(loader, w, null);
+					wrapper.Turret = w;
 				}
 			}
 
-			ApplyRangeAttributes(loader, WeaponRange.Short, RangeAttributesShort, weaponAttributesWrapper);
-			ApplyRangeAttributes(loader, WeaponRange.Medium, RangeAttributesMedium, weaponAttributesWrapper);
-			ApplyRangeAttributes(loader, WeaponRange.Long, RangeAttributesLong, weaponAttributesWrapper);
+			ApplyRangeAttributes(loader, WeaponRange.Short, RangeAttributesShort, wrapper);
+			ApplyRangeAttributes(loader, WeaponRange.Medium, RangeAttributesMedium, wrapper);
+			ApplyRangeAttributes(loader, WeaponRange.Long, RangeAttributesLong, wrapper);
 
-			loader.ApplyPropertyPatch(ProjectileEntityTypeToSpawn, () => weaponAttributesWrapper.ProjectileEntityTypeToSpawn);
-			loader.ApplyPropertyPatch(StatusEffectsTargetAlignment, () => weaponAttributesWrapper.StatusEffectsTargetAlignment);
-			loader.ApplyPropertyPatch(StatusEffectsExcludeTargetType, () => weaponAttributesWrapper.StatusEffectsExcludeTargetType);
-			loader.ApplyPropertyPatch(ActiveStatusEffectsIndex, () => weaponAttributesWrapper.ActiveStatusEffectsIndex);
+			loader.ApplyPropertyPatch(ProjectileEntityTypeToSpawn, () => wrapper.ProjectileEntityTypeToSpawn);
+			loader.ApplyPropertyPatch(StatusEffectsTargetAlignment, () => wrapper.StatusEffectsTargetAlignment);
+			loader.ApplyPropertyPatch(StatusEffectsExcludeTargetType, () => wrapper.StatusEffectsExcludeTargetType);
+			loader.ApplyPropertyPatch(ActiveStatusEffectsIndex, () => wrapper.ActiveStatusEffectsIndex);
 
 			if (StatusEffectsSets != null)
 			{
-				var wrappers = weaponAttributesWrapper.StatusEffectsSets?.Select(x => new StatusEffectsSetAttributesWrapper(x)).ToList() ?? new List<StatusEffectsSetAttributesWrapper>();
-				loader.ApplyListPatch(StatusEffectsSets, wrappers, () => new StatusEffectsSetAttributesWrapper(), nameof(StatusEffectsSetAttributes));
-				weaponAttributesWrapper.StatusEffectsSets = wrappers.Where(x => x != null).ToArray();
+				var l = wrapper.StatusEffectsSets?.Select(x => new StatusEffectsSetAttributesWrapper(x)).ToList() ?? new List<StatusEffectsSetAttributesWrapper>();
+				loader.ApplyListPatch(StatusEffectsSets, l, () => new StatusEffectsSetAttributesWrapper(), nameof(StatusEffectsSetAttributes));
+				wrapper.StatusEffectsSets = l.Where(x => x != null).ToArray();
 			}
 
 			/*if (EntityTypesToSpawnOnImpact != null)
 			{
-				var wrappers = weaponAttributesWrapper.EntityTypesToSpawnOnImpact?.Select(x => new EntityTypeToSpawnAttributesWrapper(x)).ToList() ?? new List<EntityTypeToSpawnAttributesWrapper>();
-				loader.ApplyListPatch(EntityTypesToSpawnOnImpact, wrappers, () => new EntityTypeToSpawnAttributesWrapper(), nameof(EntityTypeToSpawnAttributes));
-				weaponAttributesWrapper.EntityTypesToSpawnOnImpact = wrappers.Where(x => x != null).ToArray();
+				var l = weaponAttributesWrapper.EntityTypesToSpawnOnImpact?.Select(x => new EntityTypeToSpawnAttributesWrapper(x)).ToList() ?? new List<EntityTypeToSpawnAttributesWrapper>();
+				loader.ApplyListPatch(EntityTypesToSpawnOnImpact, l, () => new EntityTypeToSpawnAttributesWrapper(), nameof(EntityTypeToSpawnAttributes));
+				weaponAttributesWrapper.EntityTypesToSpawnOnImpact = l.Where(x => x != null).ToArray();
 			}*/
 
 			if (TargetPrioritizationAttributes != null)
 			{
 				using (loader.logger.BeginScope($"TargetPrioritizationAttributes:"))
 				{
-					var targetPrioritizationWrapper = new TargetPriorizationAttributesWrapper(weaponAttributesWrapper.TargetPriorizationAttributes);
-					TargetPrioritizationAttributes.Apply(loader, targetPrioritizationWrapper, null);
-					weaponAttributesWrapper.TargetPriorizationAttributes = targetPrioritizationWrapper;
+					var w = new TargetPriorizationAttributesWrapper(wrapper.TargetPriorizationAttributes);
+					TargetPrioritizationAttributes.Apply(loader, w, null);
+					wrapper.TargetPriorizationAttributes = w;
 				}
 			}
 
 			if (OutputDPS == true)
 			{
-				OutputWeaponDPS(loader, weaponAttributesWrapper);
+				OutputWeaponDPS(loader, wrapper);
 			}
 		}
 

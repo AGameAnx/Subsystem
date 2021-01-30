@@ -4,13 +4,13 @@ namespace Subsystem.Patch
 {
 	public class ModifyInventoryAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ModifyInventoryAttributesWrapper modifyInventoryAttributesWrapper))
+			if (!(wrapperObj is ModifyInventoryAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(InventoryID, () => modifyInventoryAttributesWrapper.InventoryID);
-			loader.ApplyPropertyPatch(Delta, () => modifyInventoryAttributesWrapper.Delta);
+			loader.ApplyPropertyPatch(InventoryID, () => wrapper.InventoryID);
+			loader.ApplyPropertyPatch(Delta, () => wrapper.Delta);
 		}
 
 		public string InventoryID { get; set; }

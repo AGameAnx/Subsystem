@@ -5,13 +5,13 @@ namespace Subsystem.Patch
 {
 	public class EntityTypeToSpawnAttributesPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is EntityTypeToSpawnAttributesWrapper entityTypeToSpawnAttributesWrapper))
+			if (!(wrapperObj is EntityTypeToSpawnAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(EntityTypeToSpawn, () => entityTypeToSpawnAttributesWrapper.EntityTypeToSpawn);
-			loader.ApplyPropertyPatch(SpawnRotationOffsetDegrees, () => entityTypeToSpawnAttributesWrapper.SpawnRotationOffsetDegrees, Fixed64.UnsafeFromDouble);
+			loader.ApplyPropertyPatch(EntityTypeToSpawn, () => wrapper.EntityTypeToSpawn);
+			loader.ApplyPropertyPatch(SpawnRotationOffsetDegrees, () => wrapper.SpawnRotationOffsetDegrees, Fixed64.UnsafeFromDouble);
 		}
 
 		public string EntityTypeToSpawn { get; set; }

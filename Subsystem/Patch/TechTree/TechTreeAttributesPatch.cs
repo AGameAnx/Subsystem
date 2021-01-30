@@ -7,16 +7,16 @@ namespace Subsystem.Patch
 {
 	public class TechTreeAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is TechTreeAttributesWrapper techTreeAttributesWrapper))
+			if (!(wrapperObj is TechTreeAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
 			if (TechTrees != null)
 			{
-				var techTrees = techTreeAttributesWrapper.TechTrees?.Select(x => new TechTreeWrapper(x)).ToList() ?? new List<TechTreeWrapper>();
-				loader.ApplyListPatch(TechTrees, techTrees, () => new TechTreeWrapper(), nameof(TechTree));
-				techTreeAttributesWrapper.TechTrees = techTrees.ToArray();
+				var l = wrapper.TechTrees?.Select(x => new TechTreeWrapper(x)).ToList() ?? new List<TechTreeWrapper>();
+				loader.ApplyListPatch(TechTrees, l, () => new TechTreeWrapper(), nameof(TechTree));
+				wrapper.TechTrees = l.ToArray();
 			}
 		}
 

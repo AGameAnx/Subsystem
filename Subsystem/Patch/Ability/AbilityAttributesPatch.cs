@@ -8,52 +8,52 @@ namespace Subsystem.Patch
 {
 	public class AbilityAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is AbilityAttributesWrapper abilityAttributesWrapper))
+			if (!(wrapperObj is AbilityAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(AbilityType, () => abilityAttributesWrapper.AbilityType);
-			loader.ApplyPropertyPatch(TargetingType, () => abilityAttributesWrapper.TargetingType);
-			loader.ApplyPropertyPatch(TargetAlignment, () => abilityAttributesWrapper.TargetAlignment);
-			loader.ApplyPropertyPatch(AbilityMapTargetLayers, () => abilityAttributesWrapper.AbilityMapTargetLayers);
-			loader.ApplyPropertyPatch(GroundAutoTargetAlignment, () => abilityAttributesWrapper.GroundAutoTargetAlignment);
-			loader.ApplyPropertyPatch(EdgeOfTargetShapeMinDistance, () => abilityAttributesWrapper.EdgeOfTargetShapeMinDistance, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(CasterMovesToTarget, () => abilityAttributesWrapper.CasterMovesToTarget);
-			loader.ApplyPropertyPatch(GroupActivationType, () => abilityAttributesWrapper.GroupActivationType);
-			loader.ApplyPropertyPatch(StartsRemovedInGameMode, () => abilityAttributesWrapper.StartsRemovedInGameMode);
-			loader.ApplyPropertyPatch(CooldownTimeSecs, () => abilityAttributesWrapper.CooldownTimeSecs, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(WarmupTimeSecs, () => abilityAttributesWrapper.WarmupTimeSecs, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(SharedCooldownChannel, () => abilityAttributesWrapper.SharedCooldownChannel);
-			loader.ApplyPropertyPatch(SkipCastOnArrivalConditions, () => abilityAttributesWrapper.SkipCastOnArrivalConditions);
-			loader.ApplyPropertyPatch(IsToggleable, () => abilityAttributesWrapper.IsToggleable);
-			loader.ApplyPropertyPatch(CastOnDeath, () => abilityAttributesWrapper.CastOnDeath);
+			loader.ApplyPropertyPatch(AbilityType, () => wrapper.AbilityType);
+			loader.ApplyPropertyPatch(TargetingType, () => wrapper.TargetingType);
+			loader.ApplyPropertyPatch(TargetAlignment, () => wrapper.TargetAlignment);
+			loader.ApplyPropertyPatch(AbilityMapTargetLayers, () => wrapper.AbilityMapTargetLayers);
+			loader.ApplyPropertyPatch(GroundAutoTargetAlignment, () => wrapper.GroundAutoTargetAlignment);
+			loader.ApplyPropertyPatch(EdgeOfTargetShapeMinDistance, () => wrapper.EdgeOfTargetShapeMinDistance, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(CasterMovesToTarget, () => wrapper.CasterMovesToTarget);
+			loader.ApplyPropertyPatch(GroupActivationType, () => wrapper.GroupActivationType);
+			loader.ApplyPropertyPatch(StartsRemovedInGameMode, () => wrapper.StartsRemovedInGameMode);
+			loader.ApplyPropertyPatch(CooldownTimeSecs, () => wrapper.CooldownTimeSecs, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(WarmupTimeSecs, () => wrapper.WarmupTimeSecs, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(SharedCooldownChannel, () => wrapper.SharedCooldownChannel);
+			loader.ApplyPropertyPatch(SkipCastOnArrivalConditions, () => wrapper.SkipCastOnArrivalConditions);
+			loader.ApplyPropertyPatch(IsToggleable, () => wrapper.IsToggleable);
+			loader.ApplyPropertyPatch(CastOnDeath, () => wrapper.CastOnDeath);
 
 			if (TargetHighlighting != null)
 			{
 				using (loader.logger.BeginScope($"TargetHighlighting:"))
 				{
-					var targetHighlightingWrapper = new TargetHighlightingAttributesWrapper(abilityAttributesWrapper.TargetHighlighting);
-					TargetHighlighting.Apply(loader, targetHighlightingWrapper, null);
-					abilityAttributesWrapper.TargetHighlighting = targetHighlightingWrapper;
+					var w = new TargetHighlightingAttributesWrapper(wrapper.TargetHighlighting);
+					TargetHighlighting.Apply(loader, w, null);
+					wrapper.TargetHighlighting = w;
 				}
 			}
 
 			if (Resource1Cost != null || Resource2Cost != null)
 			{
-				var costAttributesWrapper = new CostAttributesWrapper(abilityAttributesWrapper.Cost);
-				loader.ApplyPropertyPatch(Resource1Cost, () => costAttributesWrapper.Resource1Cost);
-				loader.ApplyPropertyPatch(Resource2Cost, () => costAttributesWrapper.Resource2Cost);
-				abilityAttributesWrapper.Cost = costAttributesWrapper;
+				var w = new CostAttributesWrapper(wrapper.Cost);
+				loader.ApplyPropertyPatch(Resource1Cost, () => w.Resource1Cost);
+				loader.ApplyPropertyPatch(Resource2Cost, () => w.Resource2Cost);
+				wrapper.Cost = w;
 			}
 
 			if (Charges != null)
 			{
 				using (loader.logger.BeginScope($"Charges:"))
 				{
-					var chargeAttributesWrapper = new ChargeAttributesWrapper(abilityAttributesWrapper.Charges);
-					Charges.Apply(loader, chargeAttributesWrapper, null);
-					abilityAttributesWrapper.Charges = chargeAttributesWrapper;
+					var w = new ChargeAttributesWrapper(wrapper.Charges);
+					Charges.Apply(loader, w, null);
+					wrapper.Charges = w;
 				}
 			}
 
@@ -61,9 +61,9 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"Autocast:"))
 				{
-					var autocastAttributesWrapper = new AutocastAttributesWrapper(abilityAttributesWrapper.Autocast);
-					Autocast.Apply(loader, autocastAttributesWrapper, null);
-					abilityAttributesWrapper.Autocast = autocastAttributesWrapper;
+					var w = new AutocastAttributesWrapper(wrapper.Autocast);
+					Autocast.Apply(loader, w, null);
+					wrapper.Autocast = w;
 				}
 			}
 
@@ -71,9 +71,9 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"ProduceUnit:"))
 				{
-					var produceUnitAttributesWrapper = new ProduceUnitAttributesWrapper(abilityAttributesWrapper.ProduceUnit);
-					ProduceUnit.Apply(loader, produceUnitAttributesWrapper, null);
-					abilityAttributesWrapper.ProduceUnit = produceUnitAttributesWrapper;
+					var w = new ProduceUnitAttributesWrapper(wrapper.ProduceUnit);
+					ProduceUnit.Apply(loader, w, null);
+					wrapper.ProduceUnit = w;
 				}
 			}
 
@@ -81,26 +81,26 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"UseWeapon:"))
 				{
-					var useWeaponAttributesWrapper = new UseWeaponAttributesWrapper(abilityAttributesWrapper.UseWeapon);
-					UseWeapon.Apply(loader, useWeaponAttributesWrapper, null);
-					abilityAttributesWrapper.UseWeapon = useWeaponAttributesWrapper;
+					var w = new UseWeaponAttributesWrapper(wrapper.UseWeapon);
+					UseWeapon.Apply(loader, w, null);
+					wrapper.UseWeapon = w;
 				}
 			}
 
 			if (ChangeContext != null)
 			{
-				var changeContextAttributesWrapper = new ChangeContextAttributesWrapper(abilityAttributesWrapper.ChangeContext);
-				loader.ApplyPropertyPatch(ChangeContext, () => changeContextAttributesWrapper.TargetContext);
-				abilityAttributesWrapper.ChangeContext = changeContextAttributesWrapper;
+				var w = new ChangeContextAttributesWrapper(wrapper.ChangeContext);
+				loader.ApplyPropertyPatch(ChangeContext, () => w.TargetContext);
+				wrapper.ChangeContext = w;
 			}
 
 			if (AirSortie != null)
 			{
 				using (loader.logger.BeginScope($"AirSortie:"))
 				{
-					var airSortieAttributesWrapper = new AirSortieAttributesWrapper(abilityAttributesWrapper.AirSortie);
-					AirSortie.Apply(loader, airSortieAttributesWrapper, null);
-					abilityAttributesWrapper.AirSortie = airSortieAttributesWrapper;
+					var w = new AirSortieAttributesWrapper(wrapper.AirSortie);
+					AirSortie.Apply(loader, w, null);
+					wrapper.AirSortie = w;
 				}
 			}
 
@@ -108,9 +108,9 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"Salvage:"))
 				{
-					var salvageAttributesWrapper = new SalvageAttributesWrapper(abilityAttributesWrapper.Salvage);
-					Salvage.Apply(loader, salvageAttributesWrapper, null);
-					abilityAttributesWrapper.Salvage = salvageAttributesWrapper;
+					var w = new SalvageAttributesWrapper(wrapper.Salvage);
+					Salvage.Apply(loader, w, null);
+					wrapper.Salvage = w;
 				}
 			}
 
@@ -118,30 +118,30 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"ApplyStatusEffect:"))
 				{
-					var applyStatusEffectAttributesWrapper = new ApplyStatusEffectAttributesWrapper(abilityAttributesWrapper.ApplyStatusEffect);
+					var w = new ApplyStatusEffectAttributesWrapper(wrapper.ApplyStatusEffect);
 
-					var statusEffectWrappers = applyStatusEffectAttributesWrapper.StatusEffectsToApply?.Select(x => new StatusEffectAttributesWrapper(x)).ToList() ?? new List<StatusEffectAttributesWrapper>();
+					var statusEffectWrappers = w.StatusEffectsToApply?.Select(x => new StatusEffectAttributesWrapper(x)).ToList() ?? new List<StatusEffectAttributesWrapper>();
 					loader.ApplyNamedListPatch(ApplyStatusEffect, statusEffectWrappers, (x) => new StatusEffectAttributesWrapper(x), nameof(StatusEffectAttributes));
-					applyStatusEffectAttributesWrapper.StatusEffectsToApply = statusEffectWrappers.ToArray();
+					w.StatusEffectsToApply = statusEffectWrappers.ToArray();
 
-					abilityAttributesWrapper.ApplyStatusEffect = applyStatusEffectAttributesWrapper;
+					wrapper.ApplyStatusEffect = w;
 				}
 			}
 
 			if (Repair != null)
 			{
-				var repairAttributesWrapper = new RepairAttributesWrapper(abilityAttributesWrapper.Repair);
-				loader.ApplyPropertyPatch(Repair, () => repairAttributesWrapper.WeaponID);
-				abilityAttributesWrapper.Repair = repairAttributesWrapper;
+				var w = new RepairAttributesWrapper(wrapper.Repair);
+				loader.ApplyPropertyPatch(Repair, () => w.WeaponID);
+				wrapper.Repair = w;
 			}
 
 			if (SelfDestruct != null)
 			{
 				using (loader.logger.BeginScope($"SelfDestruct:"))
 				{
-					var selfDestructAttributesWrapper = new SelfDestructAttributesWrapper(abilityAttributesWrapper.SelfDestruct);
-					SelfDestruct.Apply(loader, selfDestructAttributesWrapper, null);
-					abilityAttributesWrapper.SelfDestruct = selfDestructAttributesWrapper;
+					var w = new SelfDestructAttributesWrapper(wrapper.SelfDestruct);
+					SelfDestruct.Apply(loader, w, null);
+					wrapper.SelfDestruct = w;
 				}
 			}
 
@@ -149,26 +149,26 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"ModifyInventory:"))
 				{
-					var modifyInventoryAttributesWrapper = new ModifyInventoryAttributesWrapper(abilityAttributesWrapper.ModifyInventory);
-					ModifyInventory.Apply(loader, modifyInventoryAttributesWrapper, null);
-					abilityAttributesWrapper.ModifyInventory = modifyInventoryAttributesWrapper;
+					var w = new ModifyInventoryAttributesWrapper(wrapper.ModifyInventory);
+					ModifyInventory.Apply(loader, w, null);
+					wrapper.ModifyInventory = w;
 				}
 			}
 
 			if (RequiredResearch != null)
 			{
-				var researchDependenciesAttributesWrapper = new ResearchDependenciesAttributesWrapper(abilityAttributesWrapper.ResearchDependencies);
-				loader.ApplyArrayPropertyPatch(RequiredResearch, researchDependenciesAttributesWrapper, "RequiredResearch");
-				abilityAttributesWrapper.ResearchDependencies = researchDependenciesAttributesWrapper;
+				var w = new ResearchDependenciesAttributesWrapper(wrapper.ResearchDependencies);
+				loader.ApplyArrayPropertyPatch(RequiredResearch, w, "RequiredResearch");
+				wrapper.ResearchDependencies = w;
 			}
 
 			if (ActivationDependencies != null)
 			{
 				using (loader.logger.BeginScope($"ActivationDependencies:"))
 				{
-					var activationDependenciesAttributesWrapper = new ActivationDependenciesAttributesWrapper(abilityAttributesWrapper.ActivationDependencies);
-					ActivationDependencies.Apply(loader, activationDependenciesAttributesWrapper, null);
-					abilityAttributesWrapper.ActivationDependencies = activationDependenciesAttributesWrapper;
+					var w = new ActivationDependenciesAttributesWrapper(wrapper.ActivationDependencies);
+					ActivationDependencies.Apply(loader, w, null);
+					wrapper.ActivationDependencies = w;
 				}
 			}
 
@@ -176,9 +176,9 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"AutoToggleOffConditions:"))
 				{
-					var autoToggleOffConditionsAttributesWrapper = new AutoToggleOffConditionsAttributesWrapper(abilityAttributesWrapper.AutoToggleOffConditions);
-					AutoToggleOffConditions.Apply(loader, autoToggleOffConditionsAttributesWrapper, null);
-					abilityAttributesWrapper.AutoToggleOffConditions = autoToggleOffConditionsAttributesWrapper;
+					var w = new AutoToggleOffConditionsAttributesWrapper(wrapper.AutoToggleOffConditions);
+					AutoToggleOffConditions.Apply(loader, w, null);
+					wrapper.AutoToggleOffConditions = w;
 				}
 			}
 
@@ -186,9 +186,9 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"ChainCasting:"))
 				{
-					var chainCastingAttributesWrapper = new ChainCastingAttributesWrapper(abilityAttributesWrapper.ChainCasting);
-					ChainCasting.Apply(loader, chainCastingAttributesWrapper, null);
-					abilityAttributesWrapper.ChainCasting = chainCastingAttributesWrapper;
+					var w = new ChainCastingAttributesWrapper(wrapper.ChainCasting);
+					ChainCasting.Apply(loader, w, null);
+					wrapper.ChainCasting = w;
 				}
 			}
 		}

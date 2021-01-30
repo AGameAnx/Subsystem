@@ -5,20 +5,20 @@ namespace Subsystem.Patch
 {
 	public class UnitMovementAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is UnitMovementAttributesWrapper unitMovementAttributesWrapper))
+			if (!(wrapperObj is UnitMovementAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(DriveType, () => unitMovementAttributesWrapper.DriveType);
+			loader.ApplyPropertyPatch(DriveType, () => wrapper.DriveType);
 
 			if (Dynamics != null)
 			{
 				using (loader.logger.BeginScope($"UnitDynamicsAttributes:"))
 				{
-					var unitDynamicsAttributesWrapper = new UnitDynamicsAttributesWrapper(unitMovementAttributesWrapper.Dynamics);
-					Dynamics.Apply(loader, unitDynamicsAttributesWrapper, null);
-					unitMovementAttributesWrapper.Dynamics = unitDynamicsAttributesWrapper;
+					var w = new UnitDynamicsAttributesWrapper(wrapper.Dynamics);
+					Dynamics.Apply(loader, w, null);
+					wrapper.Dynamics = w;
 				}
 			}
 
@@ -26,9 +26,9 @@ namespace Subsystem.Patch
 			{
 				using (loader.logger.BeginScope($"Combat:"))
 				{
-					var unitCombatBehaviorAttributesWrapper = new UnitCombatBehaviorAttributesWrapper(unitMovementAttributesWrapper.Combat);
-					Combat.Apply(loader, unitCombatBehaviorAttributesWrapper, null);
-					unitMovementAttributesWrapper.Combat = unitCombatBehaviorAttributesWrapper;
+					var w = new UnitCombatBehaviorAttributesWrapper(wrapper.Combat);
+					Combat.Apply(loader, w, null);
+					wrapper.Combat = w;
 				}
 			}
 		}

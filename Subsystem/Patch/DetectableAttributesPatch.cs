@@ -6,18 +6,18 @@ namespace Subsystem.Patch
 {
 	public class DetectableAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is DetectableAttributesWrapper detectableAttributesWrapper))
+			if (!(wrapperObj is DetectableAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(DisplayLastKnownLocation, () => detectableAttributesWrapper.DisplayLastKnownLocation);
-			loader.ApplyPropertyPatch(LastKnownDuration, () => detectableAttributesWrapper.LastKnownDuration, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(TimeVisibleAfterFiring, () => detectableAttributesWrapper.TimeVisibleAfterFiring);
-			loader.ApplyPropertyPatch(AlwaysVisible, () => detectableAttributesWrapper.AlwaysVisible);
-			loader.ApplyPropertyPatch(MinimumStateAfterDetection, () => detectableAttributesWrapper.MinimumStateAfterDetection);
-			loader.ApplyPropertyPatch(FOWFadeDuration, () => detectableAttributesWrapper.FOWFadeDuration, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(SetHasBeenSeenBeforeOnSpawn, () => detectableAttributesWrapper.SetHasBeenSeenBeforeOnSpawn);
+			loader.ApplyPropertyPatch(DisplayLastKnownLocation, () => wrapper.DisplayLastKnownLocation);
+			loader.ApplyPropertyPatch(LastKnownDuration, () => wrapper.LastKnownDuration, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(TimeVisibleAfterFiring, () => wrapper.TimeVisibleAfterFiring);
+			loader.ApplyPropertyPatch(AlwaysVisible, () => wrapper.AlwaysVisible);
+			loader.ApplyPropertyPatch(MinimumStateAfterDetection, () => wrapper.MinimumStateAfterDetection);
+			loader.ApplyPropertyPatch(FOWFadeDuration, () => wrapper.FOWFadeDuration, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(SetHasBeenSeenBeforeOnSpawn, () => wrapper.SetHasBeenSeenBeforeOnSpawn);
 		}
 
 		public bool? DisplayLastKnownLocation { get; set; }

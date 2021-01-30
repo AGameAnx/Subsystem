@@ -4,13 +4,13 @@ namespace Subsystem.Patch
 {
 	public class TechUpgradePatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is TechUpgradeWrapper techUpgradeWrapper))
+			if (!(wrapperObj is TechUpgradeWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(ResearchItem, () => techUpgradeWrapper.ResearchItem);
-			loader.ApplyPropertyPatch(UpgradeName, () => techUpgradeWrapper.UpgradeName);
+			loader.ApplyPropertyPatch(ResearchItem, () => wrapper.ResearchItem);
+			loader.ApplyPropertyPatch(UpgradeName, () => wrapper.UpgradeName);
 		}
 
 		public string ResearchItem { get; set; }

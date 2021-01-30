@@ -8,15 +8,15 @@ namespace Subsystem.Patch
 {
 	public class StorageAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is StorageAttributesWrapper storageAttributesWrapper))
+			if (!(wrapperObj is StorageAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(LinkToPlayerBank, () => storageAttributesWrapper.LinkToPlayerBank);
-			loader.ApplyPropertyPatch(IsResourceController, () => storageAttributesWrapper.IsResourceController);
+			loader.ApplyPropertyPatch(LinkToPlayerBank, () => wrapper.LinkToPlayerBank);
+			loader.ApplyPropertyPatch(IsResourceController, () => wrapper.IsResourceController);
 
-			var loadout = storageAttributesWrapper.InventoryLoadout.ToList();
+			var loadout = wrapper.InventoryLoadout.ToList();
 
 			loader.logger.BeginScope($"Available inventory IDs: {String.Join(", ", loadout.Select(x => x.InventoryID).ToArray())}").Dispose();
 
@@ -35,7 +35,7 @@ namespace Subsystem.Patch
 					{
 						index = loadout.Count;
 
-						var name = $"SUBSYSTEM-{storageAttributesWrapper.Name}-{inventoryId}";
+						var name = $"SUBSYSTEM-{wrapper.Name}-{inventoryId}";
 						loader.logger.Log($"(created InventoryAttributes: {name})");
 
 						inventoryAttributesWrapper = new InventoryAttributesWrapper(
@@ -68,7 +68,7 @@ namespace Subsystem.Patch
 				}
 			}
 
-			storageAttributesWrapper.InventoryLoadout = loadout.ToArray();
+			wrapper.InventoryLoadout = loadout.ToArray();
 		}
 
 		public bool? LinkToPlayerBank { get; set; }

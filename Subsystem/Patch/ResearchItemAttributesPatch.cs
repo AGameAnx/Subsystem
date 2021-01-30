@@ -8,27 +8,27 @@ namespace Subsystem.Patch
 {
 	public class ResearchItemAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ResearchItemAttributesWrapper researchItemAttributesWrapper))
+			if (!(wrapperObj is ResearchItemAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(TypeOfResearch, () => researchItemAttributesWrapper.TypeOfResearch);
-			loader.ApplyPropertyPatch(IconSpriteName, () => researchItemAttributesWrapper.IconSpriteName);
-			loader.ApplyPropertyPatch(LocalizedResearchTitleStringID, () => researchItemAttributesWrapper.LocalizedResearchTitleStringID);
-			loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, () => researchItemAttributesWrapper.LocalizedShortDescriptionStringID);
-			loader.ApplyPropertyPatch(LocalizedLongDescriptionStringID, () => researchItemAttributesWrapper.LocalizedLongDescriptionStringID);
-			loader.ApplyPropertyPatch(ResearchTime, () => researchItemAttributesWrapper.ResearchTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(Dependencies, () => researchItemAttributesWrapper.Dependencies);
-			loader.ApplyPropertyPatch(ResearchVOCode, () => researchItemAttributesWrapper.ResearchVOCode);
-			loader.ApplyPropertyPatch(Resource1Cost, () => researchItemAttributesWrapper.Resource1Cost);
-			loader.ApplyPropertyPatch(Resource2Cost, () => researchItemAttributesWrapper.Resource2Cost);
+			loader.ApplyPropertyPatch(TypeOfResearch, () => wrapper.TypeOfResearch);
+			loader.ApplyPropertyPatch(IconSpriteName, () => wrapper.IconSpriteName);
+			loader.ApplyPropertyPatch(LocalizedResearchTitleStringID, () => wrapper.LocalizedResearchTitleStringID);
+			loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, () => wrapper.LocalizedShortDescriptionStringID);
+			loader.ApplyPropertyPatch(LocalizedLongDescriptionStringID, () => wrapper.LocalizedLongDescriptionStringID);
+			loader.ApplyPropertyPatch(ResearchTime, () => wrapper.ResearchTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(Dependencies, () => wrapper.Dependencies);
+			loader.ApplyPropertyPatch(ResearchVOCode, () => wrapper.ResearchVOCode);
+			loader.ApplyPropertyPatch(Resource1Cost, () => wrapper.Resource1Cost);
+			loader.ApplyPropertyPatch(Resource2Cost, () => wrapper.Resource2Cost);
 
 			if (UnitTypeBuffs != null)
 			{
-				var wrappers = researchItemAttributesWrapper.UnitTypeBuffs?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
-				loader.ApplyListPatch(UnitTypeBuffs, wrappers, () => new UnitTypeBuffWrapper(), nameof(UnitTypeBuff));
-				researchItemAttributesWrapper.UnitTypeBuffs = wrappers.Where(x => x != null).ToArray();
+				var l = wrapper.UnitTypeBuffs?.Select(x => new UnitTypeBuffWrapper(x)).ToList() ?? new List<UnitTypeBuffWrapper>();
+				loader.ApplyListPatch(UnitTypeBuffs, l, () => new UnitTypeBuffWrapper(), nameof(UnitTypeBuff));
+				wrapper.UnitTypeBuffs = l.Where(x => x != null).ToArray();
 			}
 		}
 

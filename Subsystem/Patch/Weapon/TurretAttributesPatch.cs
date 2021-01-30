@@ -5,14 +5,14 @@ namespace Subsystem.Patch
 {
 	public class TurretAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is TurretAttributesWrapper turretAttributesWrapper))
+			if (!(wrapperObj is TurretAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(FieldOfFire, () => turretAttributesWrapper.FieldOfFire, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(FieldOfView, () => turretAttributesWrapper.FieldOfView, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(RotationSpeed, () => turretAttributesWrapper.RotationSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(FieldOfFire, () => wrapper.FieldOfFire, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(FieldOfView, () => wrapper.FieldOfView, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(RotationSpeed, () => wrapper.RotationSpeed, x => Fixed64.UnsafeFromDouble(x));
 		}
 
 		public double? FieldOfView { get; set; }

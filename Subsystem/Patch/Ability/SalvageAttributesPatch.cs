@@ -6,18 +6,18 @@ namespace Subsystem.Patch
 {
 	public class SalvageAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is SalvageAttributesWrapper salvageAttributesWrapper))
+			if (!(wrapperObj is SalvageAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(TargetType, () => salvageAttributesWrapper.TargetType);
-			loader.ApplyArrayPropertyPatch(ExcludedResourceTargetTypes, salvageAttributesWrapper, "ExcludedResourceTargetTypes");
-			loader.ApplyPropertyPatch(AllowSearchingForNextNode, () => salvageAttributesWrapper.AllowSearchingForNextNode);
-			loader.ApplyPropertyPatch(SearchRelativeToClosestResourceControllerOnDropOff, () => salvageAttributesWrapper.SearchRelativeToClosestResourceControllerOnDropOff);
-			loader.ApplyPropertyPatch(TargetedSearchRange, () => salvageAttributesWrapper.TargetedSearchRange, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(UseFallbackResourcing, () => salvageAttributesWrapper.UseFallbackResourcing);
-			loader.ApplyArrayPropertyPatch(FallbackResourceTargetType, salvageAttributesWrapper, "FallbackResourceTargetType");
+			loader.ApplyPropertyPatch(TargetType, () => wrapper.TargetType);
+			loader.ApplyArrayPropertyPatch(ExcludedResourceTargetTypes, wrapper, "ExcludedResourceTargetTypes");
+			loader.ApplyPropertyPatch(AllowSearchingForNextNode, () => wrapper.AllowSearchingForNextNode);
+			loader.ApplyPropertyPatch(SearchRelativeToClosestResourceControllerOnDropOff, () => wrapper.SearchRelativeToClosestResourceControllerOnDropOff);
+			loader.ApplyPropertyPatch(TargetedSearchRange, () => wrapper.TargetedSearchRange, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(UseFallbackResourcing, () => wrapper.UseFallbackResourcing);
+			loader.ApplyArrayPropertyPatch(FallbackResourceTargetType, wrapper, "FallbackResourceTargetType");
 		}
 
 		public SalvageTargetType? TargetType { get; set; }

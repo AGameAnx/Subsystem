@@ -5,14 +5,14 @@ namespace Subsystem.Patch
 {
 	public class ActivationDependenciesAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ActivationDependenciesAttributesWrapper activationDependenciesAttributesWrapper))
+			if (!(wrapperObj is ActivationDependenciesAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(ManeuveringDependencies, () => activationDependenciesAttributesWrapper.ManeuveringDependencies);
-			loader.ApplyPropertyPatch(CommanderHasUnitWithTargetables, () => activationDependenciesAttributesWrapper.CommanderHasUnitWithTargetables);
-			loader.ApplyPropertyPatch(TakeNoDamageForMS, () => activationDependenciesAttributesWrapper.TakeNoDamageForMS);
+			loader.ApplyPropertyPatch(ManeuveringDependencies, () => wrapper.ManeuveringDependencies);
+			loader.ApplyPropertyPatch(CommanderHasUnitWithTargetables, () => wrapper.CommanderHasUnitWithTargetables);
+			loader.ApplyPropertyPatch(TakeNoDamageForMS, () => wrapper.TakeNoDamageForMS);
 		}
 
 		public ManeuveringRequirements? ManeuveringDependencies { get; set; }

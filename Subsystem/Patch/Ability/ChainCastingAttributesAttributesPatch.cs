@@ -5,15 +5,15 @@ namespace Subsystem.Patch
 {
 	public class ChainCastingAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ChainCastingAttributesWrapper chainCastingAttributesWrapper))
+			if (!(wrapperObj is ChainCastingAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(QueuedAbility, () => chainCastingAttributesWrapper.QueuedAbility);
-			loader.ApplyPropertyPatch(QueuedAbilityDelay, () => chainCastingAttributesWrapper.QueuedAbilityDelay, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(RetryQueueIfAbilityFails, () => chainCastingAttributesWrapper.RetryQueueIfAbilityFails);
-			loader.ApplyPropertyPatch(AbilityOnToggledOff, () => chainCastingAttributesWrapper.AbilityOnToggledOff);
+			loader.ApplyPropertyPatch(QueuedAbility, () => wrapper.QueuedAbility);
+			loader.ApplyPropertyPatch(QueuedAbilityDelay, () => wrapper.QueuedAbilityDelay, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(RetryQueueIfAbilityFails, () => wrapper.RetryQueueIfAbilityFails);
+			loader.ApplyPropertyPatch(AbilityOnToggledOff, () => wrapper.AbilityOnToggledOff);
 		}
 
 		public string QueuedAbility { get; set; }

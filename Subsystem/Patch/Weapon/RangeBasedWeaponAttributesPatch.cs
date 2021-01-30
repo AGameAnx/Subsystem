@@ -5,14 +5,14 @@ namespace Subsystem.Patch
 {
 	public class RangeBasedWeaponAttributesPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is RangeBasedWeaponAttributesWrapper rangeBasedWeaponAttributesWrapper))
+			if (!(wrapperObj is RangeBasedWeaponAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(Accuracy, () => rangeBasedWeaponAttributesWrapper.Accuracy, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(Distance, () => rangeBasedWeaponAttributesWrapper.Distance, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MinDistance, () => rangeBasedWeaponAttributesWrapper.MinDistance, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(Accuracy, () => wrapper.Accuracy, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(Distance, () => wrapper.Distance, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MinDistance, () => wrapper.MinDistance, x => Fixed64.UnsafeFromDouble(x));
 		}
 
 		public double? Accuracy { get; set; }

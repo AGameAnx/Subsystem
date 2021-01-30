@@ -4,7 +4,7 @@ namespace Subsystem.Patch
 {
 	public class ModifierAttributesPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{ } // Does nothing because ModifierAttributes is a struct, see StatusEffectAttributesPatch class
 
 		public ModifierType? ModifierType { get; set; }

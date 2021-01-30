@@ -5,15 +5,15 @@ namespace Subsystem.Patch
 {
 	public class WeaponModifierInfoPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is WeaponModifierInfoWrapper weaponModifierInfoWrapper))
+			if (!(wrapperObj is WeaponModifierInfoWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(TargetClass, () => weaponModifierInfoWrapper.TargetClass);
-			loader.ApplyPropertyPatch(ClassOperator, () => weaponModifierInfoWrapper.ClassOperator);
-			loader.ApplyPropertyPatch(Modifier, () => weaponModifierInfoWrapper.Modifier);
-			loader.ApplyPropertyPatch(Amount, () => weaponModifierInfoWrapper.Amount);
+			loader.ApplyPropertyPatch(TargetClass, () => wrapper.TargetClass);
+			loader.ApplyPropertyPatch(ClassOperator, () => wrapper.ClassOperator);
+			loader.ApplyPropertyPatch(Modifier, () => wrapper.Modifier);
+			loader.ApplyPropertyPatch(Amount, () => wrapper.Amount);
 		}
 
 		public UnitClass? TargetClass { get; set; }

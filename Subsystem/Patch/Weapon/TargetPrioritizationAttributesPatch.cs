@@ -5,20 +5,20 @@ namespace Subsystem.Patch
 {
 	public class TargetPrioritizationAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is TargetPriorizationAttributesWrapper targetPrioritizationAttributesWrapper))
+			if (!(wrapperObj is TargetPriorizationAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(WeaponEffectivenessWeight, () => targetPrioritizationAttributesWrapper.WeaponEffectivenessWeight, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(TargetThreatWeight, () => targetPrioritizationAttributesWrapper.TargetThreatWeight, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(DistanceWeight, () => targetPrioritizationAttributesWrapper.DistanceWeight, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(AngleWeight, () => targetPrioritizationAttributesWrapper.AngleWeight, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(TargetPriorityWeight, () => targetPrioritizationAttributesWrapper.TargetPriorityWeight, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(AutoTargetStickyBias, () => targetPrioritizationAttributesWrapper.AutoTargetStickyBias, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(ManualTargetStickyBias, () => targetPrioritizationAttributesWrapper.ManualTargetStickyBias, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(TargetSameCommanderBias, () => targetPrioritizationAttributesWrapper.TargetSameCommanderBias, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(TargetWithinFOVBias, () => targetPrioritizationAttributesWrapper.TargetWithinFOVBias, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(WeaponEffectivenessWeight, () => wrapper.WeaponEffectivenessWeight, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(TargetThreatWeight, () => wrapper.TargetThreatWeight, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(DistanceWeight, () => wrapper.DistanceWeight, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AngleWeight, () => wrapper.AngleWeight, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(TargetPriorityWeight, () => wrapper.TargetPriorityWeight, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AutoTargetStickyBias, () => wrapper.AutoTargetStickyBias, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(ManualTargetStickyBias, () => wrapper.ManualTargetStickyBias, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(TargetSameCommanderBias, () => wrapper.TargetSameCommanderBias, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(TargetWithinFOVBias, () => wrapper.TargetWithinFOVBias, x => Fixed64.UnsafeFromDouble(x));
 		}
 
 		public double? WeaponEffectivenessWeight { get; set; }

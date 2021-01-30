@@ -4,13 +4,13 @@ namespace Subsystem.Patch
 {
 	public class AutocastAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is AutocastAttributesWrapper autocastAttributesWrapper))
+			if (!(wrapperObj is AutocastAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(IsAutocastable, () => autocastAttributesWrapper.IsAutocastable);
-			loader.ApplyPropertyPatch(AutocastEnabledOnSpawn, () => autocastAttributesWrapper.AutocastEnabledOnSpawn);
+			loader.ApplyPropertyPatch(IsAutocastable, () => wrapper.IsAutocastable);
+			loader.ApplyPropertyPatch(AutocastEnabledOnSpawn, () => wrapper.AutocastEnabledOnSpawn);
 		}
 
 		public bool? IsAutocastable { get; set; }

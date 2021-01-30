@@ -6,17 +6,17 @@ namespace Subsystem.Patch
 {
 	public class ProjectileMotionStagePatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is ProjectileMotionStageWrapper projectileMotionStageWrapper))
+			if (!(wrapperObj is ProjectileMotionStageWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(OutroType, () => projectileMotionStageWrapper.OutroType);
-			loader.ApplyPropertyPatch(OutroValue, () => projectileMotionStageWrapper.OutroValue, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MinSpeed, () => projectileMotionStageWrapper.MinSpeed, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(MaxSpeed, () => projectileMotionStageWrapper.MaxSpeed, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(AccelerationTime, () => projectileMotionStageWrapper.AccelerationTime, x => Fixed64.UnsafeFromDouble(x));
-			loader.ApplyPropertyPatch(TurnsToTarget, () => projectileMotionStageWrapper.TurnsToTarget);
+			loader.ApplyPropertyPatch(OutroType, () => wrapper.OutroType);
+			loader.ApplyPropertyPatch(OutroValue, () => wrapper.OutroValue, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MinSpeed, () => wrapper.MinSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(MaxSpeed, () => wrapper.MaxSpeed, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(AccelerationTime, () => wrapper.AccelerationTime, x => Fixed64.UnsafeFromDouble(x));
+			loader.ApplyPropertyPatch(TurnsToTarget, () => wrapper.TurnsToTarget);
 		}
 
 		public ProjectileOutroType? OutroType { get; set; }

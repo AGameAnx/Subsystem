@@ -6,23 +6,23 @@ namespace Subsystem.Patch
 {
 	public class PowerLevelAttributesPatch : SubsystemPatch
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is PowerLevelAttributesWrapper powerLevelAttributesWrapper))
+			if (!(wrapperObj is PowerLevelAttributesWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(PowerUnitsRequired, () => powerLevelAttributesWrapper.PowerUnitsRequired);
-			loader.ApplyPropertyPatch(HeatPointsProvided, () => powerLevelAttributesWrapper.HeatPointsProvided);
+			loader.ApplyPropertyPatch(PowerUnitsRequired, () => wrapper.PowerUnitsRequired);
+			loader.ApplyPropertyPatch(HeatPointsProvided, () => wrapper.HeatPointsProvided);
 
-			var statusEffects = powerLevelAttributesWrapper.StatusEffectsToApply?.Select(x => new StatusEffectAttributesWrapper(x)).ToList() ?? new List<StatusEffectAttributesWrapper>();
+			var statusEffects = wrapper.StatusEffectsToApply?.Select(x => new StatusEffectAttributesWrapper(x)).ToList() ?? new List<StatusEffectAttributesWrapper>();
 			loader.ApplyNamedListPatch(StatusEffectsToApply, statusEffects, (x) => new StatusEffectAttributesWrapper(x), "StatusEffectsToApply");
-			powerLevelAttributesWrapper.StatusEffectsToApply = statusEffects.ToArray();
+			wrapper.StatusEffectsToApply = statusEffects.ToArray();
 
 			if (LocalizedShortDescriptionStringID != null)
 			{
-				PowerLevelViewAttributesWrapper powerLevelViewAttributesWrapper = new PowerLevelViewAttributesWrapper(powerLevelAttributesWrapper.View);
+				PowerLevelViewAttributesWrapper powerLevelViewAttributesWrapper = new PowerLevelViewAttributesWrapper(wrapper.View);
 				loader.ApplyPropertyPatch(LocalizedShortDescriptionStringID, () => powerLevelViewAttributesWrapper.LocalizedShortDescriptionStringID);
-				powerLevelAttributesWrapper.View = powerLevelViewAttributesWrapper;
+				wrapper.View = powerLevelViewAttributesWrapper;
 			}
 		}
 

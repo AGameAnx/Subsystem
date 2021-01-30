@@ -6,16 +6,16 @@ namespace Subsystem.Patch
 {
 	public class AttributeBuffPatch : SubsystemPatch, IRemovable
 	{
-		protected override void Apply(AttributeLoader loader, object wrapper)
+		protected override void Apply(AttributeLoader loader, object wrapperObj)
 		{
-			if (!(wrapper is AttributeBuffWrapper attributeBuffWrapper))
+			if (!(wrapperObj is AttributeBuffWrapper wrapper))
 				throw new System.InvalidCastException();
 
-			loader.ApplyPropertyPatch(Name, () => attributeBuffWrapper.Name);
-			loader.ApplyPropertyPatch(Attribute, () => attributeBuffWrapper.AttributeID, Buff.AttributeIDFromBuffCategoryAndID);
-			loader.ApplyPropertyPatch(Attribute, () => attributeBuffWrapper.Category, Buff.CategoryFromBuffCategoryAndID);
-			loader.ApplyPropertyPatch(Mode, () => attributeBuffWrapper.Mode);
-			loader.ApplyPropertyPatch(Value, () => attributeBuffWrapper.Value);
+			loader.ApplyPropertyPatch(Name, () => wrapper.Name);
+			loader.ApplyPropertyPatch(Attribute, () => wrapper.AttributeID, Buff.AttributeIDFromBuffCategoryAndID);
+			loader.ApplyPropertyPatch(Attribute, () => wrapper.Category, Buff.CategoryFromBuffCategoryAndID);
+			loader.ApplyPropertyPatch(Mode, () => wrapper.Mode);
+			loader.ApplyPropertyPatch(Value, () => wrapper.Value);
 		}
 
 		public string Name { get; set; }

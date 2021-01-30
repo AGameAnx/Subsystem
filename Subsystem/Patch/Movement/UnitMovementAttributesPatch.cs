@@ -21,7 +21,15 @@ namespace Subsystem.Patch
 					wrapper.Dynamics = w;
 				}
 			}
-
+			if (RandomDynamicsVariance != null)
+			{
+				using (loader.logger.BeginScope($"RandomDynamicsVariance:"))
+				{
+					var w = new UnitDynamicsRandomizationParametersWrapper(wrapper.RandomDynamicsVariance);
+					RandomDynamicsVariance.Apply(loader, w, null);
+					wrapper.RandomDynamicsVariance = w;
+				}
+			}
 			if (Combat != null)
 			{
 				using (loader.logger.BeginScope($"Combat:"))
@@ -35,6 +43,7 @@ namespace Subsystem.Patch
 
 		public UnitDriveType? DriveType { get; set; }
 		public UnitDynamicsAttributesPatch Dynamics { get; set; }
+		public UnitDynamicsRandomizationParametersPatch RandomDynamicsVariance { get; set; }
 		public UnitCombatBehaviorAttributesPatch Combat { get; set; }
 	}
 }

@@ -47,6 +47,7 @@
     <Reference Include="UnityEngine" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patch\Movement\UnitDynamicsRandomizationParametersPatch.cs" />
     <Compile Include="Patch\Movement\UnitCombatBehaviorAttributesPatch.cs" />
     <Compile Include="WeaponDPSInfo.cs" />
     <Compile Include="StatsSheetSettings.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Wrappers\AttributeBuffWrapper.cs" />
     <Compile Include="Wrappers\Ability\ChargeAttributesWrapper.cs" />
     <Compile Include="Wrappers\Ability\TargetHighlightingAttributesWrapper.cs" />
+    <Compile Include="Wrappers\Movement\UnitDynamicsRandomizationParametersWrapper.cs" />
     <Compile Include="Wrappers\Movement\UnitCombatBehaviorAttributesWrapper.cs" />
     <Compile Include="Wrappers\PowerShunt\PowerLevelViewAttributesWrapper.cs" />
     <Compile Include="Wrappers\PowerShunt\PowerShuntViewAttributesWrapper.cs" />

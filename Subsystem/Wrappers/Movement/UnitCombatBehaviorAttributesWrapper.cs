@@ -1,7 +1,5 @@
-﻿
-using BBI.Core.Utility.FixedPoint;
+﻿using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
-using System.Linq;
 
 namespace Subsystem.Wrappers
 {

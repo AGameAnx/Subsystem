@@ -30,6 +30,24 @@ namespace Subsystem.Patch
 					wrapper.RandomDynamicsVariance = w;
 				}
 			}
+			if (Maneuvers != null)
+			{
+				using (loader.logger.BeginScope($"RandomDynamicsVariance:"))
+				{
+					var w = new UnitManeuverAttributesWrapper(wrapper.Maneuvers);
+					Maneuvers.Apply(loader, w, null);
+					wrapper.Maneuvers = w;
+				}
+			}
+			if (Hover != null)
+			{
+				using (loader.logger.BeginScope($"Hover:"))
+				{
+					var w = new HoverDynamicsAttributesWrapper(wrapper.Hover);
+					Hover.Apply(loader, w, null);
+					wrapper.Hover = w;
+				}
+			}
 			if (Combat != null)
 			{
 				using (loader.logger.BeginScope($"Combat:"))
@@ -39,11 +57,33 @@ namespace Subsystem.Patch
 					wrapper.Combat = w;
 				}
 			}
+			if (Avoidance != null)
+			{
+				using (loader.logger.BeginScope($"Combat:"))
+				{
+					var w = new UnitAvoidanceAttributesWrapper(wrapper.Avoidance);
+					Avoidance.Apply(loader, w, null);
+					wrapper.Avoidance = w;
+				}
+			}
+			if (ReversePolarity != null)
+			{
+				using (loader.logger.BeginScope($"ReversePolarity:"))
+				{
+					var w = new ReversePolarityAttributesWrapper(wrapper.ReversePolarity);
+					ReversePolarity.Apply(loader, w, null);
+					wrapper.ReversePolarity = w;
+				}
+			}
 		}
 
 		public UnitDriveType? DriveType { get; set; }
 		public UnitDynamicsAttributesPatch Dynamics { get; set; }
 		public UnitDynamicsRandomizationParametersPatch RandomDynamicsVariance { get; set; }
+		public UnitManeuverAttributesPatch Maneuvers { get; set; }
+		public HoverDynamicsAttributesPatch Hover { get; set; }
 		public UnitCombatBehaviorAttributesPatch Combat { get; set; }
+		public UnitAvoidanceAttributesPatch Avoidance { get; set; }
+		public ReversePolarityAttributesPatch ReversePolarity { get; set; }
 	}
 }

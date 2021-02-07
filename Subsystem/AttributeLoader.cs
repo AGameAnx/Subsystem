@@ -46,7 +46,7 @@ namespace Subsystem
 			}
 			else
 			{
-				writer.WriteLine("Patch file empty or not found");
+				writer.WriteLine("Patch file empty, not found or json parse failed. See output_log.txt for details");
 			}
 
 			File.WriteAllText(Path.Combine(Application.dataPath, "Subsystem.log"), writer.ToString());

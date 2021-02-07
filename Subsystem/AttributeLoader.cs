@@ -89,8 +89,48 @@ namespace Subsystem
 			return "";
 		}
 
+		private void ApplyEntityTypePatch(EntityTypeAttributes entityType, EntityTypePatch entityTypePatch)
+		{
+			applyUnnamedComponentPatch<ExperienceAttributes, ExperienceAttributesWrapper>(
+				entityType, entityTypePatch.ExperienceAttributes, x => new ExperienceAttributesWrapper(x));
+			applyUnnamedComponentPatch<UnitAttributes, UnitAttributesWrapper>(
+				entityType, entityTypePatch.UnitAttributes, x => new UnitAttributesWrapper(x));
+			applyUnnamedComponentPatch<ResearchItemAttributes, ResearchItemAttributesWrapper>(
+				entityType, entityTypePatch.ResearchItemAttributes, x => new ResearchItemAttributesWrapper(x));
+			applyUnnamedComponentPatch<UnitHangarAttributes, UnitHangarAttributesWrapper>(
+				entityType, entityTypePatch.UnitHangarAttributes, x => new UnitHangarAttributesWrapper(x));
+			applyUnnamedComponentPatch<DetectableAttributes, DetectableAttributesWrapper>(
+				entityType, entityTypePatch.DetectableAttributes, x => new DetectableAttributesWrapper(x));
+			applyUnnamedComponentPatch<UnitMovementAttributes, UnitMovementAttributesWrapper>(
+				entityType, entityTypePatch.UnitMovementAttributes, x => new UnitMovementAttributesWrapper(x));
+			applyUnnamedComponentPatch<StatusEffectAttributes, StatusEffectAttributesWrapper>(
+				entityType, entityTypePatch.StatusEffectAttributes, x => new StatusEffectAttributesWrapper(x));
+			applyUnnamedComponentPatch<PowerShuntAttributes, PowerShuntAttributesWrapper>(
+				entityType, entityTypePatch.PowerShuntAttributes, x => new PowerShuntAttributesWrapper(x));
+			applyUnnamedComponentPatch<ProjectileAttributes, ProjectileAttributesWrapper>(
+				entityType, entityTypePatch.ProjectileAttributes, x => new ProjectileAttributesWrapper(x));
+			applyUnnamedComponentPatch<ResourceAttributes, ResourceAttributesWrapper>(
+				entityType, entityTypePatch.ResourceAttributes, x => new ResourceAttributesWrapper(x));
+			applyUnnamedComponentPatch<RelicAttributes, RelicAttributesWrapper>(
+				entityType, entityTypePatch.RelicAttributes, x => new RelicAttributesWrapper(x));
+			applyUnnamedComponentPatch<TechTreeAttributes, TechTreeAttributesWrapper>(
+				entityType, entityTypePatch.TechTreeAttributes, x => new TechTreeAttributesWrapper(x));
+
+			applyNamedComponentPatch<AbilityAttributes, AbilityAttributesWrapper, Patch.AbilityAttributesPatch>(
+				entityType, entityTypePatch.AbilityAttributes, x => new AbilityAttributesWrapper(x));
+			applyNamedComponentPatch<AbilityViewAttributes, AbilityViewAttributes, Patch.AbilityViewAttributesPatch>(
+				entityType, entityTypePatch.AbilityViewAttributes, x => x);
+
+			applyNamedComponentPatch<StorageAttributes, StorageAttributesWrapper, Patch.StorageAttributesPatch>(
+				entityType, entityTypePatch.StorageAttributes, x => new StorageAttributesWrapper(x));
+			applyNamedComponentPatch<WeaponAttributes, WeaponAttributesWrapper, Patch.WeaponAttributesPatch>(
+				entityType, entityTypePatch.WeaponAttributes, x => new WeaponAttributesWrapper(x));
+		}
+
 		public void ApplyAttributesPatch(EntityTypeCollection entityTypeCollection, AttributesPatch attributesPatch)
 		{
+			logger.Log("[ APPLYING ENTITY TYPE ATTRIBUTES ]");
+
 			foreach (var kvp in attributesPatch.Entities)
 			{
 				string entityTypeName = kvp.Key;
@@ -132,41 +172,15 @@ namespace Subsystem
 						continue;
 					}
 
-					applyUnnamedComponentPatch<ExperienceAttributes, ExperienceAttributesWrapper>(
-						entityType, entityTypePatch.ExperienceAttributes, x => new ExperienceAttributesWrapper(x));
-					applyUnnamedComponentPatch<UnitAttributes, UnitAttributesWrapper>(
-						entityType, entityTypePatch.UnitAttributes, x => new UnitAttributesWrapper(x));
-					applyUnnamedComponentPatch<ResearchItemAttributes, ResearchItemAttributesWrapper>(
-						entityType, entityTypePatch.ResearchItemAttributes, x => new ResearchItemAttributesWrapper(x));
-					applyUnnamedComponentPatch<UnitHangarAttributes, UnitHangarAttributesWrapper>(
-						entityType, entityTypePatch.UnitHangarAttributes, x => new UnitHangarAttributesWrapper(x));
-					applyUnnamedComponentPatch<DetectableAttributes, DetectableAttributesWrapper>(
-						entityType, entityTypePatch.DetectableAttributes, x => new DetectableAttributesWrapper(x));
-					applyUnnamedComponentPatch<UnitMovementAttributes, UnitMovementAttributesWrapper>(
-						entityType, entityTypePatch.UnitMovementAttributes, x => new UnitMovementAttributesWrapper(x));
-					applyUnnamedComponentPatch<StatusEffectAttributes, StatusEffectAttributesWrapper>(
-						entityType, entityTypePatch.StatusEffectAttributes, x => new StatusEffectAttributesWrapper(x));
-					applyUnnamedComponentPatch<PowerShuntAttributes, PowerShuntAttributesWrapper>(
-						entityType, entityTypePatch.PowerShuntAttributes, x => new PowerShuntAttributesWrapper(x));
-					applyUnnamedComponentPatch<ProjectileAttributes, ProjectileAttributesWrapper>(
-						entityType, entityTypePatch.ProjectileAttributes, x => new ProjectileAttributesWrapper(x));
-					applyUnnamedComponentPatch<ResourceAttributes, ResourceAttributesWrapper>(
-						entityType, entityTypePatch.ResourceAttributes, x => new ResourceAttributesWrapper(x));
-					applyUnnamedComponentPatch<RelicAttributes, RelicAttributesWrapper>(
-						entityType, entityTypePatch.RelicAttributes, x => new RelicAttributesWrapper(x));
-					applyUnnamedComponentPatch<TechTreeAttributes, TechTreeAttributesWrapper>(
-						entityType, entityTypePatch.TechTreeAttributes, x => new TechTreeAttributesWrapper(x));
-
-					applyNamedComponentPatch<AbilityAttributes, AbilityAttributesWrapper, Patch.AbilityAttributesPatch>(
-						entityType, entityTypePatch.AbilityAttributes, x => new AbilityAttributesWrapper(x));
-					applyNamedComponentPatch<AbilityViewAttributes, AbilityViewAttributes, Patch.AbilityViewAttributesPatch>(
-						entityType, entityTypePatch.AbilityViewAttributes, x => x);
-
-					applyNamedComponentPatch<StorageAttributes, StorageAttributesWrapper, Patch.StorageAttributesPatch>(
-						entityType, entityTypePatch.StorageAttributes, x => new StorageAttributesWrapper(x));
-					applyNamedComponentPatch<WeaponAttributes, WeaponAttributesWrapper, Patch.WeaponAttributesPatch>(
-						entityType, entityTypePatch.WeaponAttributes, x => new WeaponAttributesWrapper(x));
+					ApplyEntityTypePatch(entityType, entityTypePatch);
 				}
+			}
+
+			logger.Log("[ APPLYING GLOBAL TYPE ATTRIBUTES ]");
+
+			foreach (var kvp in entityTypeCollection.GetAllEntityTypeNames())
+			{
+				ApplyEntityTypePatch(entityTypeCollection.GetEntityType(kvp), attributesPatch.Global);
 			}
 
 			Debug.Log($"[SUBSYSTEM] Applied attributes patch. See Subsystem.log for details.");
